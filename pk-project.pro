@@ -15,11 +15,13 @@ SOURCES += \
     qcustomplot.cpp \
     sprzwr.cpp \
     syggen.cpp \
-    symulacja.cpp
+    symulacja.cpp \
+    testARX.cpp
     wejscie.cpp
 
 HEADERS += \
     ModelARX.h \
+    compile.h \
     mainwindow.h \
     pid.h \
     qcustomplot.h \

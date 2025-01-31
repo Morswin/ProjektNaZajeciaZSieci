@@ -1,6 +1,10 @@
+#include "compile.h"
+
 #include <QApplication>
 
 #include "mainwindow.h"
+
+#ifdef MAIN
 
 int main(int argc, char *argv[])
 {
@@ -10,3 +14,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+#endif

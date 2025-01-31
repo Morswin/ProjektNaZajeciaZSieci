@@ -15,7 +15,7 @@ class Symulacja
 public:
     Symulacja();
     Symulacja(
-        SygGen sygn,
+        SygGen& sygn,
         double pid_k, double pid_ti, double pid_td,
         std::vector<double> arx_a, std::vector<double> arx_b, int arx_k, bool arx_z);
 

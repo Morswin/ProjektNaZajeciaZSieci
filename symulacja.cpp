@@ -7,7 +7,7 @@ Symulacja::Symulacja()
     , m_uchyb{}
 {}
 
-Symulacja::Symulacja(SygGen sygn,
+Symulacja::Symulacja(SygGen& sygn,
                      double pid_k, double pid_ti, double pid_td,
                      std::vector<double> arx_a, std::vector<double> arx_b, int arx_k, bool arx_z)
     : m_arx{ arx_a, arx_b, arx_k, arx_z }

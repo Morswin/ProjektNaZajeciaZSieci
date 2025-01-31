@@ -2,6 +2,7 @@
 #include <numeric>
 #include <QException>
 #include <random>
+// #include <QDebug>
 
 ModelARX::ModelARX()
     : m_u_buffer{}
@@ -85,17 +86,15 @@ double ModelARX::symuluj(const double sygn_wej)
     else
         z = 0.0;
 
-    if (getOpozn() == 0)
-    {
+    if (static_cast<int>(m_u_delay.size()) <= m_k_opozn)
+        m_u_delay.push_back(sygn_wej);
+
+    if (static_cast<int>(m_u_delay.size()) > m_k_opozn) {
         m_u_buffer.push_front(m_u_delay.front());
         m_u_delay.pop_front();
     }
-    else
-        decrK();
 
     if (m_u_buffer.size() > m_b.size()) m_u_buffer.pop_back();
-
-    m_u_delay.push_back(sygn_wej);
 
     double splot_u_b = std::inner_product(m_u_buffer.begin(), m_u_buffer.end(), m_b.begin(), 0.0);
     double splot_y_a = std::inner_product(m_y_buffer.begin(), m_y_buffer.end(), m_a.begin(), 0.0);
@@ -104,6 +103,11 @@ double ModelARX::symuluj(const double sygn_wej)
 
     m_y_buffer.push_front(y);
     if(m_y_buffer.size() > m_a.size()) m_y_buffer.pop_back();
+
+    // qInfo() << "BufWE: \t" << m_u_buffer.size()
+    //         << "BufDelay: \t" << m_u_delay.size()
+    //         << "BufWY: \t" << m_y_buffer.size()
+    //         << '\n';
 
     return y;
 }
