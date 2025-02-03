@@ -1,4 +1,4 @@
-#include "ModelARX.h"
+ #include "ModelARX.h"
 #include <numeric>
 #include <QException>
 #include <random>
@@ -12,15 +12,17 @@ ModelARX::ModelARX()
     , m_b{}
     , m_k_opozn{ 1 }
     , m_zakl_rng{ true }
+    , m_zakl_val{ 0.0 }
 {}
 
-ModelARX::ModelARX(std::vector<double> wsp_a, std::vector<double> wsp_b, int k, bool z)
+ModelARX::ModelARX(std::vector<double> wsp_a, std::vector<double> wsp_b, int k, bool z, double z_val)
     : m_u_buffer{}
     , m_u_delay{}
     , m_y_buffer{}
     , m_a{ wsp_a }
     , m_b{ wsp_b }
     , m_zakl_rng{ z }
+    , m_zakl_val{ z_val }
 {
     setOpozn(k);
 }
@@ -65,6 +67,10 @@ void ModelARX::setZakl(bool isOn) {
     m_zakl_rng = isOn;
 }
 
+void ModelARX::setZaklWart(double zakl){
+    m_zakl_val = zakl;
+}
+
 void ModelARX::setOpozn(int k)
 {
     if (k >= 1)
@@ -76,7 +82,7 @@ void ModelARX::setOpozn(int k)
 double ModelARX::symuluj(const double sygn_wej)
 {
     std::random_device s; std::mt19937 rng_zakl;
-    std::normal_distribution<double> rozklad(0, 0.1);
+    std::normal_distribution<double> rozklad(0, m_zakl_val);
     double z{};
     if (getCzyZakl())
     {
@@ -96,8 +102,11 @@ double ModelARX::symuluj(const double sygn_wej)
 
     if (m_u_buffer.size() > m_b.size()) m_u_buffer.pop_back();
 
-    double splot_u_b = std::inner_product(m_u_buffer.begin(), m_u_buffer.end(), m_b.begin(), 0.0);
-    double splot_y_a = std::inner_product(m_y_buffer.begin(), m_y_buffer.end(), m_a.begin(), 0.0);
+    double splot_u_b = 0.0,
+           splot_y_a = 0.0;
+
+    splot_u_b = std::inner_product(m_u_buffer.begin(), m_u_buffer.end(), m_b.begin(), 0.0);
+    splot_y_a = std::inner_product(m_y_buffer.begin(), m_y_buffer.end(), m_a.begin(), 0.0);
 
     double y = splot_u_b - splot_y_a + z;
 

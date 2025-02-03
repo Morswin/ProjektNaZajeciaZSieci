@@ -4,6 +4,7 @@
 #include "symulacja.h"
 #include <QMainWindow>
 #include <QTimer>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -24,8 +25,10 @@ private slots:
     double findMaxRange(QVector<double> &y_data);
     void setUpGraphs();
 
-    void on_btnStart_clicked();
+    void passToSetters();
     void advance();
+
+    void on_btnStart_clicked();
     void on_groupBoxKwad_toggled(bool arg1);
     void on_groupBoxSin_toggled(bool arg1);
     void on_groupBoxSkok_toggled(bool arg1);
@@ -37,16 +40,19 @@ private slots:
     void on_btnResetD_clicked();
     void on_btnResetI_clicked();
     void on_btnStop_clicked();
-    void on_spinBoxInterwal_valueChanged(int arg1);
-    void on_spinBoxWidokKrokow_valueChanged(int arg1);
-    void on_doubleSpinBoxP_valueChanged(double arg1);
-    void on_doubleSpinBoxI_valueChanged(double arg1);
-    void on_doubleSpinBoxD_valueChanged(double arg1);
-    void on_spinBoxARX_k_valueChanged(int arg1);
+    // void on_spinBoxInterwal_valueChanged(int arg1);
+    // void on_spinBoxWidokKrokow_valueChanged(int arg1);
+    // void on_doubleSpinBoxP_valueChanged(double arg1);
+    // void on_doubleSpinBoxI_valueChanged(double arg1);
+    // void on_doubleSpinBoxD_valueChanged(double arg1);
+    // void on_spinBoxARX_k_valueChanged(int arg1);
     void on_checkBoxARZ_z_checkStateChanged(const Qt::CheckState &arg1);
     void on_groupBoxSkok_clicked();
     void on_groupBoxKwad_clicked();
     void on_groupBoxSin_clicked();
+    // void on_doubleSpinBox_z_valueChanged(double arg1);
+
+    void on_btnZapisz_clicked();
 
 private:
     Ui::MainWindow *ui;

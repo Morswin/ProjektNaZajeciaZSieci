@@ -28,7 +28,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,50">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,0,0">
       <property name="spacing">
        <number>5</number>
       </property>
@@ -55,13 +55,13 @@
         <property name="minimumSize">
          <size>
           <width>255</width>
-          <height>196</height>
+          <height>180</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>196</height>
+          <height>180</height>
          </size>
         </property>
         <property name="title">
@@ -164,7 +164,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="pageSygnaly">
          <property name="geometry">
@@ -172,7 +172,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>290</height>
+           <height>277</height>
           </rect>
          </property>
          <attribute name="label">
@@ -247,7 +247,7 @@
                       <number>100</number>
                      </property>
                      <property name="value">
-                      <number>0</number>
+                      <number>1</number>
                      </property>
                     </widget>
                    </item>
@@ -258,7 +258,7 @@
                    <item>
                     <widget class="QLabel" name="label_7">
                      <property name="text">
-                      <string>Amplituda</string>
+                      <string>Wartość</string>
                      </property>
                     </widget>
                    </item>
@@ -277,7 +277,7 @@
                       <double>0.100000000000000</double>
                      </property>
                      <property name="value">
-                      <double>0.000000000000000</double>
+                      <double>1.000000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -331,6 +331,9 @@
                      <property name="maximum">
                       <number>1000</number>
                      </property>
+                     <property name="value">
+                      <number>10</number>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -355,6 +358,9 @@
                      <property name="singleStep">
                       <double>0.100000000000000</double>
                      </property>
+                     <property name="value">
+                      <double>0.500000000000000</double>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -378,6 +384,9 @@
                      </property>
                      <property name="singleStep">
                       <double>0.100000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
                      </property>
                     </widget>
                    </item>
@@ -428,6 +437,9 @@
                      <property name="maximum">
                       <number>1000</number>
                      </property>
+                     <property name="value">
+                      <number>10</number>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -449,6 +461,9 @@
                      <property name="singleStep">
                       <double>0.100000000000000</double>
                      </property>
+                     <property name="value">
+                      <double>1.000000000000000</double>
+                     </property>
                     </widget>
                    </item>
                   </layout>
@@ -468,7 +483,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>290</height>
+           <height>277</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -529,7 +544,7 @@
                 <double>0.100000000000000</double>
                </property>
                <property name="value">
-                <double>0.000000000000000</double>
+                <double>0.300000000000000</double>
                </property>
               </widget>
              </item>
@@ -553,7 +568,7 @@
                 <double>0.100000000000000</double>
                </property>
                <property name="value">
-                <double>0.000000000000000</double>
+                <double>6.000000000000000</double>
                </property>
               </widget>
              </item>
@@ -612,7 +627,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>290</height>
+           <height>277</height>
           </rect>
          </property>
          <attribute name="label">
@@ -647,7 +662,7 @@
                <rect>
                 <x>0</x>
                 <y>20</y>
-                <width>249</width>
+                <width>251</width>
                 <height>91</height>
                </rect>
               </property>
@@ -673,6 +688,9 @@
                    </property>
                    <property name="singleStep">
                     <double>0.100000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>-0.400000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -722,11 +740,11 @@
                <rect>
                 <x>0</x>
                 <y>20</y>
-                <width>249</width>
+                <width>251</width>
                 <height>91</height>
                </rect>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11">
+              <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0">
                <property name="spacing">
                 <number>5</number>
                </property>
@@ -748,6 +766,9 @@
                    </property>
                    <property name="singleStep">
                     <double>0.100000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.600000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -800,14 +821,43 @@
             </layout>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBoxARZ_z">
-             <property name="text">
-              <string>Uwzględnij zakłócenie</string>
+            <layout class="QHBoxLayout" name="horizontalLayout_16">
+             <property name="topMargin">
+              <number>0</number>
              </property>
-             <property name="checked">
-              <bool>false</bool>
+             <property name="bottomMargin">
+              <number>0</number>
              </property>
-            </widget>
+             <item>
+              <widget class="QCheckBox" name="checkBoxARZ_z">
+               <property name="text">
+                <string>Uwzględnij zakłócenie</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QDoubleSpinBox" name="doubleSpinBoxARX_z">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="maximum">
+                <double>10000.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.010000000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::StepType::DefaultStepType</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>
@@ -818,7 +868,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>290</height>
+           <height>277</height>
           </rect>
          </property>
          <attribute name="label">
@@ -852,7 +902,7 @@
                 <number>10000</number>
                </property>
                <property name="value">
-                <number>500</number>
+                <number>100</number>
                </property>
               </widget>
              </item>
@@ -876,7 +926,7 @@
                 <number>100000</number>
                </property>
                <property name="value">
-                <number>100</number>
+                <number>200</number>
                </property>
               </widget>
              </item>
@@ -885,6 +935,13 @@
           </layout>
          </widget>
         </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnZapisz">
+        <property name="text">
+         <string>Zatwierdź ustawienia</string>
+        </property>
        </widget>
       </item>
      </layout>

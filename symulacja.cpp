@@ -23,6 +23,18 @@ double Symulacja::symulujKrok() {
     return wynik;
 }
 
+void Symulacja::setSygnAmp(double amp) {
+    m_sygnal.setAmp(amp);
+}
+
+void Symulacja::setSygnWyp(double wyp) {
+    m_sygnal.setWyp(wyp);
+}
+
+void Symulacja::setSygnOkrAkt(double okr_akt) {
+    m_sygnal.setOkrAkt(okr_akt);
+}
+
 void Symulacja::setPID_k(double k) {
     m_pid.ustawK(k);
 }
@@ -83,21 +95,37 @@ void Symulacja::setARX_z(bool z) {
     m_arx.setZakl(z);
 }
 
+void Symulacja::setARX_z_val(double z_val){
+    m_arx.setZaklWart(z_val);
+}
+
 void Symulacja::clearARXBuffers() {
     m_arx.clearBuffers();
 }
 
-void Symulacja::liczSygnalSkok(double amp, int krok_aktyw) {
-    m_sygnal.sygnalSkok(amp, krok_aktyw);
+void Symulacja::liczSygnalSkok() {
+    m_sygnal.sygnalSkok();
 }
 
-void Symulacja::liczSygnalKwad(double amp, int okr, double wyp) {
-    m_sygnal.sygnalKwad(amp, okr, wyp);
+void Symulacja::liczSygnalKwad() {
+    m_sygnal.sygnalKwad();
 }
 
-void Symulacja::liczSygnalSin(double amp, int okr) {
-    m_sygnal.sygnalSin(amp, okr);
+void Symulacja::liczSygnalSin() {
+    m_sygnal.sygnalSin();
 }
+
+// void Symulacja::liczSygnalSkok(double amp, int krok_aktyw) {
+//     m_sygnal.sygnalSkok(amp, krok_aktyw);
+// }
+
+// void Symulacja::liczSygnalKwad(double amp, int okr, double wyp) {
+//     m_sygnal.sygnalKwad(amp, okr, wyp);
+// }
+
+// void Symulacja::liczSygnalSin(double amp, int okr) {
+//     m_sygnal.sygnalSin(amp, okr);
+// }
 
 double Symulacja::getSygn() const {
     return m_sygnal.getSygn();

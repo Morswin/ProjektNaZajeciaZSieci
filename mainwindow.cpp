@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
-    on_spinBoxInterwal_valueChanged(ui->spinBoxInterwal->value());
+    // on_spinBoxInterwal_valueChanged(ui->spinBoxInterwal->value());
 
     ui->graphUAR->xAxis->setNumberFormat("f");
     ui->graphUAR->xAxis->setNumberPrecision(0);
@@ -147,39 +147,33 @@ void MainWindow::setUpGraphs() {
 }
 
 
-
-void MainWindow::on_btnStart_clicked()
-{
-    ui->btnStop->setEnabled(true);
-    ui->btnStart->setEnabled(false);
-    ui->btnReset->setEnabled(false);
-    ui->labelStatus->setText("Włączona");
-
-    UAR.setPID_k(ui->doubleSpinBoxP->value());
-    UAR.setPID_tI(ui->doubleSpinBoxI->value());
-    UAR.setPID_tD(ui->doubleSpinBoxD->value());
-    UAR.setARX_k(ui->spinBoxARX_k->value());
-    UAR.setARX_z(ui->checkBoxARZ_z->isChecked());
-
-    timer->start();
-}
+// void MainWindow::keyPressEvent(QKeyEvent* event) {
+//     switch (event->key()) {
+//     case Qt::Key_Enter:
+//         passToSetters();
+//         break;
+//     }
+// }
 
 void MainWindow::advance() {
 
     if (ui->groupBoxSkok->isChecked()) {
-        UAR.liczSygnalSkok(ui->doubleSpinBoxSkokAmp->value(), ui->spinBoxSkokAkt->value());
+        // UAR.liczSygnalSkok(ui->doubleSpinBoxSkokAmp->value(), ui->spinBoxSkokAkt->value());
+        UAR.liczSygnalSkok();
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
         ui->groupBoxKwad->setDisabled(true);
         ui->groupBoxSin->setDisabled(true);
 
     } else if (ui->groupBoxKwad->isChecked()) {
-        UAR.liczSygnalKwad(ui->doubleSpinBoxKwadAmp->value(), ui->spinBoxKwadAkt->value(), ui->doubleSpinBoxKwadWyp->value());
+        // UAR.liczSygnalKwad(ui->doubleSpinBoxKwadAmp->value(), ui->spinBoxKwadAkt->value(), ui->doubleSpinBoxKwadWyp->value());
+        UAR.liczSygnalKwad();
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
         ui->groupBoxSin->setDisabled(true);
         ui->groupBoxSkok->setDisabled(true);
 
     } else if (ui->groupBoxSin->isChecked()) {
-        UAR.liczSygnalSin(ui->doubleSpinBoxSinAmp->value(), ui->spinBoxSinOkr->value());
+        // UAR.liczSygnalSin(ui->doubleSpinBoxSinAmp->value(), ui->spinBoxSinOkr->value());
+        UAR.liczSygnalSin();
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsLine);
         ui->groupBoxSkok->setDisabled(true);
         ui->groupBoxKwad->setDisabled(true);
@@ -277,6 +271,74 @@ void MainWindow::advance() {
     ui->graphPID->replot();
 }
 
+void MainWindow::passToSetters() {
+
+    if (ui->groupBoxSkok->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxSkokAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxSkokAkt->value());
+        UAR.setSygnWyp(0.0);
+
+    } else if (ui->groupBoxKwad->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxKwadAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxKwadAkt->value());
+        UAR.setSygnWyp(ui->doubleSpinBoxKwadWyp->value());
+
+    } else if (ui->groupBoxSin->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxSinAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxSinOkr->value());
+        UAR.setSygnWyp(0.0);
+
+    }
+
+    UAR.setPID_k(ui->doubleSpinBoxP->value());
+    UAR.setPID_tI(ui->doubleSpinBoxI->value());
+    UAR.setPID_tD(ui->doubleSpinBoxD->value());
+    UAR.setARX_k(ui->spinBoxARX_k->value());
+
+    if (ui->checkBoxARZ_z->isChecked()) {
+        UAR.setARX_z(true);
+        UAR.setARX_z_val(ui->doubleSpinBoxARX_z->value());
+    }
+    else {
+        UAR.setARX_z(false);
+        UAR.setARX_z_val(0.0);
+    }
+
+    timer->setInterval(ui->spinBoxInterwal->value());
+
+    if (krok_wykres <= ui->spinBoxWidokKrokow->value()) {
+        ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
+        ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
+        ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
+        ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
+    }
+    else {
+        ui->graphUAR->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
+        ui->graphUchyb->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
+        ui->graphPidSum->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
+        ui->graphPID->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
+    }
+}
+
+void MainWindow::on_btnStart_clicked()
+{
+    ui->btnStop->setEnabled(true);
+    ui->btnStart->setEnabled(false);
+    ui->btnReset->setEnabled(false);
+    ui->labelStatus->setText("Włączona");
+
+    // UAR.setPID_k(ui->doubleSpinBoxP->value());
+    // UAR.setPID_tI(ui->doubleSpinBoxI->value());
+    // UAR.setPID_tD(ui->doubleSpinBoxD->value());
+    // UAR.setARX_k(ui->spinBoxARX_k->value());
+    // UAR.setARX_z(ui->checkBoxARZ_z->isChecked());
+    // UAR.setARX_z_val(ui->doubleSpinBoxARX_z->value());
+
+    this->passToSetters();
+
+    timer->start();
+}
+
 void MainWindow::on_groupBoxKwad_toggled(bool arg1)
 {
     if(arg1) {
@@ -306,6 +368,11 @@ void MainWindow::on_groupBoxSkok_toggled(bool arg1)
 
 void MainWindow::on_btnARXAdd_A_clicked()
 {
+    if (arx_a_view.size() == 1 && arx_a_view.at(0) == 0.0) {
+        UAR.clearARX_a();
+        arx_a_view.clear();
+    }
+
     UAR.addARX_a(ui->doubleSpinBoxARX_A->value());
     arx_a_view.push_back(ui->doubleSpinBoxARX_A->value());
 
@@ -320,6 +387,11 @@ void MainWindow::on_btnARXAdd_A_clicked()
 
 void MainWindow::on_btnARXAdd_B_clicked()
 {
+    if (arx_b_view.size() == 1 && arx_b_view.at(0) == 0.0) {
+        UAR.clearARX_b();
+        arx_b_view.clear();
+    }
+
     UAR.addARX_b(ui->doubleSpinBoxARX_B->value());
     arx_b_view.push_back(ui->doubleSpinBoxARX_B->value());
 
@@ -336,14 +408,20 @@ void MainWindow::on_btnARXClear_A_clicked()
 {
     UAR.clearARX_a();
     arx_a_view.clear();
-    ui->lineEditARXView_A->clear();
+    UAR.addARX_a(0.0);
+    arx_a_view.push_back(0.0);
+    ui->lineEditARXView_A->setText("{ 0.0 }");
+    ui->doubleSpinBoxARX_A->setValue(0.0);
 }
 
 void MainWindow::on_btnARXClear_B_clicked()
 {
     UAR.clearARX_b();
     arx_b_view.clear();
-    ui->lineEditARXView_B->clear();
+    UAR.addARX_b(0.0);
+    arx_b_view.push_back(0.0);
+    ui->lineEditARXView_B->setText("{ 0.0 }");
+    ui->doubleSpinBoxARX_B->setValue(0.0);
 }
 
 void MainWindow::on_btnReset_clicked()
@@ -367,29 +445,32 @@ void MainWindow::on_btnReset_clicked()
     ui->groupBoxSkok->setChecked(true);
     ui->groupBoxSin->setChecked(false);
     ui->groupBoxKwad->setChecked(false);
-    ui->spinBoxSkokAkt->setValue(0);
-    ui->doubleSpinBoxSkokAmp->setValue(0.0);
-    ui->doubleSpinBoxSinAmp->setValue(0.0);
-    ui->spinBoxSinOkr->setValue(0);
-    ui->spinBoxKwadAkt->setValue(0);
-    ui->doubleSpinBoxKwadAmp->setValue(0.0);
-    ui->doubleSpinBoxKwadWyp->setValue(0.0);
+    ui->spinBoxSkokAkt->setValue(1);
+    ui->doubleSpinBoxSkokAmp->setValue(1.0);
+    ui->doubleSpinBoxSinAmp->setValue(1.0);
+    ui->spinBoxSinOkr->setValue(10);
+    ui->spinBoxKwadAkt->setValue(10);
+    ui->doubleSpinBoxKwadAmp->setValue(1.0);
+    ui->doubleSpinBoxKwadWyp->setValue(0.5);
 
-    ui->doubleSpinBoxP->setValue(0.0);
-    ui->doubleSpinBoxI->setValue(0.0);
+    ui->doubleSpinBoxP->setValue(0.3);
+    ui->doubleSpinBoxI->setValue(6.0);
     ui->doubleSpinBoxD->setValue(0.0);
 
-    ui->doubleSpinBoxARX_A->setValue(0.0);
-    ui->doubleSpinBoxARX_B->setValue(0.0);
+    on_btnARXClear_A_clicked();
+    on_btnARXClear_B_clicked();
+    ui->doubleSpinBoxARX_A->setValue(-0.4);
+    ui->doubleSpinBoxARX_B->setValue(0.6);
     ui->spinBoxARX_k->setValue(1);
     ui->checkBoxARZ_z->setCheckState(Qt::Unchecked);
-    ui->lineEditARXView_A->clear();
-    ui->lineEditARXView_B->clear();
-    arx_a_view.clear();
-    arx_b_view.clear();
+    ui->doubleSpinBoxARX_z->setValue(0.0);
+    // ui->lineEditARXView_A->clear();
+    // ui->lineEditARXView_B->clear();
+    // arx_a_view.clear();
+    // arx_b_view.clear();
 
-    ui->spinBoxInterwal->setValue(500);
-    ui->spinBoxWidokKrokow->setValue(100);
+    ui->spinBoxInterwal->setValue(100);
+    ui->spinBoxWidokKrokow->setValue(200);
 
     ui->graphUAR->clearGraphs();
     uar_we_y.clear();
@@ -436,64 +517,69 @@ void MainWindow::on_btnStop_clicked()
     ui->groupBoxSin->setDisabled(false);
 }
 
-void MainWindow::on_spinBoxInterwal_valueChanged(int arg1)
-{
-    timer->setInterval(arg1);
-}
+// void MainWindow::on_spinBoxInterwal_valueChanged(int arg1)
+// {
+//     timer->setInterval(arg1);
+// }
+
+// void MainWindow::on_spinBoxWidokKrokow_valueChanged(int arg1)
+// {
+//     if (krok_wykres <= ui->spinBoxWidokKrokow->value()) {
+//         ui->graphUAR->xAxis->setRange(0.0, arg1);
+//         ui->graphUchyb->xAxis->setRange(0.0, arg1);
+//         ui->graphPidSum->xAxis->setRange(0.0, arg1);
+//         ui->graphPID->xAxis->setRange(0.0, arg1);
+//     }
+//     else {
+//         ui->graphUAR->xAxis->setRange(krok_wykres - arg1, krok_wykres);
+//         ui->graphUchyb->xAxis->setRange(krok_wykres - arg1, krok_wykres);
+//         ui->graphPidSum->xAxis->setRange(krok_wykres - arg1, krok_wykres);
+//         ui->graphPID->xAxis->setRange(krok_wykres - arg1, krok_wykres);
+//     }
+// }
 
 
-void MainWindow::on_spinBoxWidokKrokow_valueChanged(int arg1)
-{
-    if (krok_wykres <= ui->spinBoxWidokKrokow->value()) {
-        ui->graphUAR->xAxis->setRange(0.0, arg1);
-        ui->graphUchyb->xAxis->setRange(0.0, arg1);
-        ui->graphPidSum->xAxis->setRange(0.0, arg1);
-        ui->graphPID->xAxis->setRange(0.0, arg1);
-    }
-    else {
-        ui->graphUAR->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-        ui->graphUchyb->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-        ui->graphPidSum->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-        ui->graphPID->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-    }
-}
+// void MainWindow::on_doubleSpinBoxP_valueChanged(double arg1)
+// {
+//     UAR.setPID_k(arg1);
+// }
 
 
-void MainWindow::on_doubleSpinBoxP_valueChanged(double arg1)
-{
-    UAR.setPID_k(arg1);
-}
+// void MainWindow::on_doubleSpinBoxI_valueChanged(double arg1)
+// {
+//     UAR.setPID_tI(arg1);
+// }
 
 
-void MainWindow::on_doubleSpinBoxI_valueChanged(double arg1)
-{
-    UAR.setPID_tI(arg1);
-}
+// void MainWindow::on_doubleSpinBoxD_valueChanged(double arg1)
+// {
+//     UAR.setPID_tD(arg1);
+// }
 
 
-void MainWindow::on_doubleSpinBoxD_valueChanged(double arg1)
-{
-    UAR.setPID_tD(arg1);
-}
-
-
-void MainWindow::on_spinBoxARX_k_valueChanged(int arg1)
-{
-    UAR.setARX_k(arg1);
-}
+// void MainWindow::on_spinBoxARX_k_valueChanged(int arg1)
+// {
+//     UAR.setARX_k(arg1);
+// }
 
 
 void MainWindow::on_checkBoxARZ_z_checkStateChanged(const Qt::CheckState &arg1)
 {
-    if(arg1 == Qt::Checked)
+    if(arg1 == Qt::Checked){
         UAR.setARX_z(true);
-    else
+        ui->doubleSpinBoxARX_z->setDisabled(false);
+    }
+    else {
         UAR.setARX_z(false);
+        ui->doubleSpinBoxARX_z->setDisabled(true);
+    }
 }
 
 
 void MainWindow::on_groupBoxSkok_clicked()
 {
+    // zapobieganie odkliknięciu checkboxa
+
     if (!ui->groupBoxSkok->isChecked()) {
         ui->groupBoxSkok->setChecked(true);
     }
@@ -502,6 +588,8 @@ void MainWindow::on_groupBoxSkok_clicked()
 
 void MainWindow::on_groupBoxKwad_clicked()
 {
+    // zapobieganie odkliknięciu checkboxa
+
     if (!ui->groupBoxKwad->isChecked()) {
         ui->groupBoxKwad->setChecked(true);
     }
@@ -510,8 +598,24 @@ void MainWindow::on_groupBoxKwad_clicked()
 
 void MainWindow::on_groupBoxSin_clicked()
 {
+    // zapobieganie odkliknięciu checkboxa
+
     if (!ui->groupBoxSin->isChecked()) {
         ui->groupBoxSin->setChecked(true);
     }
+}
+
+
+// void MainWindow::on_doubleSpinBox_z_valueChanged(double arg1)
+// {
+//     UAR.setARX_z_val(arg1);
+// }
+
+
+void MainWindow::on_btnZapisz_clicked()
+{
+    passToSetters();
+
+
 }
 

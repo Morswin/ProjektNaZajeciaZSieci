@@ -112,7 +112,9 @@ public:
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_16;
     QSpinBox *spinBoxARX_k;
+    QHBoxLayout *horizontalLayout_16;
     QCheckBox *checkBoxARZ_z;
+    QDoubleSpinBox *doubleSpinBoxARX_z;
     QWidget *pageSymulacja;
     QWidget *verticalLayoutWidget_5;
     QVBoxLayout *verticalLayout_9;
@@ -122,6 +124,7 @@ public:
     QHBoxLayout *horizontalLayout_13;
     QLabel *label_15;
     QSpinBox *spinBoxWidokKrokow;
+    QPushButton *btnZapisz;
     QVBoxLayout *verticalLayout_8;
     QHBoxLayout *horizontalLayout_21;
     QCustomPlot *graphUAR;
@@ -155,8 +158,8 @@ public:
         SYMULACJA->setObjectName("SYMULACJA");
         sizePolicy.setHeightForWidth(SYMULACJA->sizePolicy().hasHeightForWidth());
         SYMULACJA->setSizePolicy(sizePolicy);
-        SYMULACJA->setMinimumSize(QSize(255, 196));
-        SYMULACJA->setMaximumSize(QSize(16777215, 196));
+        SYMULACJA->setMinimumSize(QSize(255, 180));
+        SYMULACJA->setMaximumSize(QSize(16777215, 180));
         btnStart = new QPushButton(SYMULACJA);
         btnStart->setObjectName("btnStart");
         btnStart->setGeometry(QRect(80, 30, 91, 24));
@@ -190,7 +193,7 @@ public:
         toolBox->setMinimumSize(QSize(255, 0));
         pageSygnaly = new QWidget();
         pageSygnaly->setObjectName("pageSygnaly");
-        pageSygnaly->setGeometry(QRect(0, 0, 255, 290));
+        pageSygnaly->setGeometry(QRect(0, 0, 255, 277));
         horizontalLayoutWidget = new QWidget(pageSygnaly);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
         horizontalLayoutWidget->setGeometry(QRect(5, -1, 241, 291));
@@ -224,7 +227,7 @@ public:
         spinBoxSkokAkt->setObjectName("spinBoxSkokAkt");
         spinBoxSkokAkt->setMinimum(0);
         spinBoxSkokAkt->setMaximum(100);
-        spinBoxSkokAkt->setValue(0);
+        spinBoxSkokAkt->setValue(1);
 
         horizontalLayout_5->addWidget(spinBoxSkokAkt);
 
@@ -244,7 +247,7 @@ public:
         doubleSpinBoxSkokAmp->setMinimum(0.000000000000000);
         doubleSpinBoxSkokAmp->setMaximum(100000.000000000000000);
         doubleSpinBoxSkokAmp->setSingleStep(0.100000000000000);
-        doubleSpinBoxSkokAmp->setValue(0.000000000000000);
+        doubleSpinBoxSkokAmp->setValue(1.000000000000000);
 
         horizontalLayout_6->addWidget(doubleSpinBoxSkokAmp);
 
@@ -276,6 +279,7 @@ public:
         spinBoxKwadAkt = new QSpinBox(verticalLayoutWidget_3);
         spinBoxKwadAkt->setObjectName("spinBoxKwadAkt");
         spinBoxKwadAkt->setMaximum(1000);
+        spinBoxKwadAkt->setValue(10);
 
         horizontalLayout_17->addWidget(spinBoxKwadAkt);
 
@@ -294,6 +298,7 @@ public:
         doubleSpinBoxKwadWyp->setMinimum(0.000000000000000);
         doubleSpinBoxKwadWyp->setMaximum(1.000000000000000);
         doubleSpinBoxKwadWyp->setSingleStep(0.100000000000000);
+        doubleSpinBoxKwadWyp->setValue(0.500000000000000);
 
         horizontalLayout_7->addWidget(doubleSpinBoxKwadWyp);
 
@@ -312,6 +317,7 @@ public:
         doubleSpinBoxKwadAmp->setMinimum(0.000000000000000);
         doubleSpinBoxKwadAmp->setMaximum(100000.000000000000000);
         doubleSpinBoxKwadAmp->setSingleStep(0.100000000000000);
+        doubleSpinBoxKwadAmp->setValue(1.000000000000000);
 
         horizontalLayout_8->addWidget(doubleSpinBoxKwadAmp);
 
@@ -342,6 +348,7 @@ public:
         spinBoxSinOkr = new QSpinBox(verticalLayoutWidget_4);
         spinBoxSinOkr->setObjectName("spinBoxSinOkr");
         spinBoxSinOkr->setMaximum(1000);
+        spinBoxSinOkr->setValue(10);
 
         horizontalLayout_10->addWidget(spinBoxSinOkr);
 
@@ -359,6 +366,7 @@ public:
         doubleSpinBoxSinAmp->setObjectName("doubleSpinBoxSinAmp");
         doubleSpinBoxSinAmp->setMaximum(100000.000000000000000);
         doubleSpinBoxSinAmp->setSingleStep(0.100000000000000);
+        doubleSpinBoxSinAmp->setValue(1.000000000000000);
 
         horizontalLayout_9->addWidget(doubleSpinBoxSinAmp);
 
@@ -377,7 +385,7 @@ public:
         toolBox->addItem(pageSygnaly, QString::fromUtf8("Sygna\305\202 wej\305\233ciowy"));
         pagePID = new QWidget();
         pagePID->setObjectName("pagePID");
-        pagePID->setGeometry(QRect(0, 0, 255, 290));
+        pagePID->setGeometry(QRect(0, 0, 255, 277));
         sizePolicy.setHeightForWidth(pagePID->sizePolicy().hasHeightForWidth());
         pagePID->setSizePolicy(sizePolicy);
         pagePID->setMinimumSize(QSize(0, 207));
@@ -403,7 +411,7 @@ public:
         doubleSpinBoxP->setObjectName("doubleSpinBoxP");
         doubleSpinBoxP->setMaximum(100.000000000000000);
         doubleSpinBoxP->setSingleStep(0.100000000000000);
-        doubleSpinBoxP->setValue(0.000000000000000);
+        doubleSpinBoxP->setValue(0.300000000000000);
 
         horizontalLayout_2->addWidget(doubleSpinBoxP);
 
@@ -421,7 +429,7 @@ public:
         doubleSpinBoxI->setObjectName("doubleSpinBoxI");
         doubleSpinBoxI->setMaximum(100.000000000000000);
         doubleSpinBoxI->setSingleStep(0.100000000000000);
-        doubleSpinBoxI->setValue(0.000000000000000);
+        doubleSpinBoxI->setValue(6.000000000000000);
 
         horizontalLayout_3->addWidget(doubleSpinBoxI);
 
@@ -461,7 +469,7 @@ public:
         toolBox->addItem(pagePID, QString::fromUtf8("Regulator PID"));
         pageARX = new QWidget();
         pageARX->setObjectName("pageARX");
-        pageARX->setGeometry(QRect(0, 0, 255, 290));
+        pageARX->setGeometry(QRect(0, 0, 255, 277));
         verticalLayoutWidget_2 = new QWidget(pageARX);
         verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
         verticalLayoutWidget_2->setGeometry(QRect(0, 0, 251, 291));
@@ -478,7 +486,7 @@ public:
         groupBox_3->setSizePolicy(sizePolicy3);
         verticalLayoutWidget_6 = new QWidget(groupBox_3);
         verticalLayoutWidget_6->setObjectName("verticalLayoutWidget_6");
-        verticalLayoutWidget_6->setGeometry(QRect(0, 20, 249, 91));
+        verticalLayoutWidget_6->setGeometry(QRect(0, 20, 251, 91));
         verticalLayout_10 = new QVBoxLayout(verticalLayoutWidget_6);
         verticalLayout_10->setSpacing(5);
         verticalLayout_10->setObjectName("verticalLayout_10");
@@ -490,6 +498,7 @@ public:
         doubleSpinBoxARX_A->setMinimum(-100.000000000000000);
         doubleSpinBoxARX_A->setMaximum(100.000000000000000);
         doubleSpinBoxARX_A->setSingleStep(0.100000000000000);
+        doubleSpinBoxARX_A->setValue(-0.400000000000000);
 
         horizontalLayout_15->addWidget(doubleSpinBoxARX_A);
 
@@ -522,7 +531,7 @@ public:
         groupBox_4->setSizePolicy(sizePolicy3);
         verticalLayoutWidget_7 = new QWidget(groupBox_4);
         verticalLayoutWidget_7->setObjectName("verticalLayoutWidget_7");
-        verticalLayoutWidget_7->setGeometry(QRect(0, 20, 249, 91));
+        verticalLayoutWidget_7->setGeometry(QRect(0, 20, 251, 91));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
         verticalLayout_11->setSpacing(5);
         verticalLayout_11->setObjectName("verticalLayout_11");
@@ -534,6 +543,7 @@ public:
         doubleSpinBoxARX_B->setMinimum(-100.000000000000000);
         doubleSpinBoxARX_B->setMaximum(100.000000000000000);
         doubleSpinBoxARX_B->setSingleStep(0.100000000000000);
+        doubleSpinBoxARX_B->setValue(0.600000000000000);
 
         horizontalLayout_18->addWidget(doubleSpinBoxARX_B);
 
@@ -576,16 +586,32 @@ public:
 
         verticalLayout_7->addLayout(horizontalLayout_14);
 
+        horizontalLayout_16 = new QHBoxLayout();
+        horizontalLayout_16->setObjectName("horizontalLayout_16");
+        horizontalLayout_16->setContentsMargins(-1, 0, -1, 0);
         checkBoxARZ_z = new QCheckBox(verticalLayoutWidget_2);
         checkBoxARZ_z->setObjectName("checkBoxARZ_z");
         checkBoxARZ_z->setChecked(false);
 
-        verticalLayout_7->addWidget(checkBoxARZ_z);
+        horizontalLayout_16->addWidget(checkBoxARZ_z);
+
+        doubleSpinBoxARX_z = new QDoubleSpinBox(verticalLayoutWidget_2);
+        doubleSpinBoxARX_z->setObjectName("doubleSpinBoxARX_z");
+        doubleSpinBoxARX_z->setEnabled(false);
+        doubleSpinBoxARX_z->setDecimals(3);
+        doubleSpinBoxARX_z->setMaximum(10000.000000000000000);
+        doubleSpinBoxARX_z->setSingleStep(0.010000000000000);
+        doubleSpinBoxARX_z->setStepType(QAbstractSpinBox::StepType::DefaultStepType);
+
+        horizontalLayout_16->addWidget(doubleSpinBoxARX_z);
+
+
+        verticalLayout_7->addLayout(horizontalLayout_16);
 
         toolBox->addItem(pageARX, QString::fromUtf8("Obiekt regulacji ARX"));
         pageSymulacja = new QWidget();
         pageSymulacja->setObjectName("pageSymulacja");
-        pageSymulacja->setGeometry(QRect(0, 0, 255, 290));
+        pageSymulacja->setGeometry(QRect(0, 0, 255, 277));
         verticalLayoutWidget_5 = new QWidget(pageSymulacja);
         verticalLayoutWidget_5->setObjectName("verticalLayoutWidget_5");
         verticalLayoutWidget_5->setGeometry(QRect(0, 0, 241, 101));
@@ -603,7 +629,7 @@ public:
         spinBoxInterwal->setObjectName("spinBoxInterwal");
         spinBoxInterwal->setMinimum(100);
         spinBoxInterwal->setMaximum(10000);
-        spinBoxInterwal->setValue(500);
+        spinBoxInterwal->setValue(100);
 
         horizontalLayout_12->addWidget(spinBoxInterwal);
 
@@ -621,7 +647,7 @@ public:
         spinBoxWidokKrokow->setObjectName("spinBoxWidokKrokow");
         spinBoxWidokKrokow->setMinimum(1);
         spinBoxWidokKrokow->setMaximum(100000);
-        spinBoxWidokKrokow->setValue(100);
+        spinBoxWidokKrokow->setValue(200);
 
         horizontalLayout_13->addWidget(spinBoxWidokKrokow);
 
@@ -633,6 +659,11 @@ public:
         toolBox->addItem(pageSymulacja, QString::fromUtf8("Nastawy symulacji"));
 
         verticalLayout->addWidget(toolBox);
+
+        btnZapisz = new QPushButton(centralwidget);
+        btnZapisz->setObjectName("btnZapisz");
+
+        verticalLayout->addWidget(btnZapisz);
 
         verticalLayout->setStretch(0, 3);
 
@@ -688,7 +719,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        toolBox->setCurrentIndex(0);
+        toolBox->setCurrentIndex(3);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -705,7 +736,7 @@ public:
         btnStop->setText(QCoreApplication::translate("MainWindow", "Stop", nullptr));
         groupBoxSkok->setTitle(QCoreApplication::translate("MainWindow", "Sygna\305\202 jednostkowy", nullptr));
         label_6->setText(QCoreApplication::translate("MainWindow", "Chwila aktywacji", nullptr));
-        label_7->setText(QCoreApplication::translate("MainWindow", "Amplituda", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Warto\305\233\304\207", nullptr));
         groupBoxKwad->setTitle(QCoreApplication::translate("MainWindow", "Sygna\305\202 prostok\304\205tny", nullptr));
         label_19->setText(QCoreApplication::translate("MainWindow", "Okres (w krokach)", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Wype\305\202nienie", nullptr));
@@ -733,6 +764,7 @@ public:
         label_14->setText(QCoreApplication::translate("MainWindow", "Interwa\305\202 czasowy [ms]:", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "Liczba wy\305\233w. krok\303\263w:", nullptr));
         toolBox->setItemText(toolBox->indexOf(pageSymulacja), QCoreApplication::translate("MainWindow", "Nastawy symulacji", nullptr));
+        btnZapisz->setText(QCoreApplication::translate("MainWindow", "Zatwierd\305\272 ustawienia", nullptr));
     } // retranslateUi
 
 };

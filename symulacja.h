@@ -20,6 +20,9 @@ public:
         std::vector<double> arx_a, std::vector<double> arx_b, int arx_k, bool arx_z);
 
     double symulujKrok();
+    void setSygnAmp(double amp);
+    void setSygnWyp(double wyp);
+    void setSygnOkrAkt(double okr_akt);
     void setPID_k(double k);
     void setPID_tI(double tI);
     void setPID_tD(double tD);
@@ -35,10 +38,16 @@ public:
     void clearARX_b();
     void setARX_k(int k);
     void setARX_z(bool z);
+    void setARX_z_val(double z_val);
     void clearARXBuffers();
-    void liczSygnalSkok(double amp, int krok_aktyw);
-    void liczSygnalKwad(double amp, int okr, double wyp);
-    void liczSygnalSin(double amp, int okr);
+    bool isAEmpty() const { return m_arx.isAEmpty(); }
+    bool isBEmpty() const { return m_arx.isBEmpty(); }
+    void liczSygnalSkok();
+    void liczSygnalKwad();
+    void liczSygnalSin();
+    // void liczSygnalSkok(double amp, int krok_aktyw);
+    // void liczSygnalKwad(double amp, int okr, double wyp);
+    // void liczSygnalSin(double amp, int okr);
     double getSygn() const;
     void resetInternalKrok();
     double getUchyb();
