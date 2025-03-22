@@ -164,7 +164,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pageSygnaly">
          <property name="geometry">
@@ -639,7 +639,7 @@
             <x>0</x>
             <y>0</y>
             <width>251</width>
-            <height>291</height>
+            <height>221</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -663,10 +663,10 @@
                 <x>0</x>
                 <y>20</y>
                 <width>251</width>
-                <height>91</height>
+                <height>31</height>
                </rect>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0,0">
+              <layout class="QVBoxLayout" name="verticalLayout_10" stretch="0">
                <property name="spacing">
                 <number>5</number>
                </property>
@@ -677,46 +677,12 @@
                 <number>5</number>
                </property>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_15">
-                 <item>
-                  <widget class="QDoubleSpinBox" name="doubleSpinBoxARX_A">
-                   <property name="minimum">
-                    <double>-100.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>100.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>-0.400000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnARXAdd_A">
-                   <property name="text">
-                    <string>Dodaj</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnARXClear_A">
-                   <property name="text">
-                    <string>Wyczyść</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
                 <widget class="QLineEdit" name="lineEditARXView_A">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
                  <property name="readOnly">
-                  <bool>false</bool>
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -741,10 +707,10 @@
                 <x>0</x>
                 <y>20</y>
                 <width>251</width>
-                <height>91</height>
+                <height>31</height>
                </rect>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0,0">
+              <layout class="QVBoxLayout" name="verticalLayout_11" stretch="0">
                <property name="spacing">
                 <number>5</number>
                </property>
@@ -754,40 +720,6 @@
                <property name="rightMargin">
                 <number>5</number>
                </property>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_18">
-                 <item>
-                  <widget class="QDoubleSpinBox" name="doubleSpinBoxARX_B">
-                   <property name="minimum">
-                    <double>-100.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>100.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.100000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.600000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnARXAdd_B">
-                   <property name="text">
-                    <string>Dodaj</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="btnARXClear_B">
-                   <property name="text">
-                    <string>Wyczyść</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item>
                 <widget class="QLineEdit" name="lineEditARXView_B">
                  <property name="readOnly">
@@ -800,7 +732,7 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="4,3">
              <item>
               <widget class="QLabel" name="label_16">
                <property name="text">
@@ -810,6 +742,18 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxARX_k">
+               <property name="wrapping">
+                <bool>false</bool>
+               </property>
+               <property name="frame">
+                <bool>true</bool>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+               <property name="showGroupSeparator" stdset="0">
+                <bool>false</bool>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
@@ -821,7 +765,7 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_16">
+            <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="4,3">
              <property name="topMargin">
               <number>0</number>
              </property>
@@ -829,19 +773,19 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QCheckBox" name="checkBoxARZ_z">
+              <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>Uwzględnij zakłócenie</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
+                <string>Zakłócenie:</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QDoubleSpinBox" name="doubleSpinBoxARX_z">
                <property name="enabled">
-                <bool>false</bool>
+                <bool>true</bool>
+               </property>
+               <property name="readOnly">
+                <bool>true</bool>
                </property>
                <property name="decimals">
                 <number>3</number>
@@ -858,6 +802,13 @@
               </widget>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnARX">
+             <property name="text">
+              <string>Zmień nastawy ARX</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

@@ -9,6 +9,7 @@ CONFIG += c++17
 
 SOURCES += \
     ModelARX.cpp \
+    dialogarx.cpp \
     main.cpp \
     mainwindow.cpp \
     pid.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     ModelARX.h \
     compile.h \
+    dialogarx.h \
     mainwindow.h \
     pid.h \
     qcustomplot.h \
@@ -31,6 +33,7 @@ HEADERS += \
     wejscie.h
 
 FORMS += \
+    dialogarx.ui \
     mainwindow.ui
 
 # Default rules for deployment.

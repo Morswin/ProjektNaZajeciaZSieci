@@ -10,8 +10,8 @@ MainWindow::MainWindow(QWidget *parent)
     , timer{new QTimer(this)}
     , UAR{}
     , krok_wykres{0}
-    , arx_a_view{}
-    , arx_b_view{}
+    // , arx_a_view{}
+    // , arx_b_view{}
     , graph_x{}
     , uar_wy_y{}
     , uchyb_y{}
@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
-    // on_spinBoxInterwal_valueChanged(ui->spinBoxInterwal->value());
+
+    on_btnReset_clicked();
 
     ui->graphUAR->xAxis->setNumberFormat("f");
     ui->graphUAR->xAxis->setNumberPrecision(0);
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphPID->yAxis->setRange(0.0, 1.0);
     ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
 
-    setUpGraphs();
+    // setUpGraphs();
 }
 
 MainWindow::~MainWindow()
@@ -146,7 +147,6 @@ void MainWindow::setUpGraphs() {
     ui->graphPID->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
 }
 
-
 // void MainWindow::keyPressEvent(QKeyEvent* event) {
 //     switch (event->key()) {
 //     case Qt::Key_Enter:
@@ -154,6 +154,7 @@ void MainWindow::setUpGraphs() {
 //         break;
 //     }
 // }
+
 
 void MainWindow::advance() {
 
@@ -293,16 +294,16 @@ void MainWindow::passToSetters() {
     UAR.setPID_k(ui->doubleSpinBoxP->value());
     UAR.setPID_tI(ui->doubleSpinBoxI->value());
     UAR.setPID_tD(ui->doubleSpinBoxD->value());
-    UAR.setARX_k(ui->spinBoxARX_k->value());
+    // UAR.setARX_k(ui->spinBoxARX_k->value());
 
-    if (ui->checkBoxARZ_z->isChecked()) {
-        UAR.setARX_z(true);
-        UAR.setARX_z_val(ui->doubleSpinBoxARX_z->value());
-    }
-    else {
-        UAR.setARX_z(false);
-        UAR.setARX_z_val(0.0);
-    }
+    // if (ui->checkBoxARZ_z->isChecked()) {
+    //     UAR.setARX_z(true);
+    //     UAR.setARX_z_val(ui->doubleSpinBoxARX_z->value());
+    // }
+    // else {
+    //     UAR.setARX_z(false);
+    //     UAR.setARX_z_val(0.0);
+    // }
 
     timer->setInterval(ui->spinBoxInterwal->value());
 
@@ -366,64 +367,6 @@ void MainWindow::on_groupBoxSkok_toggled(bool arg1)
     }
 }
 
-void MainWindow::on_btnARXAdd_A_clicked()
-{
-    if (arx_a_view.size() == 1 && arx_a_view.at(0) == 0.0) {
-        UAR.clearARX_a();
-        arx_a_view.clear();
-    }
-
-    UAR.addARX_a(ui->doubleSpinBoxARX_A->value());
-    arx_a_view.push_back(ui->doubleSpinBoxARX_A->value());
-
-    ui->lineEditARXView_A->clear();
-    ui->lineEditARXView_A->insert("{ ");
-    for(const double &a : arx_a_view) {
-        ui->lineEditARXView_A->insert(QString::number(a));
-        ui->lineEditARXView_A->insert("; ");
-    }
-    ui->lineEditARXView_A->insert("}");
-}
-
-void MainWindow::on_btnARXAdd_B_clicked()
-{
-    if (arx_b_view.size() == 1 && arx_b_view.at(0) == 0.0) {
-        UAR.clearARX_b();
-        arx_b_view.clear();
-    }
-
-    UAR.addARX_b(ui->doubleSpinBoxARX_B->value());
-    arx_b_view.push_back(ui->doubleSpinBoxARX_B->value());
-
-    ui->lineEditARXView_B->clear();
-    ui->lineEditARXView_B->insert("{ ");
-    for(const double &b : arx_b_view) {
-        ui->lineEditARXView_B->insert(QString::number(b));
-        ui->lineEditARXView_B->insert("; ");
-    }
-    ui->lineEditARXView_B->insert("}");
-}
-
-void MainWindow::on_btnARXClear_A_clicked()
-{
-    UAR.clearARX_a();
-    arx_a_view.clear();
-    UAR.addARX_a(0.0);
-    arx_a_view.push_back(0.0);
-    ui->lineEditARXView_A->setText("{ 0.0 }");
-    ui->doubleSpinBoxARX_A->setValue(0.0);
-}
-
-void MainWindow::on_btnARXClear_B_clicked()
-{
-    UAR.clearARX_b();
-    arx_b_view.clear();
-    UAR.addARX_b(0.0);
-    arx_b_view.push_back(0.0);
-    ui->lineEditARXView_B->setText("{ 0.0 }");
-    ui->doubleSpinBoxARX_B->setValue(0.0);
-}
-
 void MainWindow::on_btnReset_clicked()
 {   
     UAR.setPID_k(0.0);
@@ -431,11 +374,16 @@ void MainWindow::on_btnReset_clicked()
     UAR.setPID_tD(0.0);
     UAR.resetPID_I();
     UAR.resetPID_D();
+
     UAR.clearARX_a();
     UAR.clearARX_b();
+    UAR.addARX_a(-0.4);
+    UAR.addARX_b(0.6);
     UAR.setARX_k(1);
-    UAR.setARX_z(true);
+    UAR.setARX_z(false);
+    UAR.setARX_z_val(0.0);
     UAR.clearARXBuffers();
+
     UAR.resetInternalKrok();
     UAR.resetUchyb();
     krok_wykres = 0;
@@ -457,17 +405,10 @@ void MainWindow::on_btnReset_clicked()
     ui->doubleSpinBoxI->setValue(6.0);
     ui->doubleSpinBoxD->setValue(0.0);
 
-    on_btnARXClear_A_clicked();
-    on_btnARXClear_B_clicked();
-    ui->doubleSpinBoxARX_A->setValue(-0.4);
-    ui->doubleSpinBoxARX_B->setValue(0.6);
-    ui->spinBoxARX_k->setValue(1);
-    ui->checkBoxARZ_z->setCheckState(Qt::Unchecked);
-    ui->doubleSpinBoxARX_z->setValue(0.0);
-    // ui->lineEditARXView_A->clear();
-    // ui->lineEditARXView_B->clear();
-    // arx_a_view.clear();
-    // arx_b_view.clear();
+    insertIntoTextField(ui->lineEditARXView_A, UAR.getARX_a_vector());
+    insertIntoTextField(ui->lineEditARXView_B, UAR.getARX_b_vector());
+    ui->spinBoxARX_k->setValue(UAR.getARX_k());
+    ui->doubleSpinBoxARX_z->setValue(UAR.getARX_z_std_dev());
 
     ui->spinBoxInterwal->setValue(100);
     ui->spinBoxWidokKrokow->setValue(200);
@@ -517,65 +458,6 @@ void MainWindow::on_btnStop_clicked()
     ui->groupBoxSin->setDisabled(false);
 }
 
-// void MainWindow::on_spinBoxInterwal_valueChanged(int arg1)
-// {
-//     timer->setInterval(arg1);
-// }
-
-// void MainWindow::on_spinBoxWidokKrokow_valueChanged(int arg1)
-// {
-//     if (krok_wykres <= ui->spinBoxWidokKrokow->value()) {
-//         ui->graphUAR->xAxis->setRange(0.0, arg1);
-//         ui->graphUchyb->xAxis->setRange(0.0, arg1);
-//         ui->graphPidSum->xAxis->setRange(0.0, arg1);
-//         ui->graphPID->xAxis->setRange(0.0, arg1);
-//     }
-//     else {
-//         ui->graphUAR->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-//         ui->graphUchyb->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-//         ui->graphPidSum->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-//         ui->graphPID->xAxis->setRange(krok_wykres - arg1, krok_wykres);
-//     }
-// }
-
-
-// void MainWindow::on_doubleSpinBoxP_valueChanged(double arg1)
-// {
-//     UAR.setPID_k(arg1);
-// }
-
-
-// void MainWindow::on_doubleSpinBoxI_valueChanged(double arg1)
-// {
-//     UAR.setPID_tI(arg1);
-// }
-
-
-// void MainWindow::on_doubleSpinBoxD_valueChanged(double arg1)
-// {
-//     UAR.setPID_tD(arg1);
-// }
-
-
-// void MainWindow::on_spinBoxARX_k_valueChanged(int arg1)
-// {
-//     UAR.setARX_k(arg1);
-// }
-
-
-void MainWindow::on_checkBoxARZ_z_checkStateChanged(const Qt::CheckState &arg1)
-{
-    if(arg1 == Qt::Checked){
-        UAR.setARX_z(true);
-        ui->doubleSpinBoxARX_z->setDisabled(false);
-    }
-    else {
-        UAR.setARX_z(false);
-        ui->doubleSpinBoxARX_z->setDisabled(true);
-    }
-}
-
-
 void MainWindow::on_groupBoxSkok_clicked()
 {
     // zapobieganie odkliknięciu checkboxa
@@ -606,16 +488,60 @@ void MainWindow::on_groupBoxSin_clicked()
 }
 
 
-// void MainWindow::on_doubleSpinBox_z_valueChanged(double arg1)
-// {
-//     UAR.setARX_z_val(arg1);
-// }
-
-
 void MainWindow::on_btnZapisz_clicked()
 {
     passToSetters();
+}
 
+
+void MainWindow::on_btnARX_clicked()
+{
+    ui->btnARX->setDisabled(true);
+
+    DataDialog data;
+    data.a = UAR.getARX_a_vector();
+    data.b = UAR.getARX_b_vector();
+    data.delay = UAR.getARX_k();
+    data.czyZakl = UAR.getARX_isZ();
+    data.zakl_std_dev = UAR.getARX_z_std_dev();
+
+    dialog = new DialogARX(data, this);
+    // connect(dialog, SIGNAL(sendARX(std::vector<double>,std::vector<double>,int,bool,double)),
+    //         this, SLOT(receiveARX(std::vector<double>,std::vector<double>,int,bool,double)));
+    if (dialog->exec())
+    {
+        UAR.clearARX_a();
+        UAR.clearARX_b();
+
+        for (const auto &_a : data.a) {
+            UAR.addARX_a(_a);
+        }
+
+        for (const auto &_b : data.b) {
+            UAR.addARX_b(_b);
+        }
+
+        UAR.setARX_k(data.delay);
+        UAR.setARX_z(data.czyZakl);
+        UAR.setARX_z_val(data.zakl_std_dev);
+
+        insertIntoTextField(ui->lineEditARXView_A, data.a);
+        insertIntoTextField(ui->lineEditARXView_B, data.b);
+        ui->spinBoxARX_k->setValue(data.delay);
+        ui->doubleSpinBoxARX_z->setValue(data.zakl_std_dev);
+    }
+
+    ui->btnARX->setDisabled(false);
 
 }
 
+
+void MainWindow::insertIntoTextField(QLineEdit* field, const std::vector<double> &arx_params)
+{
+    field->clear();
+    field->insert("{ ");
+    for (const auto &p : arx_params) {
+        field->insert(QString::number(p) + "; ");
+    }
+    field->insert("}");
+}

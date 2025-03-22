@@ -42,6 +42,11 @@ public:
     void clearARXBuffers();
     bool isAEmpty() const { return m_arx.isAEmpty(); }
     bool isBEmpty() const { return m_arx.isBEmpty(); }
+    const std::vector<double>& getARX_a_vector() const;
+    const std::vector<double>& getARX_b_vector() const;
+    int getARX_k() const;
+    bool getARX_isZ() const;
+    double getARX_z_std_dev() const;
     void liczSygnalSkok();
     void liczSygnalKwad();
     void liczSygnalSin();

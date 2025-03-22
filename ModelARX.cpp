@@ -32,13 +32,13 @@ void ModelARX::addA(const double a)
     m_a.push_back(a);
 }
 
-void ModelARX::removeA(int index)
-{
-    if (index < static_cast<int>(m_a.size()))
-        m_a.erase(m_a.begin() + index);
-    else
-        throw std::out_of_range("Invalid index!");
-}
+// void ModelARX::removeA(int index)
+// {
+//     if (index < static_cast<int>(m_a.size()))
+//         m_a.erase(m_a.begin() + index);
+//     else
+//         throw std::out_of_range("Invalid index!");
+// }
 
 void ModelARX::clearA()
 {
@@ -50,13 +50,13 @@ void ModelARX::addB(const double b)
     m_b.push_back(b);
 }
 
-void ModelARX::removeB(int index)
-{
-    if (index < static_cast<int>(m_b.size()))
-        m_b.erase(m_b.begin() + index);
-    else
-        throw std::out_of_range("Invalid index!");
-}
+// void ModelARX::removeB(int index)
+// {
+//     if (index < static_cast<int>(m_b.size()))
+//         m_b.erase(m_b.begin() + index);
+//     else
+//         throw std::out_of_range("Invalid index!");
+// }
 
 void ModelARX::clearB()
 {
@@ -69,6 +69,16 @@ void ModelARX::setZakl(bool isOn) {
 
 void ModelARX::setZaklWart(double zakl){
     m_zakl_val = zakl;
+}
+
+const std::vector<double>& ModelARX::getARX_a_vector() const
+{
+    return m_a;
+}
+
+const std::vector<double>& ModelARX::getARX_b_vector() const
+{
+    return m_b;
 }
 
 void ModelARX::setOpozn(int k)

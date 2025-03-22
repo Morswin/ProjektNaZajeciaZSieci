@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include "symulacja.h"
+#include "dialogarx.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QKeyEvent>
@@ -24,6 +25,7 @@ private slots:
     double findMinRange(QVector<double> &y_data);
     double findMaxRange(QVector<double> &y_data);
     void setUpGraphs();
+    // void keyPressEvent(QKeyEvent* event);
 
     void passToSetters();
     void advance();
@@ -32,35 +34,24 @@ private slots:
     void on_groupBoxKwad_toggled(bool arg1);
     void on_groupBoxSin_toggled(bool arg1);
     void on_groupBoxSkok_toggled(bool arg1);
-    void on_btnARXAdd_A_clicked();
-    void on_btnARXAdd_B_clicked();
-    void on_btnARXClear_A_clicked();
-    void on_btnARXClear_B_clicked();
     void on_btnReset_clicked();
     void on_btnResetD_clicked();
     void on_btnResetI_clicked();
     void on_btnStop_clicked();
-    // void on_spinBoxInterwal_valueChanged(int arg1);
-    // void on_spinBoxWidokKrokow_valueChanged(int arg1);
-    // void on_doubleSpinBoxP_valueChanged(double arg1);
-    // void on_doubleSpinBoxI_valueChanged(double arg1);
-    // void on_doubleSpinBoxD_valueChanged(double arg1);
-    // void on_spinBoxARX_k_valueChanged(int arg1);
-    void on_checkBoxARZ_z_checkStateChanged(const Qt::CheckState &arg1);
     void on_groupBoxSkok_clicked();
     void on_groupBoxKwad_clicked();
     void on_groupBoxSin_clicked();
-    // void on_doubleSpinBox_z_valueChanged(double arg1);
-
     void on_btnZapisz_clicked();
+    void on_btnARX_clicked();
 
 private:
     Ui::MainWindow *ui;
+    DialogARX *dialog = nullptr;
     QTimer* timer = nullptr;
     Symulacja UAR;
-    int krok_wykres;\
-    std::vector<double> arx_a_view;
-    std::vector<double> arx_b_view;
+    int krok_wykres;
+    // std::vector<double> arx_a_view;
+    // std::vector<double> arx_b_view;
     QVector<double> graph_x;
     QVector<double> uar_we_y;
     QVector<double> uar_wy_y;
@@ -69,6 +60,8 @@ private:
     QVector<double> p_y;
     QVector<double> i_y;
     QVector<double> d_y;
+
+    void insertIntoTextField(QLineEdit* field, const std::vector<double> &arx_params);
 };
 
 #endif // MAINWINDOW_H

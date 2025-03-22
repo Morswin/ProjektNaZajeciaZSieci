@@ -103,6 +103,31 @@ void Symulacja::clearARXBuffers() {
     m_arx.clearBuffers();
 }
 
+const std::vector<double>& Symulacja::getARX_a_vector() const
+{
+    return m_arx.getARX_a_vector();
+}
+
+const std::vector<double>& Symulacja::getARX_b_vector() const
+{
+    return m_arx.getARX_b_vector();
+}
+
+int Symulacja::getARX_k() const
+{
+    return m_arx.getOpozn();
+}
+
+bool Symulacja::getARX_isZ() const
+{
+    return m_arx.getCzyZakl();
+}
+
+double Symulacja::getARX_z_std_dev() const
+{
+    return m_arx.getZakl();
+}
+
 void Symulacja::liczSygnalSkok() {
     m_sygnal.sygnalSkok();
 }
