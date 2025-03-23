@@ -16,8 +16,15 @@ Symulacja::Symulacja(SygGen& sygn,
     , m_uchyb{}
 {}
 
-double Symulacja::symulujKrok() {
-    double wynik = m_arx.symuluj(m_pid.symulujKrokPID(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+double Symulacja::symulujKrok_IConstOut() {
+    double wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstOut(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+    m_uchyb.setPoprzY(wynik);
+
+    return wynik;
+}
+
+double Symulacja::symulujKrok_IConstIn() {
+    double wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstIn(m_uchyb.liczUchyb(m_sygnal.getSygn())));
     m_uchyb.setPoprzY(wynik);
 
     return wynik;

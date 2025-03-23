@@ -164,7 +164,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pageSygnaly">
          <property name="geometry">
@@ -526,6 +526,18 @@
            <string>Nastawy</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>5</number>
+           </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
@@ -575,9 +587,30 @@
             </layout>
            </item>
            <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <item>
+              <widget class="QRadioButton" name="radioStalaOut">
+               <property name="text">
+                <string>Stała przed całką</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioSatlaIn">
+               <property name="text">
+                <string>Stała w całce</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <widget class="QPushButton" name="btnResetI">
              <property name="text">
-              <string>Zresetuj pamięć</string>
+              <string>Zresetuj pamięć I</string>
              </property>
             </widget>
            </item>
@@ -614,7 +647,7 @@
            <item>
             <widget class="QPushButton" name="btnResetD">
              <property name="text">
-              <string>Zresetuj pamięć</string>
+              <string>Zresetuj pamięć D</string>
              </property>
             </widget>
            </item>

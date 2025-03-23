@@ -49,9 +49,8 @@ private:
     DialogARX *dialog = nullptr;
     QTimer* timer = nullptr;
     Symulacja UAR;
+    double interwal_kroku_sec;
     int krok_wykres;
-    // std::vector<double> arx_a_view;
-    // std::vector<double> arx_b_view;
     QVector<double> graph_x;
     QVector<double> uar_we_y;
     QVector<double> uar_wy_y;

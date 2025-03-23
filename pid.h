@@ -25,9 +25,11 @@ public:
     void resetujPamiecRozn();
     void resetujPamiec();
     double czescProp(double eI);
-    double czescCalk(double eI);
+    double czescCalk_ConstOut(double eI);
+    double czescCalk_ConstIn(double eI);
     double czescRozn(double eI);
-    double symulujKrokPID(double eI);
+    double symulujKrokPID_IConstOut(double eI);
+    double symulujKrokPID_IConstIn(double eI);
 };
 
 #endif // ModelPID_H

@@ -48,11 +48,21 @@ double ModelPID::czescProp(double eI){
     return k * eI;
 }
 
-double ModelPID::czescCalk(double eI){
+double ModelPID::czescCalk_ConstOut(double eI){
     if (tI != 0) {
         pamiecCalk += eI;
         I_result = pamiecCalk / tI;
         return pamiecCalk / tI;
+    }
+    else
+        return 0.0;
+}
+
+double ModelPID::czescCalk_ConstIn(double eI){
+    if (tI != 0) {
+        pamiecCalk += eI / tI;
+        I_result = pamiecCalk;
+        return pamiecCalk;
     }
     else
         return 0.0;
@@ -65,11 +75,21 @@ double ModelPID::czescRozn(double eI){
     return temp;
 }
 
-double ModelPID::symulujKrokPID(double eI){
+double ModelPID::symulujKrokPID_IConstOut(double eI){
     double p_, i_, d_;
     p_ = czescProp(eI);
-    i_ = czescCalk(eI);
+    i_ = czescCalk_ConstOut(eI);
     d_ = czescRozn(eI);
     PID_result = p_ + i_ + d_;
     return p_ + i_ + d_;
 }
+
+double ModelPID::symulujKrokPID_IConstIn(double eI){
+    double p_, i_, d_;
+    p_ = czescProp(eI);
+    i_ = czescCalk_ConstIn(eI);
+    d_ = czescRozn(eI);
+    PID_result = p_ + i_ + d_;
+    return p_ + i_ + d_;
+}
+
