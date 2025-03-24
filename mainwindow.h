@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "qcustomplot.h"
 #include "symulacja.h"
 #include "dialogarx.h"
 #include <QMainWindow>
@@ -45,7 +46,6 @@ private:
     QTimer* timer = nullptr;
     Symulacja UAR;
     int krok;
-    // double krok_czasu;
     double krok_czas;
     double interwal_wykres_sec;
     QVector<double> graph_x;
@@ -62,6 +62,7 @@ private:
     void setUpGraphs();
     void passToSetters();
     void insertIntoTextField(QLineEdit* field, const std::vector<double> &arx_params);
+    void initChartConfig(QCustomPlot *chart, const QString OX_num_format, const int OX_num_precision, const QString OX_label, const QString OY_label);
 };
 
 #endif // MAINWINDOW_H

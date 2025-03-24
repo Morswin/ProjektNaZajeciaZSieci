@@ -12,8 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
     , krok{0}
     , krok_czas{0.0}
     , interwal_wykres_sec{0.0}
-    // , interwal_kroku_sec{0.0}
-    // , krok_czasu{0.0}
     , graph_x{}
     , uar_wy_y{}
     , uchyb_y{}
@@ -28,35 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
     on_btnReset_clicked();
 
     // double upperBound = ui->spinBoxWidokKrokow->value() * interwal_kroku_sec;
-    ui->graphUAR->xAxis->setNumberFormat("f");
-    ui->graphUAR->xAxis->setNumberPrecision(1);
-    ui->graphUAR->yAxis->setLabel("Sygnał wejściowy i wyjściowy");
-    ui->graphUAR->xAxis->setLabel("Krok");
-    ui->graphUAR->yAxis->setRange(0.0, 1.0);
-    // ui->graphUAR->xAxis->setRange(0.0, upperBound);
-
-    ui->graphUchyb->xAxis->setNumberFormat("f");
-    ui->graphUchyb->xAxis->setNumberPrecision(1);
-    ui->graphUchyb->yAxis->setLabel("Wartość uchybu");
-    ui->graphUchyb->xAxis->setLabel("Krok");
-    ui->graphUchyb->yAxis->setRange(0.0, 1.0);
-    // ui->graphUchyb->xAxis->setRange(0.0, upperBound);
-
-    ui->graphPidSum->xAxis->setNumberFormat("f");
-    ui->graphPidSum->xAxis->setNumberPrecision(1);
-    ui->graphPidSum->yAxis->setLabel("Sygnał regulatora PID");
-    ui->graphPidSum->xAxis->setLabel("Krok");
-    ui->graphPidSum->yAxis->setRange(0.0, 1.0);
-    // ui->graphPidSum->xAxis->setRange(0.0, upperBound);
-
-    ui->graphPID->xAxis->setNumberFormat("f");
-    ui->graphPID->xAxis->setNumberPrecision(1);
-    ui->graphPID->yAxis->setLabel("Składowe P, I, D");
-    ui->graphPID->xAxis->setLabel("Krok");
-    ui->graphPID->yAxis->setRange(0.0, 1.0);
-    // ui->graphPID->xAxis->setRange(0.0, upperBound);
-
-    // setUpGraphs();
+    initChartConfig(ui->graphUAR, "f", 1, "Czas", "Sygnał zadany i sterowany");
+    initChartConfig(ui->graphUchyb, "f", 1, "Czas", "Uchyb");
+    initChartConfig(ui->graphPidSum, "f", 1, "Czas", "Sygnał regulatora PID");
+    initChartConfig(ui->graphPID, "f", 1, "Czas", "Składowe P, I, D");
 }
 
 MainWindow::~MainWindow()
@@ -244,6 +217,7 @@ void MainWindow::on_btnReset_clicked()
     UAR.resetInternalKrok();
     UAR.resetUchyb();
     krok = 0;
+    krok_czas = 0.0;
 
     ui->labelStatus->setText("Wyłączona");
 
@@ -519,6 +493,7 @@ void MainWindow::passToSetters() {
     UAR.setPID_tD(ui->doubleSpinBoxD->value());
 
     timer->setInterval(ui->spinBoxInterwal->value());
+    interwal_wykres_sec = ui->spinBoxInterwal->value() / 1000.0;
 
     if (krok_czas <= ui->spinBoxWidokKrokow->value() * interwal_wykres_sec) {
         ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
@@ -543,3 +518,12 @@ void MainWindow::insertIntoTextField(QLineEdit* field, const std::vector<double>
     }
     field->insert("}");
 }
+
+void MainWindow::initChartConfig(QCustomPlot *chart, const QString OX_num_format, const int OX_num_precision, const QString OX_label, const QString OY_label)
+{
+    chart->xAxis->setNumberFormat(OX_num_format);
+    chart->xAxis->setNumberPrecision(OX_num_precision);
+    chart->yAxis->setLabel(OY_label);
+    chart->xAxis->setLabel(OX_label);
+}
+
