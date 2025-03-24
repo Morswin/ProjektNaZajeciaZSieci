@@ -9,8 +9,11 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , timer{new QTimer(this)}
     , UAR{}
-    , interwal_kroku_sec{0.0}
-    , krok_wykres{0}
+    , krok{0}
+    , krok_czas{0.0}
+    , interwal_wykres_sec{0.0}
+    // , interwal_kroku_sec{0.0}
+    // , krok_czasu{0.0}
     , graph_x{}
     , uar_wy_y{}
     , uchyb_y{}
@@ -61,101 +64,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-double MainWindow::findMinRange(QVector<double> &y_data) {
-
-    double min = std::numeric_limits<double>::max();
-
-    for (int i = y_data.size()-1; i > std::max({static_cast<int>(y_data.size()-1 - ui->spinBoxWidokKrokow->value()), 0}); i--) {
-        if (y_data[i] < min) {
-            min = y_data[i];
-        }
-    }
-
-    return min;
-}
-
-double MainWindow::findMaxRange(QVector<double> &y_data) {
-
-    double max = std::numeric_limits<double>::min();
-
-    for (int i = y_data.size()-1; i > std::max({static_cast<int>(y_data.size()-1 - ui->spinBoxWidokKrokow->value()), 0}); i--) {
-        if (y_data[i] > max) {
-            max = y_data[i];
-        }
-    }
-
-    return max;
-}
-
-void MainWindow::setUpGraphs() {
-    ui->graphUAR->addGraph();  // 0 - graf WE
-    ui->graphUAR->addGraph(ui->graphUAR->graph(0)->keyAxis(), ui->graphUAR->graph(0)->valueAxis());     // 1 - graf WY
-    ui->graphUAR->graph(0)->setAntialiased(true);
-    ui->graphUAR->graph(1)->setAntialiased(true);
-    ui->graphUAR->xAxis->setRange(std::max({krok_wykres - ui->spinBoxWidokKrokow->value(), 0}), krok_wykres);
-    ui->graphUAR->graph(0)->setPen(QPen(QColor(33,0,255), 2));
-    ui->graphUAR->graph(1)->setPen(QPen(QColor(255,33,0), 2));
-    ui->graphUAR->graph(0)->setName("WE");
-    ui->graphUAR->graph(1)->setName("WY");
-    ui->graphUAR->legend->setVisible(true);
-    QFont legendFont = font();
-    legendFont.setPointSize(9);
-    ui->graphUAR->legend->setFont(legendFont);
-    ui->graphUAR->legend->setBrush(QBrush(QColor(255,255,255,100)));
-    ui->graphUAR->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
-
-
-    ui->graphUchyb->addGraph();      // 0 - graf Uchyb
-    ui->graphUchyb->graph(0)->setAntialiased(true);
-    ui->graphUchyb->xAxis->setRange(std::max({krok_wykres - ui->spinBoxWidokKrokow->value(), 0}), krok_wykres);
-    ui->graphUchyb->graph(0)->setPen(QPen(QColor(33,0,255), 2));
-    ui->graphUchyb->graph(0)->setName("Uchyb");
-    ui->graphUchyb->legend->setVisible(true);
-    QFont legendFont2 = font();
-    legendFont2.setPointSize(7);
-    ui->graphUchyb->legend->setFont(legendFont2);
-    ui->graphUchyb->legend->setBrush(QBrush(QColor(255,255,255,100)));
-    ui->graphUchyb->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
-
-    ui->graphPidSum->addGraph();      // 0 - graf PID
-    ui->graphPidSum->graph(0)->setAntialiased(true);
-    ui->graphPidSum->xAxis->setRange(std::max({krok_wykres - ui->spinBoxWidokKrokow->value(), 0}), krok_wykres);
-    ui->graphPidSum->graph(0)->setPen(QPen(QColor(33,0,255), 2));
-    ui->graphPidSum->graph(0)->setName("PID");
-    ui->graphPidSum->legend->setVisible(true);
-    ui->graphPidSum->legend->setFont(legendFont2);
-    ui->graphPidSum->legend->setBrush(QBrush(QColor(255,255,255,100)));
-    ui->graphPidSum->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
-
-    ui->graphPID->addGraph();      // 0 - graf P
-    ui->graphPID->addGraph(ui->graphPID->graph(0)->keyAxis(), ui->graphPID->graph(0)->valueAxis());      // 1 - graf I
-    ui->graphPID->addGraph(ui->graphPID->graph(0)->keyAxis(), ui->graphPID->graph(0)->valueAxis());      // 2 - graf D
-    ui->graphPID->graph(0)->setAntialiased(true);
-    ui->graphPID->graph(1)->setAntialiased(true);
-    ui->graphPID->graph(2)->setAntialiased(true);
-    ui->graphPID->xAxis->setRange(std::max({krok_wykres - ui->spinBoxWidokKrokow->value(), 0}), krok_wykres);
-    ui->graphPID->graph(0)->setPen(QPen(QColor(33,0,255), 2));
-    ui->graphPID->graph(1)->setPen(QPen(QColor(255,33,0), 2));
-    ui->graphPID->graph(2)->setPen(QPen(QColor(0, 255, 33),2));
-    ui->graphPID->graph(0)->setName("P");
-    ui->graphPID->graph(1)->setName("I");
-    ui->graphPID->graph(2)->setName("D");
-    ui->graphPID->legend->setVisible(true);
-    ui->graphPID->legend->setFont(legendFont2);
-    ui->graphPID->legend->setBrush(QBrush(QColor(255,255,255,100)));
-    ui->graphPID->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
-}
-
-// void MainWindow::keyPressEvent(QKeyEvent* event) {
-//     switch (event->key()) {
-//     case Qt::Key_Enter:
-//         passToSetters();
-//         break;
-//     }
-// }
-
-
 void MainWindow::advance() {
 
     if (ui->groupBoxSkok->isChecked()) {
@@ -189,14 +97,15 @@ void MainWindow::advance() {
 
     //przypisanie wartości kroku
     uar_wy_y.push_back(wy);
-    graph_x.push_back(krok_wykres * ui->spinBoxInterwal->value() / 1000);
+    graph_x.push_back(krok_czas);
     uar_we_y.push_back(UAR.getSygn());
     uchyb_y.push_back(UAR.getUchyb());
     pid_y.push_back(UAR.getPID_output());
     p_y.push_back(UAR.getPID_P());
     i_y.push_back(UAR.getPID_I());
     d_y.push_back(UAR.getPID_D());
-    krok_wykres++;
+    krok++;
+    krok_czas += interwal_wykres_sec;
 
     //graf WE / WY
     ui->graphUAR->graph(0)->setData(graph_x, uar_we_y);
@@ -214,11 +123,11 @@ void MainWindow::advance() {
     ui->graphPID->graph(2)->setData(graph_x, d_y);
 
     //przesunięcie OX
-    if (krok_wykres * ui->spinBoxInterwal->value() / 1000 > ui->spinBoxWidokKrokow->value() * ui->spinBoxInterwal->value() / 1000){
-        ui->graphUAR->xAxis->moveRange(ui->spinBoxInterwal->value() / 1000);
-        ui->graphUchyb->xAxis->moveRange(ui->spinBoxInterwal->value() / 1000);
-        ui->graphPidSum->xAxis->moveRange(ui->spinBoxInterwal->value() / 1000);
-        ui->graphPID->xAxis->moveRange(ui->spinBoxInterwal->value() / 1000);
+    if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
+        ui->graphUAR->xAxis->moveRange(interwal_wykres_sec);
+        ui->graphUchyb->xAxis->moveRange(interwal_wykres_sec);
+        ui->graphPidSum->xAxis->moveRange(interwal_wykres_sec);
+        ui->graphPID->xAxis->moveRange(interwal_wykres_sec);
     }
 
     //wstępne skalowanie
@@ -272,46 +181,8 @@ void MainWindow::advance() {
 
     margin = (max - min) * 0.05;
     ui->graphPID->yAxis->setRange(min - margin, max + margin);
+
     ui->graphPID->replot();
-}
-
-void MainWindow::passToSetters() {
-
-    if (ui->groupBoxSkok->isChecked()) {
-        UAR.setSygnAmp(ui->doubleSpinBoxSkokAmp->value());
-        UAR.setSygnOkrAkt(ui->spinBoxSkokAkt->value());
-        UAR.setSygnWyp(0.0);
-
-    } else if (ui->groupBoxKwad->isChecked()) {
-        UAR.setSygnAmp(ui->doubleSpinBoxKwadAmp->value());
-        UAR.setSygnOkrAkt(ui->spinBoxKwadAkt->value());
-        UAR.setSygnWyp(ui->doubleSpinBoxKwadWyp->value());
-
-    } else if (ui->groupBoxSin->isChecked()) {
-        UAR.setSygnAmp(ui->doubleSpinBoxSinAmp->value());
-        UAR.setSygnOkrAkt(ui->spinBoxSinOkr->value());
-        UAR.setSygnWyp(0.0);
-
-    }
-
-    UAR.setPID_k(ui->doubleSpinBoxP->value());
-    UAR.setPID_tI(ui->doubleSpinBoxI->value());
-    UAR.setPID_tD(ui->doubleSpinBoxD->value());
-
-    timer->setInterval(ui->spinBoxInterwal->value());
-
-    if (krok_wykres <= ui->spinBoxWidokKrokow->value()) {
-        ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
-        ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
-        ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
-        ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value());
-    }
-    else {
-        ui->graphUAR->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
-        ui->graphUchyb->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
-        ui->graphPidSum->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
-        ui->graphPID->xAxis->setRange(krok_wykres - ui->spinBoxWidokKrokow->value(), krok_wykres);
-    }
 }
 
 void MainWindow::on_btnStart_clicked()
@@ -372,7 +243,7 @@ void MainWindow::on_btnReset_clicked()
 
     UAR.resetInternalKrok();
     UAR.resetUchyb();
-    krok_wykres = 0;
+    krok = 0;
 
     ui->labelStatus->setText("Wyłączona");
 
@@ -398,27 +269,28 @@ void MainWindow::on_btnReset_clicked()
 
     ui->spinBoxInterwal->setValue(100);
     ui->spinBoxWidokKrokow->setValue(200);
-    interwal_kroku_sec = 0.1;
+    interwal_wykres_sec = 0.1;
+    // interwal_wykres_sec = ui->spinBoxInterwal->value();
 
     ui->graphUAR->clearGraphs();
     uar_we_y.clear();
     uar_wy_y.clear();
     graph_x.clear();
-    ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_kroku_sec);
+    ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
 
     ui->graphUchyb->clearGraphs();
     uchyb_y.clear();
-    ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_kroku_sec);
+    ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
 
     ui->graphPidSum->clearGraphs();
     pid_y.clear();
-    ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_kroku_sec);
+    ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
 
     ui->graphPID->clearGraphs();
     p_y.clear();
     i_y.clear();
     d_y.clear();
-    ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_kroku_sec);
+    ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
 
     setUpGraphs();
 }
@@ -454,7 +326,6 @@ void MainWindow::on_groupBoxSkok_clicked()
     }
 }
 
-
 void MainWindow::on_groupBoxKwad_clicked()
 {
     // zapobieganie odkliknięciu checkboxa
@@ -463,7 +334,6 @@ void MainWindow::on_groupBoxKwad_clicked()
         ui->groupBoxKwad->setChecked(true);
     }
 }
-
 
 void MainWindow::on_groupBoxSin_clicked()
 {
@@ -474,12 +344,10 @@ void MainWindow::on_groupBoxSin_clicked()
     }
 }
 
-
 void MainWindow::on_btnZapisz_clicked()
 {
     passToSetters();
 }
-
 
 void MainWindow::on_btnARX_clicked()
 {
@@ -522,6 +390,149 @@ void MainWindow::on_btnARX_clicked()
 
 }
 
+double MainWindow::findMinRange(QVector<double> &y_data) {
+
+    double min = std::numeric_limits<double>::max();
+
+    for (int i = y_data.size()-1; i > std::max({static_cast<int>(y_data.size()-1 - ui->spinBoxWidokKrokow->value()), 0}); i--) {
+        if (y_data[i] < min) {
+            min = y_data[i];
+        }
+    }
+
+    return min;
+}
+
+double MainWindow::findMaxRange(QVector<double> &y_data) {
+
+    double max = std::numeric_limits<double>::min();
+
+    for (int i = y_data.size()-1; i > std::max({static_cast<int>(y_data.size()-1 - ui->spinBoxWidokKrokow->value()), 0}); i--) {
+        if (y_data[i] > max) {
+            max = y_data[i];
+        }
+    }
+
+    return max;
+}
+
+void MainWindow::setUpGraphs() {
+    ui->graphUAR->addGraph();  // 0 - graf WE
+    ui->graphUAR->addGraph(ui->graphUAR->graph(0)->keyAxis(), ui->graphUAR->graph(0)->valueAxis());     // 1 - graf WY
+    ui->graphUAR->graph(0)->setAntialiased(true);
+    ui->graphUAR->graph(1)->setAntialiased(true);
+    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    else
+        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUAR->graph(0)->setPen(QPen(QColor(33,0,255), 2));
+    ui->graphUAR->graph(1)->setPen(QPen(QColor(255,33,0), 2));
+    ui->graphUAR->graph(0)->setName("WE");
+    ui->graphUAR->graph(1)->setName("WY");
+    ui->graphUAR->legend->setVisible(true);
+    QFont legendFont = font();
+    legendFont.setPointSize(9);
+    ui->graphUAR->legend->setFont(legendFont);
+    ui->graphUAR->legend->setBrush(QBrush(QColor(255,255,255,100)));
+    ui->graphUAR->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
+
+
+    ui->graphUchyb->addGraph();      // 0 - graf Uchyb
+    ui->graphUchyb->graph(0)->setAntialiased(true);
+    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    else
+        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUchyb->graph(0)->setPen(QPen(QColor(33,0,255), 2));
+    ui->graphUchyb->graph(0)->setName("Uchyb");
+    ui->graphUchyb->legend->setVisible(true);
+    QFont legendFont2 = font();
+    legendFont2.setPointSize(7);
+    ui->graphUchyb->legend->setFont(legendFont2);
+    ui->graphUchyb->legend->setBrush(QBrush(QColor(255,255,255,100)));
+    ui->graphUchyb->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
+
+    ui->graphPidSum->addGraph();      // 0 - graf PID
+    ui->graphPidSum->graph(0)->setAntialiased(true);
+    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    else
+        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphPidSum->graph(0)->setPen(QPen(QColor(33,0,255), 2));
+    ui->graphPidSum->graph(0)->setName("PID");
+    ui->graphPidSum->legend->setVisible(true);
+    ui->graphPidSum->legend->setFont(legendFont2);
+    ui->graphPidSum->legend->setBrush(QBrush(QColor(255,255,255,100)));
+    ui->graphPidSum->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
+
+    ui->graphPID->addGraph();      // 0 - graf P
+    ui->graphPID->addGraph(ui->graphPID->graph(0)->keyAxis(), ui->graphPID->graph(0)->valueAxis());      // 1 - graf I
+    ui->graphPID->addGraph(ui->graphPID->graph(0)->keyAxis(), ui->graphPID->graph(0)->valueAxis());      // 2 - graf D
+    ui->graphPID->graph(0)->setAntialiased(true);
+    ui->graphPID->graph(1)->setAntialiased(true);
+    ui->graphPID->graph(2)->setAntialiased(true);
+    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    else
+        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphPID->graph(0)->setPen(QPen(QColor(33,0,255), 2));
+    ui->graphPID->graph(1)->setPen(QPen(QColor(255,33,0), 2));
+    ui->graphPID->graph(2)->setPen(QPen(QColor(0, 255, 33),2));
+    ui->graphPID->graph(0)->setName("P");
+    ui->graphPID->graph(1)->setName("I");
+    ui->graphPID->graph(2)->setName("D");
+    ui->graphPID->legend->setVisible(true);
+    ui->graphPID->legend->setFont(legendFont2);
+    ui->graphPID->legend->setBrush(QBrush(QColor(255,255,255,100)));
+    ui->graphPID->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
+}
+
+// void MainWindow::keyPressEvent(QKeyEvent* event) {
+//     switch (event->key()) {
+//     case Qt::Key_Enter:
+//         passToSetters();
+//         break;
+//     }
+// }
+
+void MainWindow::passToSetters() {
+
+    if (ui->groupBoxSkok->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxSkokAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxSkokAkt->value());
+        UAR.setSygnWyp(0.0);
+
+    } else if (ui->groupBoxKwad->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxKwadAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxKwadAkt->value());
+        UAR.setSygnWyp(ui->doubleSpinBoxKwadWyp->value());
+
+    } else if (ui->groupBoxSin->isChecked()) {
+        UAR.setSygnAmp(ui->doubleSpinBoxSinAmp->value());
+        UAR.setSygnOkrAkt(ui->spinBoxSinOkr->value());
+        UAR.setSygnWyp(0.0);
+
+    }
+
+    UAR.setPID_k(ui->doubleSpinBoxP->value());
+    UAR.setPID_tI(ui->doubleSpinBoxI->value());
+    UAR.setPID_tD(ui->doubleSpinBoxD->value());
+
+    timer->setInterval(ui->spinBoxInterwal->value());
+
+    if (krok_czas <= ui->spinBoxWidokKrokow->value() * interwal_wykres_sec) {
+        ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
+        ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
+        ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
+        ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
+    }
+    else {
+        ui->graphUAR->xAxis->setRange(krok_czas - ui->spinBoxWidokKrokow->value() * interwal_wykres_sec, krok_czas);
+        ui->graphUchyb->xAxis->setRange(krok_czas - ui->spinBoxWidokKrokow->value() * interwal_wykres_sec, krok_czas);
+        ui->graphPidSum->xAxis->setRange(krok_czas - ui->spinBoxWidokKrokow->value() * interwal_wykres_sec, krok_czas);
+        ui->graphPID->xAxis->setRange(krok_czas - ui->spinBoxWidokKrokow->value() * interwal_wykres_sec, krok_czas);
+    }
+}
 
 void MainWindow::insertIntoTextField(QLineEdit* field, const std::vector<double> &arx_params)
 {

@@ -22,14 +22,9 @@ public:
     ~MainWindow();
 
 private slots:
-    double findMinRange(QVector<double> &y_data);
-    double findMaxRange(QVector<double> &y_data);
-    void setUpGraphs();
-    // void keyPressEvent(QKeyEvent* event);
-
-    void passToSetters();
     void advance();
 
+    // void keyPressEvent(QKeyEvent* event);
     void on_btnStart_clicked();
     void on_groupBoxKwad_toggled(bool arg1);
     void on_groupBoxSin_toggled(bool arg1);
@@ -49,8 +44,10 @@ private:
     DialogARX *dialog = nullptr;
     QTimer* timer = nullptr;
     Symulacja UAR;
-    double interwal_kroku_sec;
-    int krok_wykres;
+    int krok;
+    // double krok_czasu;
+    double krok_czas;
+    double interwal_wykres_sec;
     QVector<double> graph_x;
     QVector<double> uar_we_y;
     QVector<double> uar_wy_y;
@@ -60,6 +57,10 @@ private:
     QVector<double> i_y;
     QVector<double> d_y;
 
+    double findMinRange(QVector<double> &y_data);
+    double findMaxRange(QVector<double> &y_data);
+    void setUpGraphs();
+    void passToSetters();
     void insertIntoTextField(QLineEdit* field, const std::vector<double> &arx_params);
 };
 
