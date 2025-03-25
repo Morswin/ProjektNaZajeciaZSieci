@@ -9,6 +9,7 @@ SygGen::SygGen()
     , m_amp{ 0.0 }
     , m_wyp_kwad{ 0.0 }
     , m_okres_aktyw{ 0 }
+    , m_stala{ 0.0 }
 {}
 
 double SygGen::sygnalSkok() {
@@ -32,14 +33,14 @@ double SygGen::sygnalKwad() {
     if (m_amp < 0.0) throw std::out_of_range("Amp musi byc nieujemne");
 
     if ((getKrok() % m_okres_aktyw) < (m_wyp_kwad * m_okres_aktyw)) {
-        setSygn(m_amp);
+        setSygn(m_amp + m_stala);
         krokDalej();
-        return m_amp;
+        return m_amp + m_stala;
     }
     else {
-        setSygn(0.0);
+        setSygn(m_stala);
         krokDalej();
-        return 0.0;
+        return m_stala;
     }
 
 }
@@ -47,7 +48,8 @@ double SygGen::sygnalKwad() {
 double SygGen::sygnalSin() {
     if (m_amp < 0.0) throw std::out_of_range("Amp musi byc nieujemne");
 
-    double wyjscie = m_amp *(qSin(2 * M_PI * (getKrok() % m_okres_aktyw)/m_okres_aktyw - (M_PI/2)) + 1.0) / 2.0;
+    // double wyjscie = m_amp *(qSin(2 * M_PI * (getKrok() % m_okres_aktyw)/m_okres_aktyw - (M_PI/2)) + 1.0) / 2.0;
+    double wyjscie = m_amp * (qSin(2 * M_PI * (getKrok() % m_okres_aktyw)/m_okres_aktyw) + m_stala);
     setSygn(wyjscie);
     krokDalej();
     return wyjscie;

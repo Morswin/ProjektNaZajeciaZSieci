@@ -59,13 +59,11 @@ double ModelPID::czescCalk_ConstOut(double eI){
 }
 
 double ModelPID::czescCalk_ConstIn(double eI){
-    if (tI != 0) {
+    if (tI != 0)
         pamiecCalk += eI / tI;
-        I_result = pamiecCalk;
-        return pamiecCalk;
-    }
-    else
-        return 0.0;
+
+    I_result = pamiecCalk;
+    return pamiecCalk;
 }
 
 double ModelPID::czescRozn(double eI){

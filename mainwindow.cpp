@@ -12,24 +12,23 @@ MainWindow::MainWindow(QWidget *parent)
     , krok{0}
     , krok_czas{0.0}
     , interwal_wykres_sec{0.0}
-    , graph_x{}
-    , uar_wy_y{}
-    , uchyb_y{}
-    , pid_y{}
-    , p_y{}
-    , i_y{}
-    , d_y{}
+    // , graph_x{}
+    // , uar_wy_y{}
+    // , uchyb_y{}
+    // , pid_y{}
+    // , p_y{}
+    // , i_y{}
+    // , d_y{}
 {
     ui->setupUi(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
 
     on_btnReset_clicked();
 
-    // double upperBound = ui->spinBoxWidokKrokow->value() * interwal_kroku_sec;
-    initChartConfig(ui->graphUAR, "f", 1, "Czas", "Sygnał zadany i sterowany");
-    initChartConfig(ui->graphUchyb, "f", 1, "Czas", "Uchyb");
-    initChartConfig(ui->graphPidSum, "f", 1, "Czas", "Sygnał regulatora PID");
-    initChartConfig(ui->graphPID, "f", 1, "Czas", "Składowe P, I, D");
+    initChartConfig(ui->graphUAR, "f", 1, "Czas, s", "Sygnał zadany i sterowany");
+    initChartConfig(ui->graphUchyb, "f", 1, "Czas, s", "Uchyb");
+    initChartConfig(ui->graphPidSum, "f", 1, "Czas, s", "Sygnał regulatora PID");
+    initChartConfig(ui->graphPID, "f", 1, "Czas, s", "Składowe P, I, D");
 }
 
 MainWindow::~MainWindow()
@@ -41,22 +40,12 @@ void MainWindow::advance() {
 
     if (ui->groupBoxSkok->isChecked()) {
         UAR.liczSygnalSkok();
-        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
-        ui->groupBoxKwad->setDisabled(true);
-        ui->groupBoxSin->setDisabled(true);
 
     } else if (ui->groupBoxKwad->isChecked()) {
         UAR.liczSygnalKwad();
-        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
-        ui->groupBoxSin->setDisabled(true);
-        ui->groupBoxSkok->setDisabled(true);
 
     } else if (ui->groupBoxSin->isChecked()) {
         UAR.liczSygnalSin();
-        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsLine);
-        ui->groupBoxSkok->setDisabled(true);
-        ui->groupBoxKwad->setDisabled(true);
-
     }
 
     double wy;
@@ -69,31 +58,59 @@ void MainWindow::advance() {
     // std::cerr << wy << '\n';
 
     //przypisanie wartości kroku
-    uar_wy_y.push_back(wy);
     graph_x.push_back(krok_czas);
+    uar_wy_y.push_back(wy);
     uar_we_y.push_back(UAR.getSygn());
     uchyb_y.push_back(UAR.getUchyb());
     pid_y.push_back(UAR.getPID_output());
     p_y.push_back(UAR.getPID_P());
     i_y.push_back(UAR.getPID_I());
     d_y.push_back(UAR.getPID_D());
+
+    // qDebug() << "START\n" << graph_x.size();
+    // qDebug() << uar_wy_y.size();
+    // qDebug() << uar_we_y.size();
+    // qDebug() << uchyb_y.size();
+    // qDebug() << pid_y.size();
+    // qDebug() << p_y.size();
+    // qDebug() << i_y.size();
+    // qDebug() << d_y.size() << "\nEND\n";
+
+    if (graph_x.size() > 100000) {
+        graph_x.pop_front();
+        uar_wy_y.pop_front();
+        uar_we_y.pop_front();
+        uchyb_y.pop_front();
+        pid_y.pop_front();
+        p_y.pop_front();
+        i_y.pop_front();
+        d_y.pop_front();
+    }
+
     krok++;
     krok_czas += interwal_wykres_sec;
 
     //graf WE / WY
     ui->graphUAR->graph(0)->setData(graph_x, uar_we_y);
     ui->graphUAR->graph(1)->setData(graph_x, uar_wy_y);
+    // ui->graphUAR->graph(0)->addData(krok_czas, UAR.getSygn());
+    // ui->graphUAR->graph(1)->addData(krok_czas, wy);
 
     //graf uchyb
     ui->graphUchyb->graph(0)->setData(graph_x, uchyb_y);
+    // ui->graphUchyb->graph(0)->addData(krok_czas, UAR.getUchyb());
 
     //graf pid (sumarycznie)
     ui->graphPidSum->graph(0)->setData(graph_x, pid_y);
+    // ui->graphPidSum->graph(0)->addData(krok_czas, UAR.getPID_output());
 
     //graf pid (składowe)
     ui->graphPID->graph(0)->setData(graph_x, p_y);
     ui->graphPID->graph(1)->setData(graph_x, i_y);
     ui->graphPID->graph(2)->setData(graph_x, d_y);
+    // ui->graphPID->graph(0)->addData(krok_czas, UAR.getPID_P());
+    // ui->graphPID->graph(1)->addData(krok_czas, UAR.getPID_I());
+    // ui->graphPID->graph(2)->addData(krok_czas, UAR.getPID_D());
 
     //przesunięcie OX
     if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
@@ -155,6 +172,9 @@ void MainWindow::advance() {
     margin = (max - min) * 0.05;
     ui->graphPID->yAxis->setRange(min - margin, max + margin);
 
+    ui->graphUAR->replot();
+    ui->graphUchyb->replot();
+    ui->graphPidSum->replot();
     ui->graphPID->replot();
 }
 
@@ -176,6 +196,7 @@ void MainWindow::on_groupBoxKwad_toggled(bool arg1)
         ui->groupBoxSin->setChecked(false);
         ui->groupBoxSkok->setChecked(false);
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepRight);     // linia równoległa do OY przy skoku
+        on_btnZapisz_clicked();
     }
 }
 
@@ -185,6 +206,7 @@ void MainWindow::on_groupBoxSin_toggled(bool arg1)
         ui->groupBoxKwad->setChecked(false);
         ui->groupBoxSkok->setChecked(false);
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsLine);     // linia bezpośrednio pomiędzzy punktami
+        on_btnZapisz_clicked();
     }
 }
 
@@ -194,6 +216,7 @@ void MainWindow::on_groupBoxSkok_toggled(bool arg1)
         ui->groupBoxKwad->setChecked(false);
         ui->groupBoxSin->setChecked(false);
         ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepRight);     // linia równoległa do OY przy skoku
+        on_btnZapisz_clicked();
     }
 }
 
@@ -243,8 +266,7 @@ void MainWindow::on_btnReset_clicked()
 
     ui->spinBoxInterwal->setValue(100);
     ui->spinBoxWidokKrokow->setValue(200);
-    interwal_wykres_sec = 0.1;
-    // interwal_wykres_sec = ui->spinBoxInterwal->value();
+    interwal_wykres_sec = ui->spinBoxInterwal->value() / 1000.0;
 
     ui->graphUAR->clearGraphs();
     uar_we_y.clear();
@@ -335,8 +357,7 @@ void MainWindow::on_btnARX_clicked()
     data.zakl_std_dev = UAR.getARX_z_std_dev();
 
     dialog = new DialogARX(data, this);
-    // connect(dialog, SIGNAL(sendARX(std::vector<double>,std::vector<double>,int,bool,double)),
-    //         this, SLOT(receiveARX(std::vector<double>,std::vector<double>,int,bool,double)));
+
     if (dialog->exec())
     {
         UAR.clearARX_a();
@@ -395,14 +416,14 @@ void MainWindow::setUpGraphs() {
     ui->graphUAR->addGraph(ui->graphUAR->graph(0)->keyAxis(), ui->graphUAR->graph(0)->valueAxis());     // 1 - graf WY
     ui->graphUAR->graph(0)->setAntialiased(true);
     ui->graphUAR->graph(1)->setAntialiased(true);
-    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
-        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
-    else
+    // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+    //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    // else
         ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphUAR->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphUAR->graph(1)->setPen(QPen(QColor(255,33,0), 2));
-    ui->graphUAR->graph(0)->setName("WE");
-    ui->graphUAR->graph(1)->setName("WY");
+    ui->graphUAR->graph(0)->setName("W. zadana");
+    ui->graphUAR->graph(1)->setName("W. regulowana");
     ui->graphUAR->legend->setVisible(true);
     QFont legendFont = font();
     legendFont.setPointSize(9);
@@ -413,9 +434,9 @@ void MainWindow::setUpGraphs() {
 
     ui->graphUchyb->addGraph();      // 0 - graf Uchyb
     ui->graphUchyb->graph(0)->setAntialiased(true);
-    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
-        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
-    else
+    // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+    //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    // else
         ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphUchyb->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphUchyb->graph(0)->setName("Uchyb");
@@ -428,9 +449,9 @@ void MainWindow::setUpGraphs() {
 
     ui->graphPidSum->addGraph();      // 0 - graf PID
     ui->graphPidSum->graph(0)->setAntialiased(true);
-    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
-        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
-    else
+    // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+    //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    // else
         ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphPidSum->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphPidSum->graph(0)->setName("PID");
@@ -445,9 +466,9 @@ void MainWindow::setUpGraphs() {
     ui->graphPID->graph(0)->setAntialiased(true);
     ui->graphPID->graph(1)->setAntialiased(true);
     ui->graphPID->graph(2)->setAntialiased(true);
-    if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
-        ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
-    else
+    // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
+    //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
+    // else
         ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphPID->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphPID->graph(1)->setPen(QPen(QColor(255,33,0), 2));
@@ -461,13 +482,11 @@ void MainWindow::setUpGraphs() {
     ui->graphPID->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignLeft);
 }
 
-// void MainWindow::keyPressEvent(QKeyEvent* event) {
-//     switch (event->key()) {
-//     case Qt::Key_Enter:
-//         passToSetters();
-//         break;
-//     }
-// }
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+
+    if (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter)
+        on_btnZapisz_clicked();
+}
 
 void MainWindow::passToSetters() {
 
@@ -475,16 +494,31 @@ void MainWindow::passToSetters() {
         UAR.setSygnAmp(ui->doubleSpinBoxSkokAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxSkokAkt->value());
         UAR.setSygnWyp(0.0);
+        UAR.setSygnStala(0.0);
+
+        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
+        ui->groupBoxKwad->setChecked(false);
+        ui->groupBoxSin->setChecked(false);
 
     } else if (ui->groupBoxKwad->isChecked()) {
         UAR.setSygnAmp(ui->doubleSpinBoxKwadAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxKwadAkt->value());
         UAR.setSygnWyp(ui->doubleSpinBoxKwadWyp->value());
+        UAR.setSygnStala(ui->doubleSpinBoxKwadStala->value());
+
+        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsStepLeft);
+        ui->groupBoxSin->setChecked(false);
+        ui->groupBoxSkok->setChecked(false);
 
     } else if (ui->groupBoxSin->isChecked()) {
         UAR.setSygnAmp(ui->doubleSpinBoxSinAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxSinOkr->value());
         UAR.setSygnWyp(0.0);
+        UAR.setSygnStala(ui->doubleSpinBoxSinStala->value());
+
+        ui->graphUAR->graph(0)->setLineStyle(QCPGraph::lsLine);
+        ui->groupBoxSkok->setChecked(false);
+        ui->groupBoxKwad->setChecked(false);
 
     }
 

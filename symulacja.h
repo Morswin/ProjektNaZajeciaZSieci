@@ -24,6 +24,7 @@ public:
     void setSygnAmp(double amp);
     void setSygnWyp(double wyp);
     void setSygnOkrAkt(double okr_akt);
+    void setSygnStala(double st);
     void setPID_k(double k);
     void setPID_tI(double tI);
     void setPID_tD(double tD);

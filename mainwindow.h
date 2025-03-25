@@ -25,7 +25,7 @@ public:
 private slots:
     void advance();
 
-    // void keyPressEvent(QKeyEvent* event);
+    void keyPressEvent(QKeyEvent* event);
     void on_btnStart_clicked();
     void on_groupBoxKwad_toggled(bool arg1);
     void on_groupBoxSin_toggled(bool arg1);

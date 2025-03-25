@@ -1,0 +1,13 @@
+debug/ModelARX.o
+debug/dialogarx.o
+debug/main.o
+debug/mainwindow.o
+debug/pid.o
+debug/qcustomplot.o
+debug/sprzwr.o
+debug/syggen.o
+debug/symulacja.o
+debug/testARX.o
+debug/moc_dialogarx.o
+debug/moc_mainwindow.o
+debug/moc_qcustomplot.o

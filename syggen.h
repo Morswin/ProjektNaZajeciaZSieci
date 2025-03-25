@@ -9,6 +9,7 @@ class SygGen
     double m_amp;
     double m_wyp_kwad;
     int m_okres_aktyw;  // na okres lub aktywację, w zależności od sygnalu
+    double m_stala;
 
     void setSygn(double sygnal) { m_sygn = sygnal; }
 
@@ -25,6 +26,7 @@ public:
     void setAmp(double amp) { m_amp = amp; }
     void setWyp(double wyp) { m_wyp_kwad = wyp; }
     void setOkrAkt(double okr_akt) { m_okres_aktyw = okr_akt; }
+    void setStala(double st) { m_stala = st; }
     int getKrok() const { return m_krok; }
     double getSygn() const { return m_sygn; }
     void krokDalej() { ++m_krok; }

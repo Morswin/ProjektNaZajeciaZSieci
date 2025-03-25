@@ -42,6 +42,10 @@ void Symulacja::setSygnOkrAkt(double okr_akt) {
     m_sygnal.setOkrAkt(okr_akt);
 }
 
+void Symulacja::setSygnStala(double st) {
+    m_sygnal.setStala(st);
+}
+
 void Symulacja::setPID_k(double k) {
     m_pid.ustawK(k);
 }

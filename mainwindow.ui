@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>966</width>
-    <height>682</height>
+    <height>740</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,11 +19,15 @@
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>680</height>
+    <height>740</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Symulator UAR</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>UAR_logo.png</normaloff>UAR_logo.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,50">
@@ -76,6 +80,9 @@
            <height>24</height>
           </rect>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::TabFocus</enum>
+         </property>
          <property name="text">
           <string>Start</string>
          </property>
@@ -88,6 +95,9 @@
            <width>91</width>
            <height>24</height>
           </rect>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::TabFocus</enum>
          </property>
          <property name="text">
           <string>Resetuj</string>
@@ -143,6 +153,9 @@
            <height>24</height>
           </rect>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::FocusPolicy::TabFocus</enum>
+         </property>
          <property name="text">
           <string>Stop</string>
          </property>
@@ -164,7 +177,7 @@
          </size>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="pageSygnaly">
          <property name="geometry">
@@ -172,7 +185,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>277</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -184,7 +197,7 @@
             <x>5</x>
             <y>-1</y>
             <width>241</width>
-            <height>291</height>
+            <height>331</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_11" stretch="0">
@@ -192,7 +205,7 @@
             <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
            </property>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,4,3">
+            <layout class="QVBoxLayout" name="verticalLayout_2" stretch="3,5,4">
              <property name="leftMargin">
               <number>0</number>
              </property>
@@ -219,7 +232,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>62</height>
+                  <height>51</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -307,7 +320,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>87</height>
+                  <height>101</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -392,6 +405,33 @@
                    </item>
                   </layout>
                  </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_18">
+                   <item>
+                    <widget class="QLabel" name="label_12">
+                     <property name="text">
+                      <string>Stała</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBoxKwadStala">
+                     <property name="minimum">
+                      <double>0.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>100000.000000000000000</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.100000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
                 </layout>
                </widget>
               </widget>
@@ -413,7 +453,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>58</height>
+                  <height>71</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -468,6 +508,33 @@
                    </item>
                   </layout>
                  </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                   <item>
+                    <widget class="QLabel" name="label_13">
+                     <property name="text">
+                      <string>Stała</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QDoubleSpinBox" name="doubleSpinBoxSinStala">
+                     <property name="minimum">
+                      <double>0.000000000000000</double>
+                     </property>
+                     <property name="maximum">
+                      <double>100000.000000000000000</double>
+                     </property>
+                     <property name="singleStep">
+                      <double>0.100000000000000</double>
+                     </property>
+                     <property name="value">
+                      <double>0.000000000000000</double>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
                 </layout>
                </widget>
               </widget>
@@ -483,7 +550,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>277</height>
+           <height>335</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -609,6 +676,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="btnResetI">
+             <property name="focusPolicy">
+              <enum>Qt::FocusPolicy::TabFocus</enum>
+             </property>
              <property name="text">
               <string>Zresetuj pamięć I</string>
              </property>
@@ -646,6 +716,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="btnResetD">
+             <property name="focusPolicy">
+              <enum>Qt::FocusPolicy::TabFocus</enum>
+             </property>
              <property name="text">
               <string>Zresetuj pamięć D</string>
              </property>
@@ -660,7 +733,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>277</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -838,6 +911,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="btnARX">
+             <property name="focusPolicy">
+              <enum>Qt::FocusPolicy::TabFocus</enum>
+             </property>
              <property name="text">
               <string>Zmień nastawy ARX</string>
              </property>
@@ -852,7 +928,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>277</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -925,6 +1001,9 @@
        <widget class="QPushButton" name="btnZapisz">
         <property name="text">
          <string>Zatwierdź ustawienia</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
