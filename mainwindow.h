@@ -39,6 +39,7 @@ private slots:
     void on_groupBoxSin_clicked();
     void on_btnZapisz_clicked();
     void on_btnARX_clicked();
+    void on_radioStalaOut_toggled(bool checked);
 
 private:
     Ui::MainWindow *ui;

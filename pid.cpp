@@ -44,6 +44,15 @@ void ModelPID::resetujPamiec(){
     resetujPamiecRozn();
 }
 
+void ModelPID::dostosujPamiec(bool isToggled) {
+    if (isToggled) {
+        pamiecCalk *= tI;
+    }
+    else {
+        pamiecCalk /= tI;
+    }
+}
+
 double ModelPID::czescProp(double eI){
     return k * eI;
 }

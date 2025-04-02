@@ -12,13 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
     , krok{0}
     , krok_czas{0.0}
     , interwal_wykres_sec{0.0}
-    // , graph_x{}
-    // , uar_wy_y{}
-    // , uchyb_y{}
-    // , pid_y{}
-    // , p_y{}
-    // , i_y{}
-    // , d_y{}
+    , graph_x{}
+    , uar_wy_y{}
+    , uchyb_y{}
+    , pid_y{}
+    , p_y{}
+    , i_y{}
+    , d_y{}
 {
     ui->setupUi(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
@@ -559,5 +559,11 @@ void MainWindow::initChartConfig(QCustomPlot *chart, const QString OX_num_format
     chart->xAxis->setNumberPrecision(OX_num_precision);
     chart->yAxis->setLabel(OY_label);
     chart->xAxis->setLabel(OX_label);
+}
+
+
+void MainWindow::on_radioStalaOut_toggled(bool checked)
+{
+    UAR.setPID_adjust_mem_on_change(checked);
 }
 

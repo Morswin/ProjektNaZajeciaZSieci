@@ -28,6 +28,7 @@ public:
     void setPID_k(double k);
     void setPID_tI(double tI);
     void setPID_tD(double tD);
+    void setPID_adjust_mem_on_change(bool isToggled);
     void resetPID_I();
     void resetPID_D();
     double getPID_output();

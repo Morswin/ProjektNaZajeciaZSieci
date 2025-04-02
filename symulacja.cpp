@@ -58,6 +58,10 @@ void Symulacja::setPID_tD(double tD) {
     m_pid.ustawTD(tD);
 }
 
+void Symulacja::setPID_adjust_mem_on_change(bool isToggled) {
+    m_pid.dostosujPamiec(isToggled);
+}
+
 void Symulacja::resetPID_I() {
     m_pid.resetujPamiecCalk();
 }

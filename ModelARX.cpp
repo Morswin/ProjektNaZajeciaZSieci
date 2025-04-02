@@ -11,7 +11,7 @@ ModelARX::ModelARX()
     , m_a{}
     , m_b{}
     , m_k_opozn{ 1 }
-    , m_zakl_rng{ true }
+    , m_zakl_rng{ false }
     , m_zakl_val{ 0.0 }
 {}
 
@@ -91,11 +91,12 @@ void ModelARX::setOpozn(int k)
 
 double ModelARX::symuluj(const double sygn_wej)
 {
-    std::random_device s; std::mt19937 rng_zakl;
-    std::normal_distribution<double> rozklad(0, m_zakl_val);
     double z{};
-    if (getCzyZakl())
+
+    if (getCzyZakl() && m_zakl_val != 0.0)
     {
+        std::random_device s; std::mt19937 rng_zakl;
+        std::normal_distribution<double> rozklad(0, m_zakl_val);
         rng_zakl.seed(s());
         z = rozklad(rng_zakl);
     }

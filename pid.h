@@ -24,6 +24,7 @@ public:
     void resetujPamiecCalk();
     void resetujPamiecRozn();
     void resetujPamiec();
+    void dostosujPamiec(bool isToggled);
     double czescProp(double eI);
     double czescCalk_ConstOut(double eI);
     double czescCalk_ConstIn(double eI);
