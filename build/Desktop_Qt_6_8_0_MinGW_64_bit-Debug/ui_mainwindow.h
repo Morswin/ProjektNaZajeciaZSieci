@@ -10,8 +10,8 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -20,6 +20,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBox>
@@ -67,6 +68,9 @@ public:
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_9;
     QDoubleSpinBox *doubleSpinBoxKwadAmp;
+    QHBoxLayout *horizontalLayout_18;
+    QLabel *label_12;
+    QDoubleSpinBox *doubleSpinBoxKwadStala;
     QGroupBox *groupBoxSin;
     QWidget *verticalLayoutWidget_4;
     QVBoxLayout *verticalLayout_6;
@@ -76,6 +80,9 @@ public:
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_10;
     QDoubleSpinBox *doubleSpinBoxSinAmp;
+    QHBoxLayout *horizontalLayout_19;
+    QLabel *label_13;
+    QDoubleSpinBox *doubleSpinBoxSinStala;
     QWidget *pagePID;
     QGroupBox *groupBox;
     QVBoxLayout *verticalLayout_3;
@@ -85,6 +92,9 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
     QDoubleSpinBox *doubleSpinBoxI;
+    QHBoxLayout *horizontalLayout_15;
+    QRadioButton *radioStalaOut;
+    QRadioButton *radioSatlaIn;
     QPushButton *btnResetI;
     QHBoxLayout *horizontalLayout_4;
     QLabel *label_3;
@@ -96,25 +106,18 @@ public:
     QGroupBox *groupBox_3;
     QWidget *verticalLayoutWidget_6;
     QVBoxLayout *verticalLayout_10;
-    QHBoxLayout *horizontalLayout_15;
-    QDoubleSpinBox *doubleSpinBoxARX_A;
-    QPushButton *btnARXAdd_A;
-    QPushButton *btnARXClear_A;
     QLineEdit *lineEditARXView_A;
     QGroupBox *groupBox_4;
     QWidget *verticalLayoutWidget_7;
     QVBoxLayout *verticalLayout_11;
-    QHBoxLayout *horizontalLayout_18;
-    QDoubleSpinBox *doubleSpinBoxARX_B;
-    QPushButton *btnARXAdd_B;
-    QPushButton *btnARXClear_B;
     QLineEdit *lineEditARXView_B;
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_16;
     QSpinBox *spinBoxARX_k;
     QHBoxLayout *horizontalLayout_16;
-    QCheckBox *checkBoxARZ_z;
+    QLabel *label_17;
     QDoubleSpinBox *doubleSpinBoxARX_z;
+    QPushButton *btnARX;
     QWidget *pageSymulacja;
     QWidget *verticalLayoutWidget_5;
     QVBoxLayout *verticalLayout_9;
@@ -139,13 +142,16 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(966, 682);
+        MainWindow->resize(966, 740);
         QSizePolicy sizePolicy(QSizePolicy::Policy::Preferred, QSizePolicy::Policy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(MainWindow->sizePolicy().hasHeightForWidth());
         MainWindow->setSizePolicy(sizePolicy);
-        MainWindow->setMinimumSize(QSize(800, 680));
+        MainWindow->setMinimumSize(QSize(800, 740));
+        QIcon icon;
+        icon.addFile(QString::fromUtf8("UAR_logo.png"), QSize(), QIcon::Mode::Normal, QIcon::State::Off);
+        MainWindow->setWindowIcon(icon);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         horizontalLayout = new QHBoxLayout(centralwidget);
@@ -163,9 +169,11 @@ public:
         btnStart = new QPushButton(SYMULACJA);
         btnStart->setObjectName("btnStart");
         btnStart->setGeometry(QRect(80, 30, 91, 24));
+        btnStart->setFocusPolicy(Qt::FocusPolicy::TabFocus);
         btnReset = new QPushButton(SYMULACJA);
         btnReset->setObjectName("btnReset");
         btnReset->setGeometry(QRect(80, 90, 91, 24));
+        btnReset->setFocusPolicy(Qt::FocusPolicy::TabFocus);
         label_4 = new QLabel(SYMULACJA);
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(60, 130, 131, 20));
@@ -180,6 +188,7 @@ public:
         btnStop = new QPushButton(SYMULACJA);
         btnStop->setObjectName("btnStop");
         btnStop->setGeometry(QRect(80, 60, 91, 24));
+        btnStop->setFocusPolicy(Qt::FocusPolicy::TabFocus);
 
         verticalLayout->addWidget(SYMULACJA);
 
@@ -193,10 +202,10 @@ public:
         toolBox->setMinimumSize(QSize(255, 0));
         pageSygnaly = new QWidget();
         pageSygnaly->setObjectName("pageSygnaly");
-        pageSygnaly->setGeometry(QRect(0, 0, 255, 277));
+        pageSygnaly->setGeometry(QRect(0, 0, 255, 335));
         horizontalLayoutWidget = new QWidget(pageSygnaly);
         horizontalLayoutWidget->setObjectName("horizontalLayoutWidget");
-        horizontalLayoutWidget->setGeometry(QRect(5, -1, 241, 291));
+        horizontalLayoutWidget->setGeometry(QRect(5, -1, 241, 331));
         horizontalLayout_11 = new QHBoxLayout(horizontalLayoutWidget);
         horizontalLayout_11->setObjectName("horizontalLayout_11");
         horizontalLayout_11->setSizeConstraint(QLayout::SizeConstraint::SetMinimumSize);
@@ -211,7 +220,7 @@ public:
         groupBoxSkok->setChecked(true);
         verticalLayoutWidget = new QWidget(groupBoxSkok);
         verticalLayoutWidget->setObjectName("verticalLayoutWidget");
-        verticalLayoutWidget->setGeometry(QRect(0, 20, 231, 62));
+        verticalLayoutWidget->setGeometry(QRect(0, 20, 231, 51));
         verticalLayout_4 = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout_4->setSpacing(2);
         verticalLayout_4->setObjectName("verticalLayout_4");
@@ -264,7 +273,7 @@ public:
         groupBoxKwad->setChecked(false);
         verticalLayoutWidget_3 = new QWidget(groupBoxKwad);
         verticalLayoutWidget_3->setObjectName("verticalLayoutWidget_3");
-        verticalLayoutWidget_3->setGeometry(QRect(0, 20, 231, 87));
+        verticalLayoutWidget_3->setGeometry(QRect(0, 20, 231, 101));
         verticalLayout_5 = new QVBoxLayout(verticalLayoutWidget_3);
         verticalLayout_5->setSpacing(2);
         verticalLayout_5->setObjectName("verticalLayout_5");
@@ -324,6 +333,25 @@ public:
 
         verticalLayout_5->addLayout(horizontalLayout_8);
 
+        horizontalLayout_18 = new QHBoxLayout();
+        horizontalLayout_18->setObjectName("horizontalLayout_18");
+        label_12 = new QLabel(verticalLayoutWidget_3);
+        label_12->setObjectName("label_12");
+
+        horizontalLayout_18->addWidget(label_12);
+
+        doubleSpinBoxKwadStala = new QDoubleSpinBox(verticalLayoutWidget_3);
+        doubleSpinBoxKwadStala->setObjectName("doubleSpinBoxKwadStala");
+        doubleSpinBoxKwadStala->setMinimum(0.000000000000000);
+        doubleSpinBoxKwadStala->setMaximum(100000.000000000000000);
+        doubleSpinBoxKwadStala->setSingleStep(0.100000000000000);
+        doubleSpinBoxKwadStala->setValue(0.000000000000000);
+
+        horizontalLayout_18->addWidget(doubleSpinBoxKwadStala);
+
+
+        verticalLayout_5->addLayout(horizontalLayout_18);
+
 
         verticalLayout_2->addWidget(groupBoxKwad);
 
@@ -333,7 +361,7 @@ public:
         groupBoxSin->setChecked(false);
         verticalLayoutWidget_4 = new QWidget(groupBoxSin);
         verticalLayoutWidget_4->setObjectName("verticalLayoutWidget_4");
-        verticalLayoutWidget_4->setGeometry(QRect(0, 20, 231, 58));
+        verticalLayoutWidget_4->setGeometry(QRect(0, 20, 231, 71));
         verticalLayout_6 = new QVBoxLayout(verticalLayoutWidget_4);
         verticalLayout_6->setSpacing(2);
         verticalLayout_6->setObjectName("verticalLayout_6");
@@ -373,19 +401,38 @@ public:
 
         verticalLayout_6->addLayout(horizontalLayout_9);
 
+        horizontalLayout_19 = new QHBoxLayout();
+        horizontalLayout_19->setObjectName("horizontalLayout_19");
+        label_13 = new QLabel(verticalLayoutWidget_4);
+        label_13->setObjectName("label_13");
+
+        horizontalLayout_19->addWidget(label_13);
+
+        doubleSpinBoxSinStala = new QDoubleSpinBox(verticalLayoutWidget_4);
+        doubleSpinBoxSinStala->setObjectName("doubleSpinBoxSinStala");
+        doubleSpinBoxSinStala->setMinimum(0.000000000000000);
+        doubleSpinBoxSinStala->setMaximum(100000.000000000000000);
+        doubleSpinBoxSinStala->setSingleStep(0.100000000000000);
+        doubleSpinBoxSinStala->setValue(0.000000000000000);
+
+        horizontalLayout_19->addWidget(doubleSpinBoxSinStala);
+
+
+        verticalLayout_6->addLayout(horizontalLayout_19);
+
 
         verticalLayout_2->addWidget(groupBoxSin);
 
         verticalLayout_2->setStretch(0, 3);
-        verticalLayout_2->setStretch(1, 4);
-        verticalLayout_2->setStretch(2, 3);
+        verticalLayout_2->setStretch(1, 5);
+        verticalLayout_2->setStretch(2, 4);
 
         horizontalLayout_11->addLayout(verticalLayout_2);
 
         toolBox->addItem(pageSygnaly, QString::fromUtf8("Sygna\305\202 wej\305\233ciowy"));
         pagePID = new QWidget();
         pagePID->setObjectName("pagePID");
-        pagePID->setGeometry(QRect(0, 0, 255, 277));
+        pagePID->setGeometry(QRect(0, 0, 255, 335));
         sizePolicy.setHeightForWidth(pagePID->sizePolicy().hasHeightForWidth());
         pagePID->setSizePolicy(sizePolicy);
         pagePID->setMinimumSize(QSize(0, 207));
@@ -400,6 +447,7 @@ public:
         groupBox->setMinimumSize(QSize(0, 0));
         verticalLayout_3 = new QVBoxLayout(groupBox);
         verticalLayout_3->setObjectName("verticalLayout_3");
+        verticalLayout_3->setContentsMargins(5, 5, 5, 5);
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         label = new QLabel(groupBox);
@@ -436,8 +484,25 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout_3);
 
+        horizontalLayout_15 = new QHBoxLayout();
+        horizontalLayout_15->setObjectName("horizontalLayout_15");
+        radioStalaOut = new QRadioButton(groupBox);
+        radioStalaOut->setObjectName("radioStalaOut");
+        radioStalaOut->setChecked(true);
+
+        horizontalLayout_15->addWidget(radioStalaOut);
+
+        radioSatlaIn = new QRadioButton(groupBox);
+        radioSatlaIn->setObjectName("radioSatlaIn");
+
+        horizontalLayout_15->addWidget(radioSatlaIn);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_15);
+
         btnResetI = new QPushButton(groupBox);
         btnResetI->setObjectName("btnResetI");
+        btnResetI->setFocusPolicy(Qt::FocusPolicy::TabFocus);
 
         verticalLayout_3->addWidget(btnResetI);
 
@@ -463,16 +528,17 @@ public:
 
         btnResetD = new QPushButton(groupBox);
         btnResetD->setObjectName("btnResetD");
+        btnResetD->setFocusPolicy(Qt::FocusPolicy::TabFocus);
 
         verticalLayout_3->addWidget(btnResetD);
 
         toolBox->addItem(pagePID, QString::fromUtf8("Regulator PID"));
         pageARX = new QWidget();
         pageARX->setObjectName("pageARX");
-        pageARX->setGeometry(QRect(0, 0, 255, 277));
+        pageARX->setGeometry(QRect(0, 0, 255, 335));
         verticalLayoutWidget_2 = new QWidget(pageARX);
         verticalLayoutWidget_2->setObjectName("verticalLayoutWidget_2");
-        verticalLayoutWidget_2->setGeometry(QRect(0, 0, 251, 291));
+        verticalLayoutWidget_2->setGeometry(QRect(0, 0, 251, 221));
         verticalLayout_7 = new QVBoxLayout(verticalLayoutWidget_2);
         verticalLayout_7->setSpacing(6);
         verticalLayout_7->setObjectName("verticalLayout_7");
@@ -486,39 +552,15 @@ public:
         groupBox_3->setSizePolicy(sizePolicy3);
         verticalLayoutWidget_6 = new QWidget(groupBox_3);
         verticalLayoutWidget_6->setObjectName("verticalLayoutWidget_6");
-        verticalLayoutWidget_6->setGeometry(QRect(0, 20, 251, 91));
+        verticalLayoutWidget_6->setGeometry(QRect(0, 20, 251, 31));
         verticalLayout_10 = new QVBoxLayout(verticalLayoutWidget_6);
         verticalLayout_10->setSpacing(5);
         verticalLayout_10->setObjectName("verticalLayout_10");
         verticalLayout_10->setContentsMargins(5, 0, 5, 0);
-        horizontalLayout_15 = new QHBoxLayout();
-        horizontalLayout_15->setObjectName("horizontalLayout_15");
-        doubleSpinBoxARX_A = new QDoubleSpinBox(verticalLayoutWidget_6);
-        doubleSpinBoxARX_A->setObjectName("doubleSpinBoxARX_A");
-        doubleSpinBoxARX_A->setMinimum(-100.000000000000000);
-        doubleSpinBoxARX_A->setMaximum(100.000000000000000);
-        doubleSpinBoxARX_A->setSingleStep(0.100000000000000);
-        doubleSpinBoxARX_A->setValue(-0.400000000000000);
-
-        horizontalLayout_15->addWidget(doubleSpinBoxARX_A);
-
-        btnARXAdd_A = new QPushButton(verticalLayoutWidget_6);
-        btnARXAdd_A->setObjectName("btnARXAdd_A");
-
-        horizontalLayout_15->addWidget(btnARXAdd_A);
-
-        btnARXClear_A = new QPushButton(verticalLayoutWidget_6);
-        btnARXClear_A->setObjectName("btnARXClear_A");
-
-        horizontalLayout_15->addWidget(btnARXClear_A);
-
-
-        verticalLayout_10->addLayout(horizontalLayout_15);
-
         lineEditARXView_A = new QLineEdit(verticalLayoutWidget_6);
         lineEditARXView_A->setObjectName("lineEditARXView_A");
         lineEditARXView_A->setEnabled(true);
-        lineEditARXView_A->setReadOnly(false);
+        lineEditARXView_A->setReadOnly(true);
 
         verticalLayout_10->addWidget(lineEditARXView_A);
 
@@ -531,35 +573,11 @@ public:
         groupBox_4->setSizePolicy(sizePolicy3);
         verticalLayoutWidget_7 = new QWidget(groupBox_4);
         verticalLayoutWidget_7->setObjectName("verticalLayoutWidget_7");
-        verticalLayoutWidget_7->setGeometry(QRect(0, 20, 251, 91));
+        verticalLayoutWidget_7->setGeometry(QRect(0, 20, 251, 31));
         verticalLayout_11 = new QVBoxLayout(verticalLayoutWidget_7);
         verticalLayout_11->setSpacing(5);
         verticalLayout_11->setObjectName("verticalLayout_11");
         verticalLayout_11->setContentsMargins(5, 0, 5, 0);
-        horizontalLayout_18 = new QHBoxLayout();
-        horizontalLayout_18->setObjectName("horizontalLayout_18");
-        doubleSpinBoxARX_B = new QDoubleSpinBox(verticalLayoutWidget_7);
-        doubleSpinBoxARX_B->setObjectName("doubleSpinBoxARX_B");
-        doubleSpinBoxARX_B->setMinimum(-100.000000000000000);
-        doubleSpinBoxARX_B->setMaximum(100.000000000000000);
-        doubleSpinBoxARX_B->setSingleStep(0.100000000000000);
-        doubleSpinBoxARX_B->setValue(0.600000000000000);
-
-        horizontalLayout_18->addWidget(doubleSpinBoxARX_B);
-
-        btnARXAdd_B = new QPushButton(verticalLayoutWidget_7);
-        btnARXAdd_B->setObjectName("btnARXAdd_B");
-
-        horizontalLayout_18->addWidget(btnARXAdd_B);
-
-        btnARXClear_B = new QPushButton(verticalLayoutWidget_7);
-        btnARXClear_B->setObjectName("btnARXClear_B");
-
-        horizontalLayout_18->addWidget(btnARXClear_B);
-
-
-        verticalLayout_11->addLayout(horizontalLayout_18);
-
         lineEditARXView_B = new QLineEdit(verticalLayoutWidget_7);
         lineEditARXView_B->setObjectName("lineEditARXView_B");
         lineEditARXView_B->setReadOnly(true);
@@ -578,26 +596,32 @@ public:
 
         spinBoxARX_k = new QSpinBox(verticalLayoutWidget_2);
         spinBoxARX_k->setObjectName("spinBoxARX_k");
+        spinBoxARX_k->setWrapping(false);
+        spinBoxARX_k->setFrame(true);
+        spinBoxARX_k->setReadOnly(true);
+        spinBoxARX_k->setProperty("showGroupSeparator", QVariant(false));
         spinBoxARX_k->setMinimum(1);
         spinBoxARX_k->setMaximum(100);
 
         horizontalLayout_14->addWidget(spinBoxARX_k);
 
+        horizontalLayout_14->setStretch(0, 4);
+        horizontalLayout_14->setStretch(1, 3);
 
         verticalLayout_7->addLayout(horizontalLayout_14);
 
         horizontalLayout_16 = new QHBoxLayout();
         horizontalLayout_16->setObjectName("horizontalLayout_16");
         horizontalLayout_16->setContentsMargins(-1, 0, -1, 0);
-        checkBoxARZ_z = new QCheckBox(verticalLayoutWidget_2);
-        checkBoxARZ_z->setObjectName("checkBoxARZ_z");
-        checkBoxARZ_z->setChecked(false);
+        label_17 = new QLabel(verticalLayoutWidget_2);
+        label_17->setObjectName("label_17");
 
-        horizontalLayout_16->addWidget(checkBoxARZ_z);
+        horizontalLayout_16->addWidget(label_17);
 
         doubleSpinBoxARX_z = new QDoubleSpinBox(verticalLayoutWidget_2);
         doubleSpinBoxARX_z->setObjectName("doubleSpinBoxARX_z");
-        doubleSpinBoxARX_z->setEnabled(false);
+        doubleSpinBoxARX_z->setEnabled(true);
+        doubleSpinBoxARX_z->setReadOnly(true);
         doubleSpinBoxARX_z->setDecimals(3);
         doubleSpinBoxARX_z->setMaximum(10000.000000000000000);
         doubleSpinBoxARX_z->setSingleStep(0.010000000000000);
@@ -605,13 +629,21 @@ public:
 
         horizontalLayout_16->addWidget(doubleSpinBoxARX_z);
 
+        horizontalLayout_16->setStretch(0, 4);
+        horizontalLayout_16->setStretch(1, 3);
 
         verticalLayout_7->addLayout(horizontalLayout_16);
+
+        btnARX = new QPushButton(verticalLayoutWidget_2);
+        btnARX->setObjectName("btnARX");
+        btnARX->setFocusPolicy(Qt::FocusPolicy::TabFocus);
+
+        verticalLayout_7->addWidget(btnARX);
 
         toolBox->addItem(pageARX, QString::fromUtf8("Obiekt regulacji ARX"));
         pageSymulacja = new QWidget();
         pageSymulacja->setObjectName("pageSymulacja");
-        pageSymulacja->setGeometry(QRect(0, 0, 255, 277));
+        pageSymulacja->setGeometry(QRect(0, 0, 255, 335));
         verticalLayoutWidget_5 = new QWidget(pageSymulacja);
         verticalLayoutWidget_5->setObjectName("verticalLayoutWidget_5");
         verticalLayoutWidget_5->setGeometry(QRect(0, 0, 241, 101));
@@ -719,7 +751,8 @@ public:
 
         retranslateUi(MainWindow);
 
-        toolBox->setCurrentIndex(3);
+        toolBox->setCurrentIndex(0);
+        btnZapisz->setDefault(false);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -741,25 +774,26 @@ public:
         label_19->setText(QCoreApplication::translate("MainWindow", "Okres (w krokach)", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Wype\305\202nienie", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Amplituda", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "Sta\305\202a", nullptr));
         groupBoxSin->setTitle(QCoreApplication::translate("MainWindow", "Sygna\305\202 sinusoidalny", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Okres (w krokach)", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "Amplituda", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Sta\305\202a", nullptr));
         toolBox->setItemText(toolBox->indexOf(pageSygnaly), QCoreApplication::translate("MainWindow", "Sygna\305\202 wej\305\233ciowy", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "Nastawy", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "Proporcjonalna", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Ca\305\202kuj\304\205ca", nullptr));
-        btnResetI->setText(QCoreApplication::translate("MainWindow", "Zresetuj pami\304\231\304\207", nullptr));
+        radioStalaOut->setText(QCoreApplication::translate("MainWindow", "Sta\305\202a przed ca\305\202k\304\205", nullptr));
+        radioSatlaIn->setText(QCoreApplication::translate("MainWindow", "Sta\305\202a w ca\305\202ce", nullptr));
+        btnResetI->setText(QCoreApplication::translate("MainWindow", "Zresetuj pami\304\231\304\207 I", nullptr));
         label_3->setText(QCoreApplication::translate("MainWindow", "R\303\263\305\272niczkuj\304\205ca", nullptr));
-        btnResetD->setText(QCoreApplication::translate("MainWindow", "Zresetuj pami\304\231\304\207", nullptr));
+        btnResetD->setText(QCoreApplication::translate("MainWindow", "Zresetuj pami\304\231\304\207 D", nullptr));
         toolBox->setItemText(toolBox->indexOf(pagePID), QCoreApplication::translate("MainWindow", "Regulator PID", nullptr));
         groupBox_3->setTitle(QCoreApplication::translate("MainWindow", "Wsp\303\263\305\202czynniki a:", nullptr));
-        btnARXAdd_A->setText(QCoreApplication::translate("MainWindow", "Dodaj", nullptr));
-        btnARXClear_A->setText(QCoreApplication::translate("MainWindow", "Wyczy\305\233\304\207", nullptr));
         groupBox_4->setTitle(QCoreApplication::translate("MainWindow", "Wsp\303\263\305\202czynniki b:", nullptr));
-        btnARXAdd_B->setText(QCoreApplication::translate("MainWindow", "Dodaj", nullptr));
-        btnARXClear_B->setText(QCoreApplication::translate("MainWindow", "Wyczy\305\233\304\207", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "Op\303\263\305\272nienie (w krokach):", nullptr));
-        checkBoxARZ_z->setText(QCoreApplication::translate("MainWindow", "Uwzgl\304\231dnij zak\305\202\303\263cenie", nullptr));
+        label_17->setText(QCoreApplication::translate("MainWindow", "Zak\305\202\303\263cenie:", nullptr));
+        btnARX->setText(QCoreApplication::translate("MainWindow", "Zmie\305\204 nastawy ARX", nullptr));
         toolBox->setItemText(toolBox->indexOf(pageARX), QCoreApplication::translate("MainWindow", "Obiekt regulacji ARX", nullptr));
         label_14->setText(QCoreApplication::translate("MainWindow", "Interwa\305\202 czasowy [ms]:", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "Liczba wy\305\233w. krok\303\263w:", nullptr));

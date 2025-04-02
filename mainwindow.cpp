@@ -113,12 +113,27 @@ void MainWindow::advance() {
     // ui->graphPID->graph(2)->addData(krok_czas, UAR.getPID_D());
 
     //przesunięcie OX
-    if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
-        ui->graphUAR->xAxis->moveRange(interwal_wykres_sec);
-        ui->graphUchyb->xAxis->moveRange(interwal_wykres_sec);
-        ui->graphPidSum->xAxis->moveRange(interwal_wykres_sec);
-        ui->graphPID->xAxis->moveRange(interwal_wykres_sec);
+    // if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
+    //     //ui->graphUAR->xAxis->moveRange(interwal_wykres_sec);
+    //     ui->graphUchyb->xAxis->moveRange(interwal_wykres_sec);
+    //     ui->graphPidSum->xAxis->moveRange(interwal_wykres_sec);
+    //     ui->graphPID->xAxis->moveRange(interwal_wykres_sec);
+    // }
+
+    double a = ui->spinBoxWidokKrokow->value();
+    if(krok > a){
+        ui->graphUAR->xAxis->setRange(graph_x[krok - a], graph_x.last());
+        ui->graphUchyb->xAxis->setRange(graph_x[krok - a], graph_x.last());
+        ui->graphPidSum->xAxis->setRange(graph_x[krok - a], graph_x.last());
+        ui->graphPID->xAxis->setRange(graph_x[krok - a], graph_x.last());
     }
+    else{
+        ui->graphUAR->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+        ui->graphUchyb->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+        ui->graphPidSum->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+        ui->graphPID->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+    }
+
 
     //wstępne skalowanie
     ui->graphUAR->graph(0)->rescaleValueAxis(false, true);

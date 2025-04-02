@@ -1,4 +1,5 @@
 release/ModelARX.o
+release/dialogarx.o
 release/main.o
 release/mainwindow.o
 release/pid.o
@@ -7,5 +8,6 @@ release/sprzwr.o
 release/syggen.o
 release/symulacja.o
 release/testARX.o
+release/moc_dialogarx.o
 release/moc_mainwindow.o
 release/moc_qcustomplot.o
