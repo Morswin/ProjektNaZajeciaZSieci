@@ -44,7 +44,7 @@ void ModelPID::resetujPamiec(){
     resetujPamiecRozn();
 }
 
-void ModelPID::dostosujPamiec(bool isToggled) {
+void ModelPID::dostosujPamiec(bool isToggled) { //Radiobutton, w zależności od ustawienia dostosowuje pamięc całkowania do zmiany sposobu całkowania. Linia 42, mainwindow.h
     if (isToggled) {
         pamiecCalk *= tI;
     }

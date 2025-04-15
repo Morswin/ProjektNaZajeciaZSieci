@@ -1,34 +1,58 @@
-# Prerequisites
-*.d
-
-# Compiled Object files
-*.slo
-*.lo
+# Pliki builda
+build*/
 *.o
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
 *.so
-*.dylib
 *.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
+*.dylib
 *.a
 *.lib
-
-# Executables
 *.exe
-*.out
-*.app
 
-*build-pk-project-Desktop_Qt_6_6_0_MSVC2019_64bit-Debug*
+# Qt Creator - pliki konfiguracyjne użytkownika
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.autosave
+
+# Makefile/CMake/QMake
+Makefile*
+*.moc
+*.qrc.depends
+*.qrc.cpp
+*.moc.cpp
+*.moc.*
+*.rcc
+*.rcc.cpp
+*.pbxuser
+*.xcuserstate
+*.qmlc
+*.jsc
+*.prl
+*.qmltypes
+*.qmake.stash
+
+# CMake (jeśli używasz)
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+
+# Inne IDE (opcjonalnie)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testowe dane / logi
+*.log
+*.tmp
+*.bak
+*.cache
+
+# Systemowe
+.DS_Store
+Thumbs.db
+build*/
