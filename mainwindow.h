@@ -4,6 +4,7 @@
 #include "qcustomplot.h"
 #include "symulacja.h"
 #include "dialogarx.h"
+#include "dialogpolaczenie.h"
 #include <QMainWindow>
 #include <QTimer>
 #include <QKeyEvent>
@@ -41,9 +42,12 @@ private slots:
     void on_btnARX_clicked();
     void on_radioStalaOut_toggled(bool checked);
 
+    void on_btnPolacz_clicked();
+
 private:
     Ui::MainWindow *ui;
     DialogARX *dialog = nullptr;
+    DialogPolaczenie* dialog_polaczenie = nullptr;
     QTimer* timer = nullptr;
     Symulacja UAR;
     int krok;

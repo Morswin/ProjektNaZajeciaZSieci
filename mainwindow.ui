@@ -71,95 +71,106 @@
         <property name="title">
          <string>SYMULACJA</string>
         </property>
-        <widget class="QPushButton" name="btnStart">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>30</y>
-           <width>91</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::FocusPolicy::TabFocus</enum>
-         </property>
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btnReset">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>90</y>
-           <width>91</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::FocusPolicy::TabFocus</enum>
-         </property>
-         <property name="text">
-          <string>Resetuj</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_4">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>130</y>
-           <width>131</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="contextMenuPolicy">
-          <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
-         </property>
-         <property name="text">
-          <string>Stan symulacji:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="labelStatus">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>150</y>
-           <width>131</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="contextMenuPolicy">
-          <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
-         </property>
-         <property name="text">
-          <string>Wyłączona</string>
-         </property>
-         <property name="textFormat">
-          <enum>Qt::TextFormat::PlainText</enum>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignmentFlag::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btnStop">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>60</y>
-           <width>91</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::FocusPolicy::TabFocus</enum>
-         </property>
-         <property name="text">
-          <string>Stop</string>
-         </property>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_14">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_22">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_12">
+             <item>
+              <widget class="QPushButton" name="btnStart">
+               <property name="focusPolicy">
+                <enum>Qt::FocusPolicy::TabFocus</enum>
+               </property>
+               <property name="text">
+                <string>Start</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnStop">
+               <property name="focusPolicy">
+                <enum>Qt::FocusPolicy::TabFocus</enum>
+               </property>
+               <property name="text">
+                <string>Stop</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnReset">
+               <property name="focusPolicy">
+                <enum>Qt::FocusPolicy::TabFocus</enum>
+               </property>
+               <property name="text">
+                <string>Resetuj</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="contextMenuPolicy">
+                <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+               </property>
+               <property name="text">
+                <string>Stan symulacji:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignmentFlag::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="labelStatus">
+               <property name="contextMenuPolicy">
+                <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+               </property>
+               <property name="text">
+                <string>Wyłączona</string>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::TextFormat::PlainText</enum>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignmentFlag::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <item>
+              <widget class="QPushButton" name="btnPolacz">
+               <property name="text">
+                <string>Połączenie</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Status połączenia: ...</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Orientation::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
@@ -185,7 +196,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>335</height>
+           <height>375</height>
           </rect>
          </property>
          <attribute name="label">
@@ -453,7 +464,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>71</height>
+                  <height>75</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -550,7 +561,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>335</height>
+           <height>375</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -733,7 +744,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>335</height>
+           <height>375</height>
           </rect>
          </property>
          <attribute name="label">
@@ -928,7 +939,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>335</height>
+           <height>375</height>
           </rect>
          </property>
          <attribute name="label">
@@ -1048,7 +1059,7 @@
      <x>0</x>
      <y>0</y>
      <width>966</width>
-     <height>21</height>
+     <height>17</height>
     </rect>
    </property>
   </widget>

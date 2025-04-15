@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++17
@@ -10,6 +10,7 @@ CONFIG += c++17
 SOURCES += \
     ModelARX.cpp \
     dialogarx.cpp \
+    dialogpolaczenie.cpp \
     main.cpp \
     mainwindow.cpp \
     pid.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     ModelARX.h \
     compile.h \
     dialogarx.h \
+    dialogpolaczenie.h \
     mainwindow.h \
     pid.h \
     qcustomplot.h \
@@ -34,6 +36,9 @@ HEADERS += \
 
 FORMS += \
     dialogarx.ui \
+    dialogpolaczenie.ui \
+    dialogpolaczenie.ui \
+    dialogpolaczenie.ui \
     mainwindow.ui
 
 # Default rules for deployment.

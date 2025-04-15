@@ -582,3 +582,16 @@ void MainWindow::on_radioStalaOut_toggled(bool checked)
     UAR.setPID_adjust_mem_on_change(checked);
 }
 
+
+void MainWindow::on_btnPolacz_clicked()
+{
+    // Dialog do łączności
+    dialog_polaczenie = new DialogPolaczenie();
+    if (dialog_polaczenie->exec())
+    {
+        // Ogarnianie spraw odnośnie połączenia...
+    }
+    // Czyszczenie klasy dialogu łączności
+    if (dialog_polaczenie != nullptr) delete dialog_polaczenie;
+}
+
