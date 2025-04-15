@@ -56,3 +56,5 @@ Makefile
 .DS_Store
 Thumbs.db
 build*/
+*.user
+pk-project.pro.user
