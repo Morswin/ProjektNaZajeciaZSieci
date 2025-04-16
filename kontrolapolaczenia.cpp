@@ -51,6 +51,7 @@ bool KontrolaPolaczenia::get_server_started()
 void KontrolaPolaczenia::on_client_connecting()
 {
     auto socket = m_server->nextPendingConnection();
+    // Tutaj każdorazowo trzeba podpiąć odpowiednie sygnały żeby server mógł obsługiwać klientów osobno.
     m_sockets.append(socket);
     emit newClientConnected();
 }
