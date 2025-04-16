@@ -3,6 +3,8 @@
 #include "qcustomplot.h"
 // #include <iostream>
 // #include <numeric>
+#include <QTcpSocket>
+#include <QHostAddress>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -29,6 +31,12 @@ MainWindow::MainWindow(QWidget *parent)
     initChartConfig(ui->graphUchyb, "f", 1, "Czas, s", "Uchyb");
     initChartConfig(ui->graphPidSum, "f", 1, "Czas, s", "Sygnał regulatora PID");
     initChartConfig(ui->graphPID, "f", 1, "Czas, s", "Składowe P, I, D");
+
+    // Łączenie slotów kontrolera połączeń
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::connected, this, &MainWindow::kontrola_connected);
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::disconnected, this, &MainWindow::kontrola_disconnected);
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::stateChanged, this, &MainWindow::kontrola_stateChanged);
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::errorOccurred, this, &MainWindow::kontrola_errorOccurred);
 }
 
 MainWindow::~MainWindow()
@@ -590,8 +598,50 @@ void MainWindow::on_btnPolacz_clicked()
     if (dialog_polaczenie->exec())
     {
         // Ogarnianie spraw odnośnie połączenia...
+        switch (dialog_polaczenie->get_trybPolaczenia())
+        {
+        case 0:
+            // Użytkownik chce być hostem/serwerem
+            break;
+        case 1:
+            // Użytkownik chce być klientem
+            {
+                QHostAddress adres(dialog_polaczenie->get_ip());
+                if (adres.protocol() == QAbstractSocket::IPv4Protocol)
+                {
+                    // Działamy na czymś co jest prawidłowym adresem IPv4
+                    ui->statusPolaczenia->setText("Połączenie udane.\nŁączę się z\n" + dialog_polaczenie->get_ip());
+                }
+                else
+                {
+                    //Użytkownik bredzi w inpucie adresu
+                    ui->statusPolaczenia->setText("Połączenie nieudane.\nWprowadzono\nnieprawidłowe IP.");
+                }
+                break;
+            }
+        default:
+            // Użytkownik schrzanił użycie prostego dialogu
+            ui->statusPolaczenia->setText("Połączenie nieudane.\nWprowadzono błędny\ntryb połączenia.");
+            break;
+        }
     }
     // Czyszczenie klasy dialogu łączności
     if (dialog_polaczenie != nullptr) delete dialog_polaczenie;
 }
+
+void MainWindow::kontrola_connected()
+{
+    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
+}
+
+void MainWindow::kontrola_disconnected()
+{
+    ui->statusPolaczenia->setText("Połączenie\nzakończone.\nRozołączono z\n" + m_kontrola_polaczenia.get_ip());
+}
+
+void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
+{}
+
+void MainWindow::kontrola_errorOccurred(QAbstractSocket::SocketError error)
+{}
 

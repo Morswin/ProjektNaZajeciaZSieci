@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <QKeyEvent>
+#include "kontrolapolaczenia.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -42,7 +43,12 @@ private slots:
     void on_btnARX_clicked();
     void on_radioStalaOut_toggled(bool checked);
 
+    // Dodane po wymianie kodu z drugą grupą
     void on_btnPolacz_clicked();
+    void kontrola_connected();
+    void kontrola_disconnected();
+    void kontrola_stateChanged(QAbstractSocket::SocketState);
+    void kontrola_errorOccurred(QAbstractSocket::SocketError);
 
 private:
     Ui::MainWindow *ui;
@@ -61,6 +67,7 @@ private:
     QVector<double> p_y;
     QVector<double> i_y;
     QVector<double> d_y;
+    KontrolaPolaczenia m_kontrola_polaczenia;
 
     double findMinRange(QVector<double> &y_data);
     double findMaxRange(QVector<double> &y_data);

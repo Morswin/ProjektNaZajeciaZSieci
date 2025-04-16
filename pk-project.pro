@@ -11,6 +11,7 @@ SOURCES += \
     ModelARX.cpp \
     dialogarx.cpp \
     dialogpolaczenie.cpp \
+    kontrolapolaczenia.cpp \
     main.cpp \
     mainwindow.cpp \
     pid.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     compile.h \
     dialogarx.h \
     dialogpolaczenie.h \
+    kontrolapolaczenia.h \
     mainwindow.h \
     pid.h \
     qcustomplot.h \

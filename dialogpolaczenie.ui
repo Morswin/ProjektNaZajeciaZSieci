@@ -37,7 +37,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="polaczIP">
+         <widget class="QLineEdit" name="adresIP">
           <property name="inputMask">
            <string>000.000.000.000;_</string>
           </property>
@@ -57,7 +57,7 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="trybLacznosci">
           <property name="currentIndex">
            <number>0</number>
           </property>

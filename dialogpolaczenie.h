@@ -14,6 +14,9 @@ class DialogPolaczenie : public QDialog
 public:
     explicit DialogPolaczenie(QWidget *parent = nullptr);
     ~DialogPolaczenie();
+    int get_trybPolaczenia();
+    QString get_ip();
+    int get_port();
 
 private slots:
     void on_comboBox_currentIndexChanged(int index);
