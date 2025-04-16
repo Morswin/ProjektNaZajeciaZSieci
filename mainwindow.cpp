@@ -5,6 +5,7 @@
 // #include <numeric>
 #include <QTcpSocket>
 #include <QHostAddress>
+#include <QTcpServer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::disconnected, this, &MainWindow::kontrola_disconnected);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::stateChanged, this, &MainWindow::kontrola_stateChanged);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::errorOccurred, this, &MainWindow::kontrola_errorOccurred);
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::newClientConnected, this, &MainWindow::on_newClientConnected);
 }
 
 MainWindow::~MainWindow()
@@ -602,7 +604,18 @@ void MainWindow::on_btnPolacz_clicked()
         {
         case 0:
             // Użytkownik chce być hostem/serwerem
-            break;
+            {
+                m_kontrola_polaczenia.hostuj(dialog_polaczenie->get_port());
+                if (m_kontrola_polaczenia.get_server_started())
+                {
+                    ui->statusPolaczenia->setText("Włączono server.");
+                }
+                else
+                {
+                    ui->statusPolaczenia->setText("Nie udało się\nwłączyć servera");
+                }
+                break;
+            }
         case 1:
             // Użytkownik chce być klientem
             {
@@ -611,6 +624,7 @@ void MainWindow::on_btnPolacz_clicked()
                 {
                     // Działamy na czymś co jest prawidłowym adresem IPv4
                     ui->statusPolaczenia->setText("Połączenie udane.\nŁączę się z\n" + dialog_polaczenie->get_ip());
+                    // m_kontrola_polaczenia.set_ip()
                 }
                 else
                 {
@@ -645,3 +659,7 @@ void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
 void MainWindow::kontrola_errorOccurred(QAbstractSocket::SocketError error)
 {}
 
+void MainWindow::on_newClientConnected()
+{
+    // Obsłużyć połączenie z nowym klientem jak już będzie po co
+}

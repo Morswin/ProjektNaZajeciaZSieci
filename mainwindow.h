@@ -9,6 +9,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include "kontrolapolaczenia.h"
+#include <QTcpServer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -49,6 +50,7 @@ private slots:
     void kontrola_disconnected();
     void kontrola_stateChanged(QAbstractSocket::SocketState);
     void kontrola_errorOccurred(QAbstractSocket::SocketError);
+    void on_newClientConnected();
 
 private:
     Ui::MainWindow *ui;
