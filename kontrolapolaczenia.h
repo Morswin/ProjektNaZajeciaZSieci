@@ -15,6 +15,7 @@ public:
     QString get_ip();
     void set_ip(QString ip);
     bool get_server_started();
+    void rozlacz();
 
 signals:
     // Klient

@@ -623,7 +623,7 @@ void MainWindow::on_btnPolacz_clicked()
                 if (adres.protocol() == QAbstractSocket::IPv4Protocol)
                 {
                     // Działamy na czymś co jest prawidłowym adresem IPv4
-                    ui->statusPolaczenia->setText("Połączenie udane.\nŁączę się z\n" + dialog_polaczenie->get_ip());
+                    ui->statusPolaczenia->setText("Łączę się z\n" + dialog_polaczenie->get_ip());
                     // m_kontrola_polaczenia.set_ip()
                 }
                 else
@@ -654,7 +654,12 @@ void MainWindow::kontrola_disconnected()
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
-{}
+{
+    if (state == QAbstractSocket::UnconnectedState)
+    {
+        m_kontrola_polaczenia.rozlacz();
+    }
+}
 
 void MainWindow::kontrola_errorOccurred(QAbstractSocket::SocketError error)
 {}

@@ -55,3 +55,8 @@ void KontrolaPolaczenia::on_client_connecting()
     m_sockets.append(socket);
     emit newClientConnected();
 }
+
+void KontrolaPolaczenia::rozlacz()
+{
+    m_socket.close();
+}
