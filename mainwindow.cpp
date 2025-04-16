@@ -662,4 +662,5 @@ void MainWindow::kontrola_errorOccurred(QAbstractSocket::SocketError error)
 void MainWindow::on_newClientConnected()
 {
     // Obsłużyć połączenie z nowym klientem jak już będzie po co
+    ui->statusPolaczenia->setText("Wykryto połączeni\n noewgo klienta\nz serverem");
 }
