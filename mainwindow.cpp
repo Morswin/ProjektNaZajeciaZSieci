@@ -672,10 +672,10 @@ void MainWindow::kontrola_errorOccurred(QAbstractSocket::SocketError error)
     ui->statusPolaczenia->setText("Błąd połączenia:\n" + QString::number(error));
 }
 
-void MainWindow::on_newClientConnected()
+void MainWindow::on_newClientConnected(QTcpSocket *socket_klienta)
 {
     // Obsłużyć połączenie z nowym klientem jak już będzie po co
-    ui->statusPolaczenia->setText("Wykryto połączeni\n noewgo klienta\nz serverem");
+    ui->statusPolaczenia->setText("Wykryto połączeni\n noewgo klienta\nz serverem " + QString(socket_klienta->peerAddress().toString()));
 }
 
 void MainWindow::on_bttRozlacz_clicked()

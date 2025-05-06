@@ -24,7 +24,7 @@ signals:
     void stateChanged(QAbstractSocket::SocketState);
     void errorOccurred(QAbstractSocket::SocketError);
     // Server
-    void newClientConnected();
+    void newClientConnected(QTcpSocket *);
 
 private slots:
     void on_client_connecting();

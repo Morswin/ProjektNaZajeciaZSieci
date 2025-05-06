@@ -50,7 +50,7 @@ private slots:
     void kontrola_disconnected();
     void kontrola_stateChanged(QAbstractSocket::SocketState);
     void kontrola_errorOccurred(QAbstractSocket::SocketError);
-    void on_newClientConnected();
+    void on_newClientConnected(QTcpSocket *);
 
     void on_bttRozlacz_clicked();
 

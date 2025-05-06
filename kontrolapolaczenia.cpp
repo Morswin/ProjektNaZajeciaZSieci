@@ -66,7 +66,7 @@ void KontrolaPolaczenia::on_client_connecting()
         QByteArray data = socket->readAll();
     });
 
-    emit newClientConnected();
+    emit newClientConnected(socket);
     //Tomkowe
     //m_sockets.append(socket);
     //emit newClientConnected();
