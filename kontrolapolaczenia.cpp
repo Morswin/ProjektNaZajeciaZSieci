@@ -52,8 +52,24 @@ void KontrolaPolaczenia::on_client_connecting()
 {
     auto socket = m_server->nextPendingConnection();
     // Tutaj każdorazowo trzeba podpiąć odpowiednie sygnały żeby server mógł obsługiwać klientów osobno.
+
+    if(!socket) return;
+
     m_sockets.append(socket);
+
+    connect(socket, &QTcpSocket::disconnected, [this, socket]() {
+        m_sockets.removeAll(socket);
+        socket->deleteLater();
+    });
+
+    connect(socket, &QTcpSocket::readyRead, [this, socket]() {
+        QByteArray data = socket->readAll();
+    });
+
     emit newClientConnected();
+    //Tomkowe
+    //m_sockets.append(socket);
+    //emit newClientConnected();
 }
 
 void KontrolaPolaczenia::rozlacz()

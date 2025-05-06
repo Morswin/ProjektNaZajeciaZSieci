@@ -33,7 +33,7 @@ private:
     QTcpSocket m_socket;
     QString m_ip;
     int m_port;
-    QTcpServer* m_server;
+    QTcpServer* m_server = nullptr;
     QList<QTcpSocket *> m_sockets;
     bool m_server_started = false;
 };
