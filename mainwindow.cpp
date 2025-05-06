@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::stateChanged, this, &MainWindow::kontrola_stateChanged);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::errorOccurred, this, &MainWindow::kontrola_errorOccurred);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::newClientConnected, this, &MainWindow::on_newClientConnected);
+    ui->bttRozlacz->setDisabled(true);
 }
 
 MainWindow::~MainWindow()
@@ -609,6 +610,7 @@ void MainWindow::on_btnPolacz_clicked()
                 if (m_kontrola_polaczenia.get_server_started())
                 {
                     ui->statusPolaczenia->setText("Włączono server.");
+                    ui->bttRozlacz->setDisabled(true);
                 }
                 else
                 {
@@ -647,11 +649,13 @@ void MainWindow::on_btnPolacz_clicked()
 void MainWindow::kontrola_connected()
 {
    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
+    ui->bttRozlacz->setDisabled(false);
 }
 
 void MainWindow::kontrola_disconnected()
 {
     ui->statusPolaczenia->setText("Połączenie\nzakończone.\nRozołączono z\n" + m_kontrola_polaczenia.get_ip());
+    ui->bttRozlacz->setDisabled(true);
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
@@ -659,6 +663,7 @@ void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
     if (state == QAbstractSocket::UnconnectedState)
     {
         m_kontrola_polaczenia.rozlacz();
+        ui->bttRozlacz->setDisabled(true);
     }
 }
 
@@ -676,5 +681,6 @@ void MainWindow::on_newClientConnected()
 void MainWindow::on_bttRozlacz_clicked()
 {
     m_kontrola_polaczenia.rozlacz();
+    ui->bttRozlacz->setDisabled(true);
 }
 
