@@ -52,6 +52,8 @@ private slots:
     void kontrola_errorOccurred(QAbstractSocket::SocketError);
     void on_newClientConnected();
 
+    void on_bttRozlacz_clicked();
+
 private:
     Ui::MainWindow *ui;
     DialogARX *dialog = nullptr;

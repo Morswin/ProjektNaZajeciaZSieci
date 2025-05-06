@@ -147,6 +147,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="bttRozlacz">
+               <property name="text">
+                <string>Rozłącz</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QLabel" name="statusPolaczenia">
                <property name="text">
                 <string>Status połączenia: ...</string>
@@ -199,7 +206,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>375</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -246,7 +253,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>51</height>
+                  <height>58</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -334,7 +341,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>101</height>
+                  <height>116</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -467,7 +474,7 @@
                   <x>0</x>
                   <y>20</y>
                   <width>231</width>
-                  <height>75</height>
+                  <height>87</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -564,7 +571,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>375</height>
+           <height>335</height>
           </rect>
          </property>
          <property name="sizePolicy">
@@ -747,7 +754,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>375</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -942,7 +949,7 @@
            <x>0</x>
            <y>0</y>
            <width>255</width>
-           <height>375</height>
+           <height>335</height>
           </rect>
          </property>
          <attribute name="label">
@@ -1062,7 +1069,7 @@
      <x>0</x>
      <y>0</y>
      <width>966</width>
-     <height>17</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
