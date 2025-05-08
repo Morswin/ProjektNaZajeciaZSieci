@@ -70,7 +70,7 @@ void MainWindow::advance() {
     else
         wy = UAR.symulujKrok_IConstIn();
 
-    if(m_kontrola_polaczenia.getSockets()->size() > 0){
+    if(m_kontrola_polaczenia.get_server_started()){
         QByteArray dane = QByteArray::number(wy);
         //wy, które jest doublem na QByteArray
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
