@@ -88,9 +88,6 @@ void MainWindow::advance() {
 
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
     }
-    else if(m_kontrola_polaczenia.getIsClient()){
-
-    }
     else{
     // std::cerr << wy << '\n';
 
