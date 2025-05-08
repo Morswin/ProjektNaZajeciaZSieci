@@ -53,6 +53,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::advance() {
 
+    if(m_kontrola_polaczenia.getIsClient()){ qDebug() << "Elo"; }
+    else{
     if (ui->groupBoxSkok->isChecked()) {
         UAR.liczSygnalSkok();
 
@@ -225,7 +227,7 @@ void MainWindow::advance() {
     ui->graphUchyb->replot();
     ui->graphPidSum->replot();
     ui->graphPID->replot();
-    }
+    } }
 }
 
 void MainWindow::on_btnStart_clicked()
