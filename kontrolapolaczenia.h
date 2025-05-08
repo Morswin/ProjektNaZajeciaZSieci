@@ -20,7 +20,8 @@ public:
 
     void wyslijDoKlientow(const QByteArray &dane);
     bool getIsClient();
-    //void setIsClient();
+    void setTimer(QTimer* t);
+    QTimer getTimer();
 
 signals:
     // Klient
@@ -34,6 +35,7 @@ signals:
 
 private slots:
     void on_client_connecting();
+    void pingingTimer();
 
 
 private:
@@ -44,7 +46,7 @@ private:
     QList<QTcpSocket *> m_sockets;
     bool m_server_started = false;
 
-    QTimer m_timer;
+    QTimer* m_timer=nullptr;
     bool isClient = false;
 };
 

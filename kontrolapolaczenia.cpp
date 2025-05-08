@@ -13,12 +13,8 @@ KontrolaPolaczenia::KontrolaPolaczenia(QObject *parent)
     connect(&m_socket, &QTcpSocket::stateChanged, this, &KontrolaPolaczenia::stateChanged);  // Tutaj lub w errorach przechwycić sygnał, jeśli reconnect się wiesza
     connect(&m_socket, &QTcpSocket::errorOccurred, this, &KontrolaPolaczenia::errorOccurred);
 
-    connect(&m_timer, &QTimer::timeout, this, [this]() {
-        if (m_socket.state() == QAbstractSocket::ConnectedState) {
-            m_socket.write("PING\n"); // Można też użyć własnego protokołu
-            m_socket.flush();
-        }
-    });
+    m_timer = new QTimer(this);
+    connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
 
     connect(&m_socket, &QTcpSocket::readyRead, this, [this]() {
         QByteArray dane = m_socket.readAll();
@@ -40,7 +36,7 @@ void KontrolaPolaczenia::polacz_z_urzadzeniem(QString ip, int port)
     m_socket.connectToHost(m_ip, m_port);
 
     isClient = true;
-    m_timer.start(5000);
+    m_timer->start();
 }
 
 void KontrolaPolaczenia::hostuj(int port)
@@ -94,7 +90,7 @@ void KontrolaPolaczenia::rozlacz()
     m_socket.close();
 
     isClient = false;
-    m_timer.stop();
+    m_timer->stop();
 }
 
 void KontrolaPolaczenia::wyslijDoKlientow(const QByteArray &dane) {
@@ -107,5 +103,22 @@ void KontrolaPolaczenia::wyslijDoKlientow(const QByteArray &dane) {
 }
 
 bool KontrolaPolaczenia::getIsClient() { return this->isClient; }
-//void KontrolaPolaczenia::setIsClient() {}
-//void KontrolaPolaczenia::
+
+void KontrolaPolaczenia::setTimer(QTimer* t){
+    if(!t) return;
+
+    if (m_timer) {
+        disconnect(m_timer, nullptr, this, nullptr);
+    }
+
+    m_timer = t;
+
+    connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
+}
+QTimer* getTimer();
+void KontrolaPolaczenia::pingingTimer(){
+    if (m_socket.state() == QAbstractSocket::ConnectedState) {
+        m_socket.write("PING\n");
+        m_socket.flush();
+    }
+}
