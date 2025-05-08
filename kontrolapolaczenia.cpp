@@ -14,7 +14,7 @@ KontrolaPolaczenia::KontrolaPolaczenia(QObject *parent)
     connect(&m_socket, &QTcpSocket::errorOccurred, this, &KontrolaPolaczenia::errorOccurred);
 
     m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
+    //connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
 
     connect(&m_socket, &QTcpSocket::readyRead, this, [this]() {
         QByteArray dane = m_socket.readAll();
@@ -113,13 +113,13 @@ void KontrolaPolaczenia::setTimer(QTimer* t){
 
     m_timer = t;
 
-    connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
+   // connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
 }
-void KontrolaPolaczenia::pingingTimer(){
+/*void KontrolaPolaczenia::pingingTimer(){
     if (m_socket.state() == QAbstractSocket::ConnectedState) {
         m_socket.write("PING\n");
         m_socket.flush();
     }
-}
+}*/
 
 QTimer* KontrolaPolaczenia::getTimer(){ return this->m_timer; }

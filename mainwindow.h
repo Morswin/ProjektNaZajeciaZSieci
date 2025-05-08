@@ -56,6 +56,8 @@ private slots:
 
     void on_bttRozlacz_clicked();
 
+    //void pingingTimer();
+
 private:
     Ui::MainWindow *ui;
     DialogARX *dialog = nullptr;

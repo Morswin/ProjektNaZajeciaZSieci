@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
+    //m_kontrola_polaczenia.setTimer(timer);
 
     on_btnReset_clicked();
 

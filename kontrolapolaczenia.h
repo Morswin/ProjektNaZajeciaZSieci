@@ -35,7 +35,6 @@ signals:
 
 private slots:
     void on_client_connecting();
-    void pingingTimer();
 
 
 private:
