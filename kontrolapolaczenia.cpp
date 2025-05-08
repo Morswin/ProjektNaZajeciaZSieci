@@ -121,3 +121,5 @@ void KontrolaPolaczenia::pingingTimer(){
         m_socket.flush();
     }
 }
+
+QTimer* KontrolaPolaczenia::getTimer(){ return this->m_timer; }
