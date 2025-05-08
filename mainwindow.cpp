@@ -72,8 +72,24 @@ void MainWindow::advance() {
 
     if(m_kontrola_polaczenia.get_server_started()){
         QByteArray dane = QByteArray::number(wy);
-        //wy, które jest doublem na QByteArray
+        dane +=";";
+        dane += QByteArray::number(UAR.getSygn());
+        dane +=";distinct";
+        dane += QByteArray::number(UAR.getUchyb());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_output());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_P());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_I());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_D());
+        //dane +="\n";
+
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
+    }
+    else if(m_kontrola_polaczenia.getIsClient()){
+
     }
     else{
     // std::cerr << wy << '\n';
@@ -697,4 +713,23 @@ void MainWindow::on_bttRozlacz_clicked()
 
 void MainWindow::on_dataRecived(const QByteArray &dane){
     qDebug("siema");
+
+    /*
+        QByteArray dane = QByteArray::number(wy);
+        dane +=";";
+        dane += QByteArray::number(UAR.getSygn());
+        dane +=";distinct";
+        dane += QByteArray::number(UAR.getUchyb());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_output());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_P());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_I());
+        dane +=";";
+        dane += QByteArray::number(UAR.getPID_D());
+        //dane +="\n";
+
+        m_kontrola_polaczenia.wyslijDoKlientow(dane);
+    */
 }
