@@ -21,7 +21,7 @@ public:
     void wyslijDoKlientow(const QByteArray &dane);
     bool getIsClient();
     void setTimer(QTimer* t);
-    QTimer getTimer();
+    //QTimer getTimer();
 
 signals:
     // Klient

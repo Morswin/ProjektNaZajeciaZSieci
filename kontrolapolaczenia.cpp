@@ -115,7 +115,6 @@ void KontrolaPolaczenia::setTimer(QTimer* t){
 
     connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
 }
-QTimer* getTimer();
 void KontrolaPolaczenia::pingingTimer(){
     if (m_socket.state() == QAbstractSocket::ConnectedState) {
         m_socket.write("PING\n");
