@@ -123,3 +123,5 @@ void KontrolaPolaczenia::setTimer(QTimer* t){
 }*/
 
 QTimer* KontrolaPolaczenia::getTimer(){ return this->m_timer; }
+
+QList<QTcpSocket*>* KontrolaPolaczenia::getSockets(){return &m_sockets;}

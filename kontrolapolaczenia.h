@@ -23,6 +23,8 @@ public:
     void setTimer(QTimer* t);
     QTimer* getTimer();
 
+    QList<QTcpSocket*>* getSockets();
+
 signals:
     // Klient
     void connected();

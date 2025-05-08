@@ -41,10 +41,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::errorOccurred, this, &MainWindow::kontrola_errorOccurred);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::newClientConnected, this, &MainWindow::on_newClientConnected);
 
-    /*connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::dataRecived, this, [this](const QByteArray &dane) {
-        //ui->textBrowser->append("Odebrano: " + QString::fromUtf8(dane));
-
-    });*/
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::dataRecived, this, &MainWindow::on_dataRecived);
 
     ui->bttRozlacz->setDisabled(true);
@@ -74,6 +70,12 @@ void MainWindow::advance() {
     else
         wy = UAR.symulujKrok_IConstIn();
 
+    if(m_kontrola_polaczenia.getSockets()->size() > 0){
+        QByteArray dane = QByteArray::number(wy);
+        //wy, które jest doublem na QByteArray
+        m_kontrola_polaczenia.wyslijDoKlientow(dane);
+    }
+    else{
     // std::cerr << wy << '\n';
 
     //przypisanie wartości kroku
@@ -210,6 +212,7 @@ void MainWindow::advance() {
     ui->graphUchyb->replot();
     ui->graphPidSum->replot();
     ui->graphPID->replot();
+    }
 }
 
 void MainWindow::on_btnStart_clicked()
@@ -657,7 +660,7 @@ void MainWindow::on_btnPolacz_clicked()
 void MainWindow::kontrola_connected()
 {
    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
-    ui->bttRozlacz->setDisabled(false);
+   ui->bttRozlacz->setDisabled(false);
 }
 
 void MainWindow::kontrola_disconnected()
