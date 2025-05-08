@@ -52,6 +52,8 @@ private slots:
     void kontrola_errorOccurred(QAbstractSocket::SocketError);
     void on_newClientConnected(QTcpSocket *);
 
+    void on_dataRecived(const QByteArray);
+
     void on_bttRozlacz_clicked();
 
 private:

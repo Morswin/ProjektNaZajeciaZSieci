@@ -39,6 +39,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::stateChanged, this, &MainWindow::kontrola_stateChanged);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::errorOccurred, this, &MainWindow::kontrola_errorOccurred);
     connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::newClientConnected, this, &MainWindow::on_newClientConnected);
+
+    /*connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::dataRecived, this, [this](const QByteArray &dane) {
+        //ui->textBrowser->append("Odebrano: " + QString::fromUtf8(dane));
+
+    });*/
+    connect(&m_kontrola_polaczenia, &KontrolaPolaczenia::dataRecived, this, &MainWindow::on_dataRecived);
+
     ui->bttRozlacz->setDisabled(true);
 }
 

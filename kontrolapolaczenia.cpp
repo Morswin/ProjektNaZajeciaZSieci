@@ -12,6 +12,19 @@ KontrolaPolaczenia::KontrolaPolaczenia(QObject *parent)
     connect(&m_socket, &QTcpSocket::disconnected, this, &KontrolaPolaczenia::disconnected);
     connect(&m_socket, &QTcpSocket::stateChanged, this, &KontrolaPolaczenia::stateChanged);  // Tutaj lub w errorach przechwycić sygnał, jeśli reconnect się wiesza
     connect(&m_socket, &QTcpSocket::errorOccurred, this, &KontrolaPolaczenia::errorOccurred);
+
+    connect(&m_timer, &QTimer::timeout, this, [this]() {
+        if (m_socket.state() == QAbstractSocket::ConnectedState) {
+            m_socket.write("PING\n"); // Można też użyć własnego protokołu
+            m_socket.flush();
+        }
+    });
+
+    connect(&m_socket, &QTcpSocket::readyRead, this, [this]() {
+        QByteArray dane = m_socket.readAll();
+        //qDebug() << "Odebrano dane z serwera:" << dane;
+        emit dataRecived(dane);
+    });
 }
 
 void KontrolaPolaczenia::polacz_z_urzadzeniem(QString ip, int port)
@@ -25,12 +38,16 @@ void KontrolaPolaczenia::polacz_z_urzadzeniem(QString ip, int port)
     m_ip = ip;
     m_port = port;
     m_socket.connectToHost(m_ip, m_port);
+
+    isClient = true;
+    m_timer.start(5000);
 }
 
 void KontrolaPolaczenia::hostuj(int port)
 {
     if (m_socket.isOpen()) m_socket.close();
     m_server_started = m_server->listen(QHostAddress::Any, port); // To zwraca bool, false jeśli port zajęty. Jak będą z tym błędy to tutaj trzeba potencjalnie ten edge case obsłużyć
+    if(m_server_started){ isClient = false; }
 }
 
 QString KontrolaPolaczenia::get_ip()
@@ -75,4 +92,20 @@ void KontrolaPolaczenia::on_client_connecting()
 void KontrolaPolaczenia::rozlacz()
 {
     m_socket.close();
+
+    isClient = false;
+    m_timer.stop();
 }
+
+void KontrolaPolaczenia::wyslijDoKlientow(const QByteArray &dane) {
+    for (QTcpSocket* socket : m_sockets) {
+        if (socket->state() == QAbstractSocket::ConnectedState) {
+            socket->write(dane);
+            socket->flush();
+        }
+    }
+}
+
+bool KontrolaPolaczenia::getIsClient() { return this->isClient; }
+//void KontrolaPolaczenia::setIsClient() {}
+//void KontrolaPolaczenia::
