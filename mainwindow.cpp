@@ -691,3 +691,6 @@ void MainWindow::on_bttRozlacz_clicked()
     ui->bttRozlacz->setDisabled(true);
 }
 
+void MainWindow::on_dataRecived(const QByteArray &dane){
+    qDebug("siema");
+}
