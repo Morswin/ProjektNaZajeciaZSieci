@@ -709,12 +709,14 @@ void MainWindow::kontrola_connected()
 {
    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
    ui->bttRozlacz->setDisabled(false);
+   m_kontrola_polaczenia.set_client(true);
 }
 
 void MainWindow::kontrola_disconnected()
 {
     ui->statusPolaczenia->setText("Połączenie\nzakończone.\nRozołączono z\n" + m_kontrola_polaczenia.get_ip());
     ui->bttRozlacz->setDisabled(true);
+    m_kontrola_polaczenia.set_client(false);
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)

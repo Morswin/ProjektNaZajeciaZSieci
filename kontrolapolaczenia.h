@@ -24,6 +24,8 @@ public:
     QTimer* getTimer();
 
     QList<QTcpSocket*>* getSockets();
+    void set_client(bool);
+    void set_server(bool);
 
 signals:
     // Klient

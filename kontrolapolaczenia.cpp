@@ -126,3 +126,23 @@ void KontrolaPolaczenia::setTimer(QTimer* t){
 QTimer* KontrolaPolaczenia::getTimer(){ return this->m_timer; }
 
 QList<QTcpSocket*>* KontrolaPolaczenia::getSockets(){return &m_sockets;}
+
+void KontrolaPolaczenia::set_client(bool c) {
+    if (c) {
+        isClient = true;
+        m_server_started = false;
+    }
+    else {
+        isClient = false;
+    }
+}
+
+void KontrolaPolaczenia::set_server(bool s) {
+    if (s) {
+        m_server_started = true;
+        isClient = false;
+    }
+    else {
+        m_server_started = false;
+    }
+}
