@@ -58,6 +58,25 @@ void MainWindow::advance() {
         QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
         bufor_sieciowy.pop_front();
         wy = 0.0;
+        if(wartosc_do_parsowania.size() > 0){
+        wy = wartosc_do_parsowania[0].toDouble();
+        double siec_getSyg = wartosc_do_parsowania[1].toDouble();
+        double siec_uchyb = wartosc_do_parsowania[2].toDouble();
+        double siec_pid = wartosc_do_parsowania[3].toDouble();
+        double siec_p = wartosc_do_parsowania[4].toDouble();
+        double siec_i = wartosc_do_parsowania[5].toDouble();
+        double siec_d = wartosc_do_parsowania[6].toDouble();
+        //wy = 0.0;
+
+        graph_x.push_back(krok_czas);
+        uar_wy_y.push_back(wy);
+        uar_we_y.push_back(siec_getSyg);
+        uchyb_y.push_back(siec_uchyb);
+        pid_y.push_back(siec_pid);
+        p_y.push_back(siec_p);
+        i_y.push_back(siec_i);
+        d_y.push_back(siec_d);
+        }
     }
     if (!m_kontrola_polaczenia.getIsClient()) {
         if (ui->groupBoxSkok->isChecked()) {
@@ -100,6 +119,7 @@ void MainWindow::advance() {
         // std::cerr << wy << '\n';
 
         //przypisanie wartości kroku
+        if(!m_kontrola_polaczenia.getIsClient()){
         graph_x.push_back(krok_czas);
         uar_wy_y.push_back(wy);
         uar_we_y.push_back(UAR.getSygn());
@@ -108,7 +128,7 @@ void MainWindow::advance() {
         p_y.push_back(UAR.getPID_P());
         i_y.push_back(UAR.getPID_I());
         d_y.push_back(UAR.getPID_D());
-
+        }
         // qDebug() << "START\n" << graph_x.size();
         // qDebug() << uar_wy_y.size();
         // qDebug() << uar_we_y.size();
