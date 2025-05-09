@@ -59,6 +59,8 @@ void MainWindow::advance() {
         QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
         bufor_sieciowy.pop_front();
 
+        /*UAR.setSygnStala()
+
         UAR.setPID_k(wartosc_do_parsowania[4].toDouble());
         UAR.setPID_tD(wartosc_do_parsowania[5].toDouble());
         UAR.setPID_tI(wartosc_do_parsowania[6].toDouble());
@@ -78,12 +80,12 @@ void MainWindow::advance() {
         if (ui->radioStalaOut->isChecked())
             wy = UAR.symulujKrok_IConstOut();
         else
-            wy = UAR.symulujKrok_IConstIn();
+            wy = UAR.symulujKrok_IConstIn();*/
 
         // wy = 0.0;
         //if(wartosc_do_parsowania.size() > 0){
 
-        //wy = wartosc_do_parsowania[0].toDouble();
+        wy = wartosc_do_parsowania[0].toDouble();
 
         //qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
