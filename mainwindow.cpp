@@ -52,16 +52,17 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::advance() {
+    qDebug() << "Mia";
     double wy;
     if (m_kontrola_polaczenia.getIsClient()) {
         // Tutaj wykonanieobliczeń dla pojedynczego elementu z buforu
         QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
         bufor_sieciowy.pop_front();
-        //wy = 0.0;
+        wy = 0.0;
        // if(wartosc_do_parsowania.size() > 0){
 
         wy = wartosc_do_parsowania[0].toDouble();
-         qDebug() <<"wy: "<<wy;
+        qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
         double siec_uchyb = wartosc_do_parsowania[2].toDouble();
         double siec_pid = wartosc_do_parsowania[3].toDouble();

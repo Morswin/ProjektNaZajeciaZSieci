@@ -36,7 +36,8 @@ void KontrolaPolaczenia::polacz_z_urzadzeniem(QString ip, int port)
     m_socket.connectToHost(m_ip, m_port);
 
     isClient = true;
-    m_timer->start();
+    qDebug()<<getIsClient();
+    //m_timer->start();
 }
 
 void KontrolaPolaczenia::hostuj(int port)
@@ -90,7 +91,7 @@ void KontrolaPolaczenia::rozlacz()
     m_socket.close();
 
     isClient = false;
-    m_timer->stop();
+    //m_timer->stop();
 }
 
 void KontrolaPolaczenia::wyslijDoKlientow(const QByteArray &dane) {
