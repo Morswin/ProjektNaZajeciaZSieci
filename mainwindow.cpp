@@ -55,6 +55,8 @@ void MainWindow::advance() {
     double wy;
     if (m_kontrola_polaczenia.getIsClient()) {
         // Tutaj wykonanieobliczeń dla pojedynczego elementu z buforu
+        QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
+        bufor_sieciowy.pop_front();
         wy = 0.0;
     }
     if (!m_kontrola_polaczenia.getIsClient()) {
@@ -231,6 +233,9 @@ void MainWindow::advance() {
         ui->graphUchyb->replot();
         ui->graphPidSum->replot();
         ui->graphPID->replot();
+    }
+    if (m_kontrola_polaczenia.getIsClient() && bufor_sieciowy.size() > 0) {
+        advance();
     }
 }
 
