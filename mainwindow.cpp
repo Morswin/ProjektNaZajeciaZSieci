@@ -768,4 +768,5 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
     */
     QList<QByteArray> pola = dane.split(';');
     bufor_sieciowy.push_back(pola);
+    advance();
 }
