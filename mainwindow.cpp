@@ -62,6 +62,10 @@ void MainWindow::advance() {
        // if(wartosc_do_parsowania.size() > 0){
 
         wy = wartosc_do_parsowania[0].toDouble();
+        if (ui->radioStalaOut->isChecked())
+            wy = UAR.symulujKrok_IConstOut();
+        else
+            wy = UAR.symulujKrok_IConstIn();
         qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
         double siec_uchyb = wartosc_do_parsowania[2].toDouble();
