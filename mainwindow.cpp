@@ -104,7 +104,7 @@ void MainWindow::advance() {
             QByteArray dane = QByteArray::number(wy);
             dane +=";";
             dane += QByteArray::number(UAR.getSygn());
-            dane +=";distinct";
+            dane +=";";
             dane += QByteArray::number(UAR.getUchyb());
             dane +=";";
             dane += QByteArray::number(UAR.getPID_output());
@@ -115,6 +115,7 @@ void MainWindow::advance() {
             dane +=";";
             dane += QByteArray::number(UAR.getPID_D());
             //dane +=";";
+            //dane += QByteArray::number(UAR)
 
             m_kontrola_polaczenia.wyslijDoKlientow(dane);
         }
