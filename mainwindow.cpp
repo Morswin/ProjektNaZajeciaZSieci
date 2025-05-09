@@ -58,32 +58,51 @@ void MainWindow::advance() {
         // Tutaj wykonanieobliczeń dla pojedynczego elementu z buforu
         QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
         bufor_sieciowy.pop_front();
-       // wy = 0.0;
-       // if(wartosc_do_parsowania.size() > 0){
 
-        wy = wartosc_do_parsowania[0].toDouble();
+        UAR.setPID_k(wartosc_do_parsowania[4].toDouble());
+        UAR.setPID_tD(wartosc_do_parsowania[5].toDouble());
+        UAR.setPID_tI(wartosc_do_parsowania[6].toDouble());
+
+        if (ui->groupBoxSkok->isChecked()) {
+            UAR.liczSygnalSkok();
+
+        } else if (ui->groupBoxKwad->isChecked()) {
+            UAR.liczSygnalKwad();
+
+        } else if (ui->groupBoxSin->isChecked()) {
+            UAR.liczSygnalSin();
+        }
+
+        // double wy; // jest zadeklarowane wyżej
+
+        if (ui->radioStalaOut->isChecked())
+            wy = UAR.symulujKrok_IConstOut();
+        else
+            wy = UAR.symulujKrok_IConstIn();
+
+        // wy = 0.0;
+        //if(wartosc_do_parsowania.size() > 0){
+
+        //wy = wartosc_do_parsowania[0].toDouble();
 
         //qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
         double siec_uchyb = wartosc_do_parsowania[2].toDouble();
         double siec_pid = wartosc_do_parsowania[3].toDouble();
-        double siec_p = wartosc_do_parsowania[4].toDouble();
-        double siec_i = wartosc_do_parsowania[5].toDouble();
-        double siec_d = wartosc_do_parsowania[6].toDouble();
+        //double siec_p = wartosc_do_parsowania[4].toDouble();
+        //double siec_i = wartosc_do_parsowania[5].toDouble();
+        //double siec_d = wartosc_do_parsowania[6].toDouble();
         //wy = 0.0;
 
-        //UAR.setPID_k();
-        //UAR.setPID_tD();
-        //UAR.setPID_tI();
 
-        graph_x.push_back(krok_czas);
-        uar_wy_y.push_back(wy);
+        //graph_x.push_back(krok_czas);
+        //uar_wy_y.push_back(wy);
         uar_we_y.push_back(siec_getSyg);
         uchyb_y.push_back(siec_uchyb);
         pid_y.push_back(siec_pid);
-        p_y.push_back(siec_p);
-        i_y.push_back(siec_i);
-        d_y.push_back(siec_d);
+        //p_y.push_back(siec_p);
+        //i_y.push_back(siec_i);
+        //d_y.push_back(siec_d);
 
 
     }
@@ -130,14 +149,14 @@ void MainWindow::advance() {
 
         //przypisanie wartości kroku
         if(!m_kontrola_polaczenia.getIsClient()){
-        graph_x.push_back(krok_czas);
-        uar_wy_y.push_back(wy);
-        uar_we_y.push_back(UAR.getSygn());
-        uchyb_y.push_back(UAR.getUchyb());
-        pid_y.push_back(UAR.getPID_output());
-        p_y.push_back(UAR.getPID_P());
-        i_y.push_back(UAR.getPID_I());
-        d_y.push_back(UAR.getPID_D());
+            graph_x.push_back(krok_czas);
+            uar_wy_y.push_back(wy);
+            uar_we_y.push_back(UAR.getSygn());
+            uchyb_y.push_back(UAR.getUchyb());
+            pid_y.push_back(UAR.getPID_output());
+            p_y.push_back(UAR.getPID_P());
+            i_y.push_back(UAR.getPID_I());
+            d_y.push_back(UAR.getPID_D());
         }
         // qDebug() << "START\n" << graph_x.size();
         // qDebug() << uar_wy_y.size();
@@ -312,7 +331,7 @@ void MainWindow::on_groupBoxSkok_toggled(bool arg1)
 }
 
 void MainWindow::on_btnReset_clicked()
-{   
+{
     UAR.setPID_k(0.0);
     UAR.setPID_tI(0.0);
     UAR.setPID_tD(0.0);
@@ -510,7 +529,7 @@ void MainWindow::setUpGraphs() {
     // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
     //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
     // else
-        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphUAR->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphUAR->graph(1)->setPen(QPen(QColor(255,33,0), 2));
     ui->graphUAR->graph(0)->setName("W. zadana");
@@ -528,7 +547,7 @@ void MainWindow::setUpGraphs() {
     // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
     //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
     // else
-        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphUchyb->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphUchyb->graph(0)->setName("Uchyb");
     ui->graphUchyb->legend->setVisible(true);
@@ -543,7 +562,7 @@ void MainWindow::setUpGraphs() {
     // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
     //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
     // else
-        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphPidSum->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphPidSum->graph(0)->setName("PID");
     ui->graphPidSum->legend->setVisible(true);
@@ -560,7 +579,7 @@ void MainWindow::setUpGraphs() {
     // if (graph_x.size()-1 - ui->spinBoxWidokKrokow->value() >= 0)
     //     ui->graphUAR->xAxis->setRange(krok_czas - graph_x.at(graph_x.size()-1 - ui->spinBoxWidokKrokow->value()), krok_czas);
     // else
-        ui->graphUAR->xAxis->setRange(0.0, krok_czas);
+    ui->graphUAR->xAxis->setRange(0.0, krok_czas);
     ui->graphPID->graph(0)->setPen(QPen(QColor(33,0,255), 2));
     ui->graphPID->graph(1)->setPen(QPen(QColor(255,33,0), 2));
     ui->graphPID->graph(2)->setPen(QPen(QColor(0, 255, 33),2));
@@ -716,14 +735,14 @@ void MainWindow::on_btnPolacz_clicked()
 
 void MainWindow::kontrola_connected()
 {
-   ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
-   ui->bttRozlacz->setDisabled(false);
-   m_kontrola_polaczenia.set_client(true);
+    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
+    ui->bttRozlacz->setDisabled(false);
+    m_kontrola_polaczenia.set_client(true);
 
-   ui->pagePID->setEnabled(false);
-   ui->pageSygnaly->setEnabled(false);
-   ui->pageSymulacja->setEnabled(false);
-   ui->pageARX->setDisabled(false);
+    ui->pagePID->setEnabled(false);
+    ui->pageSygnaly->setEnabled(false);
+    ui->pageSymulacja->setEnabled(false);
+    ui->pageARX->setDisabled(false);
 }
 
 void MainWindow::kontrola_disconnected()
