@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include "kontrolapolaczenia.h"
 #include <QTcpServer>
+#include <vector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -76,6 +77,8 @@ private:
     QVector<double> i_y;
     QVector<double> d_y;
     KontrolaPolaczenia m_kontrola_polaczenia;
+
+    std::deque<QList<QByteArray>> bufor_sieciowy;
 
 
     double findMinRange(QVector<double> &y_data);

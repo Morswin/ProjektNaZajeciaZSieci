@@ -52,182 +52,186 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::advance() {
-
-    if(m_kontrola_polaczenia.getIsClient()){  }
-    else{
-    if (ui->groupBoxSkok->isChecked()) {
-        UAR.liczSygnalSkok();
-
-    } else if (ui->groupBoxKwad->isChecked()) {
-        UAR.liczSygnalKwad();
-
-    } else if (ui->groupBoxSin->isChecked()) {
-        UAR.liczSygnalSin();
-    }
-
     double wy;
-
-    if (ui->radioStalaOut->isChecked())
-        wy = UAR.symulujKrok_IConstOut();
-    else
-        wy = UAR.symulujKrok_IConstIn();
-
-    if(m_kontrola_polaczenia.get_server_started()){
-        QByteArray dane = QByteArray::number(wy);
-        dane +=";";
-        dane += QByteArray::number(UAR.getSygn());
-        dane +=";distinct";
-        dane += QByteArray::number(UAR.getUchyb());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_output());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_P());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_I());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_D());
-        //dane +=";";
-
-        m_kontrola_polaczenia.wyslijDoKlientow(dane);
+    if (m_kontrola_polaczenia.getIsClient()) {
+        // Tutaj wykonanieobliczeń dla pojedynczego elementu z buforu
+        wy = 0.0;
     }
-    else{
-    // std::cerr << wy << '\n';
+    if (!m_kontrola_polaczenia.getIsClient()) {
+        if (ui->groupBoxSkok->isChecked()) {
+            UAR.liczSygnalSkok();
 
-    //przypisanie wartości kroku
-    graph_x.push_back(krok_czas);
-    uar_wy_y.push_back(wy);
-    uar_we_y.push_back(UAR.getSygn());
-    uchyb_y.push_back(UAR.getUchyb());
-    pid_y.push_back(UAR.getPID_output());
-    p_y.push_back(UAR.getPID_P());
-    i_y.push_back(UAR.getPID_I());
-    d_y.push_back(UAR.getPID_D());
+        } else if (ui->groupBoxKwad->isChecked()) {
+            UAR.liczSygnalKwad();
 
-    // qDebug() << "START\n" << graph_x.size();
-    // qDebug() << uar_wy_y.size();
-    // qDebug() << uar_we_y.size();
-    // qDebug() << uchyb_y.size();
-    // qDebug() << pid_y.size();
-    // qDebug() << p_y.size();
-    // qDebug() << i_y.size();
-    // qDebug() << d_y.size() << "\nEND\n";
+        } else if (ui->groupBoxSin->isChecked()) {
+            UAR.liczSygnalSin();
+        }
 
-    if (graph_x.size() > 100000) {
-        graph_x.pop_front();
-        uar_wy_y.pop_front();
-        uar_we_y.pop_front();
-        uchyb_y.pop_front();
-        pid_y.pop_front();
-        p_y.pop_front();
-        i_y.pop_front();
-        d_y.pop_front();
+        // double wy; // jest zadeklarowane wyżej
+
+        if (ui->radioStalaOut->isChecked())
+            wy = UAR.symulujKrok_IConstOut();
+        else
+            wy = UAR.symulujKrok_IConstIn();
+
+        if(m_kontrola_polaczenia.get_server_started()){
+            QByteArray dane = QByteArray::number(wy);
+            dane +=";";
+            dane += QByteArray::number(UAR.getSygn());
+            dane +=";distinct";
+            dane += QByteArray::number(UAR.getUchyb());
+            dane +=";";
+            dane += QByteArray::number(UAR.getPID_output());
+            dane +=";";
+            dane += QByteArray::number(UAR.getPID_P());
+            dane +=";";
+            dane += QByteArray::number(UAR.getPID_I());
+            dane +=";";
+            dane += QByteArray::number(UAR.getPID_D());
+            //dane +=";";
+
+            m_kontrola_polaczenia.wyslijDoKlientow(dane);
+        }
     }
+    if (!m_kontrola_polaczenia.get_server_started()) {
+        // std::cerr << wy << '\n';
 
-    krok++;
-    krok_czas += interwal_wykres_sec;
+        //przypisanie wartości kroku
+        graph_x.push_back(krok_czas);
+        uar_wy_y.push_back(wy);
+        uar_we_y.push_back(UAR.getSygn());
+        uchyb_y.push_back(UAR.getUchyb());
+        pid_y.push_back(UAR.getPID_output());
+        p_y.push_back(UAR.getPID_P());
+        i_y.push_back(UAR.getPID_I());
+        d_y.push_back(UAR.getPID_D());
 
-    //graf WE / WY
-    ui->graphUAR->graph(0)->setData(graph_x, uar_we_y);
-    ui->graphUAR->graph(1)->setData(graph_x, uar_wy_y);
-    // ui->graphUAR->graph(0)->addData(krok_czas, UAR.getSygn());
-    // ui->graphUAR->graph(1)->addData(krok_czas, wy);
+        // qDebug() << "START\n" << graph_x.size();
+        // qDebug() << uar_wy_y.size();
+        // qDebug() << uar_we_y.size();
+        // qDebug() << uchyb_y.size();
+        // qDebug() << pid_y.size();
+        // qDebug() << p_y.size();
+        // qDebug() << i_y.size();
+        // qDebug() << d_y.size() << "\nEND\n";
 
-    //graf uchyb
-    ui->graphUchyb->graph(0)->setData(graph_x, uchyb_y);
-    // ui->graphUchyb->graph(0)->addData(krok_czas, UAR.getUchyb());
+        if (graph_x.size() > 100000) {
+            graph_x.pop_front();
+            uar_wy_y.pop_front();
+            uar_we_y.pop_front();
+            uchyb_y.pop_front();
+            pid_y.pop_front();
+            p_y.pop_front();
+            i_y.pop_front();
+            d_y.pop_front();
+        }
 
-    //graf pid (sumarycznie)
-    ui->graphPidSum->graph(0)->setData(graph_x, pid_y);
-    // ui->graphPidSum->graph(0)->addData(krok_czas, UAR.getPID_output());
+        krok++;
+        krok_czas += interwal_wykres_sec;
 
-    //graf pid (składowe)
-    ui->graphPID->graph(0)->setData(graph_x, p_y);
-    ui->graphPID->graph(1)->setData(graph_x, i_y);
-    ui->graphPID->graph(2)->setData(graph_x, d_y);
-    // ui->graphPID->graph(0)->addData(krok_czas, UAR.getPID_P());
-    // ui->graphPID->graph(1)->addData(krok_czas, UAR.getPID_I());
-    // ui->graphPID->graph(2)->addData(krok_czas, UAR.getPID_D());
+        //graf WE / WY
+        ui->graphUAR->graph(0)->setData(graph_x, uar_we_y);
+        ui->graphUAR->graph(1)->setData(graph_x, uar_wy_y);
+        // ui->graphUAR->graph(0)->addData(krok_czas, UAR.getSygn());
+        // ui->graphUAR->graph(1)->addData(krok_czas, wy);
 
-    //przesunięcie OX
-    // if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
-    //     //ui->graphUAR->xAxis->moveRange(interwal_wykres_sec);
-    //     ui->graphUchyb->xAxis->moveRange(interwal_wykres_sec);
-    //     ui->graphPidSum->xAxis->moveRange(interwal_wykres_sec);
-    //     ui->graphPID->xAxis->moveRange(interwal_wykres_sec);
-    // }
+        //graf uchyb
+        ui->graphUchyb->graph(0)->setData(graph_x, uchyb_y);
+        // ui->graphUchyb->graph(0)->addData(krok_czas, UAR.getUchyb());
 
-    double a = ui->spinBoxWidokKrokow->value();
-    if(krok > a){
-        ui->graphUAR->xAxis->setRange(graph_x[krok - a], graph_x.last());
-        ui->graphUchyb->xAxis->setRange(graph_x[krok - a], graph_x.last());
-        ui->graphPidSum->xAxis->setRange(graph_x[krok - a], graph_x.last());
-        ui->graphPID->xAxis->setRange(graph_x[krok - a], graph_x.last());
+        //graf pid (sumarycznie)
+        ui->graphPidSum->graph(0)->setData(graph_x, pid_y);
+        // ui->graphPidSum->graph(0)->addData(krok_czas, UAR.getPID_output());
+
+        //graf pid (składowe)
+        ui->graphPID->graph(0)->setData(graph_x, p_y);
+        ui->graphPID->graph(1)->setData(graph_x, i_y);
+        ui->graphPID->graph(2)->setData(graph_x, d_y);
+        // ui->graphPID->graph(0)->addData(krok_czas, UAR.getPID_P());
+        // ui->graphPID->graph(1)->addData(krok_czas, UAR.getPID_I());
+        // ui->graphPID->graph(2)->addData(krok_czas, UAR.getPID_D());
+
+        //przesunięcie OX
+        // if (krok_czas > ui->spinBoxWidokKrokow->value() * interwal_wykres_sec){
+        //     //ui->graphUAR->xAxis->moveRange(interwal_wykres_sec);
+        //     ui->graphUchyb->xAxis->moveRange(interwal_wykres_sec);
+        //     ui->graphPidSum->xAxis->moveRange(interwal_wykres_sec);
+        //     ui->graphPID->xAxis->moveRange(interwal_wykres_sec);
+        // }
+
+        double a = ui->spinBoxWidokKrokow->value();
+        if(krok > a){
+            ui->graphUAR->xAxis->setRange(graph_x[krok - a], graph_x.last());
+            ui->graphUchyb->xAxis->setRange(graph_x[krok - a], graph_x.last());
+            ui->graphPidSum->xAxis->setRange(graph_x[krok - a], graph_x.last());
+            ui->graphPID->xAxis->setRange(graph_x[krok - a], graph_x.last());
+        }
+        else{
+            ui->graphUAR->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+            ui->graphUchyb->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+            ui->graphPidSum->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+            ui->graphPID->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
+        }
+
+
+        //wstępne skalowanie
+        ui->graphUAR->graph(0)->rescaleValueAxis(false, true);
+        ui->graphUchyb->graph(0)->rescaleValueAxis(false, true);
+        ui->graphPidSum->graph(0)->rescaleValueAxis(false, true);
+        ui->graphPID->graph(0)->rescaleValueAxis(false, true);
+
+        //graf we / wy - skalowanie OY
+        double min = findMinRange(uar_we_y);
+        double max = findMaxRange(uar_we_y);
+
+        if(min > findMinRange(uar_wy_y))
+            min = findMinRange(uar_wy_y);
+        if(max < findMaxRange(uar_wy_y))
+            max = findMaxRange(uar_wy_y);
+
+        double margin = (max - min) * 0.05;
+        ui->graphUAR->yAxis->setRange(min - margin, max + margin);
+        ui->graphUAR->replot();
+
+        //graf uchyb - skalowanie OY
+        min = findMinRange(uchyb_y);
+        max = findMaxRange(uchyb_y);
+
+        margin = (max - min) * 0.05;
+        ui->graphUchyb->yAxis->setRange(min - margin, max + margin);
+        ui->graphUchyb->replot();
+
+        //graf pid (sumaryczny) - skalowanie OY
+        min = findMinRange(pid_y);
+        max = findMaxRange(pid_y);
+
+        margin = (max - min) * 0.05;
+        ui->graphPidSum->yAxis->setRange(min - margin, max + margin);
+        ui->graphPidSum->replot();
+
+        //graf pid (składowe) - skalowanie OY
+        min = findMinRange(p_y);
+        max = findMaxRange(p_y);
+
+        if(min > findMinRange(i_y))
+            min = findMinRange(i_y);
+        if(max < findMaxRange(i_y))
+            max = findMaxRange(i_y);
+
+        if(min > findMinRange(d_y))
+            min = findMinRange(d_y);
+        if(max < findMaxRange(d_y))
+            max = findMaxRange(d_y);
+
+        margin = (max - min) * 0.05;
+        ui->graphPID->yAxis->setRange(min - margin, max + margin);
+
+        ui->graphUAR->replot();
+        ui->graphUchyb->replot();
+        ui->graphPidSum->replot();
+        ui->graphPID->replot();
     }
-    else{
-        ui->graphUAR->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
-        ui->graphUchyb->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
-        ui->graphPidSum->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
-        ui->graphPID->xAxis->setRange(0, interwal_wykres_sec * (a - krok) + krok_czas);
-    }
-
-
-    //wstępne skalowanie
-    ui->graphUAR->graph(0)->rescaleValueAxis(false, true);
-    ui->graphUchyb->graph(0)->rescaleValueAxis(false, true);
-    ui->graphPidSum->graph(0)->rescaleValueAxis(false, true);
-    ui->graphPID->graph(0)->rescaleValueAxis(false, true);
-
-    //graf we / wy - skalowanie OY
-    double min = findMinRange(uar_we_y);
-    double max = findMaxRange(uar_we_y);
-
-    if(min > findMinRange(uar_wy_y))
-        min = findMinRange(uar_wy_y);
-    if(max < findMaxRange(uar_wy_y))
-        max = findMaxRange(uar_wy_y);
-
-    double margin = (max - min) * 0.05;
-    ui->graphUAR->yAxis->setRange(min - margin, max + margin);
-    ui->graphUAR->replot();
-
-    //graf uchyb - skalowanie OY
-    min = findMinRange(uchyb_y);
-    max = findMaxRange(uchyb_y);
-
-    margin = (max - min) * 0.05;
-    ui->graphUchyb->yAxis->setRange(min - margin, max + margin);
-    ui->graphUchyb->replot();
-
-    //graf pid (sumaryczny) - skalowanie OY
-    min = findMinRange(pid_y);
-    max = findMaxRange(pid_y);
-
-    margin = (max - min) * 0.05;
-    ui->graphPidSum->yAxis->setRange(min - margin, max + margin);
-    ui->graphPidSum->replot();
-
-    //graf pid (składowe) - skalowanie OY
-    min = findMinRange(p_y);
-    max = findMaxRange(p_y);
-
-    if(min > findMinRange(i_y))
-        min = findMinRange(i_y);
-    if(max < findMaxRange(i_y))
-        max = findMaxRange(i_y);
-
-    if(min > findMinRange(d_y))
-        min = findMinRange(d_y);
-    if(max < findMaxRange(d_y))
-        max = findMaxRange(d_y);
-
-    margin = (max - min) * 0.05;
-    ui->graphPID->yAxis->setRange(min - margin, max + margin);
-
-    ui->graphUAR->replot();
-    ui->graphUchyb->replot();
-    ui->graphPidSum->replot();
-    ui->graphPID->replot();
-    } }
 }
 
 void MainWindow::on_btnStart_clicked()
@@ -732,4 +736,5 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
     */
     QList<QByteArray> pola = dane.split(';');
+    bufor_sieciowy.push_back(pola);
 }
