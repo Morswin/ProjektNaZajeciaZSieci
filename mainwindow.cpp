@@ -63,7 +63,7 @@ void MainWindow::advance() {
 
         wy = wartosc_do_parsowania[0].toDouble();
 
-        qDebug() <<"wy: "<<wy;
+        //qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
         double siec_uchyb = wartosc_do_parsowania[2].toDouble();
         double siec_pid = wartosc_do_parsowania[3].toDouble();
@@ -71,6 +71,10 @@ void MainWindow::advance() {
         double siec_i = wartosc_do_parsowania[5].toDouble();
         double siec_d = wartosc_do_parsowania[6].toDouble();
         //wy = 0.0;
+
+        //UAR.setPID_k();
+        //UAR.setPID_tD();
+        //UAR.setPID_tI();
 
         graph_x.push_back(krok_czas);
         uar_wy_y.push_back(wy);
@@ -577,7 +581,7 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
 
 void MainWindow::passToSetters() {
 
-    if (ui->groupBoxSkok->isChecked()) {
+    if (ui->groupBoxSkok->isChecked() && !m_kontrola_polaczenia.getIsClient()) {
         UAR.setSygnAmp(ui->doubleSpinBoxSkokAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxSkokAkt->value());
         UAR.setSygnWyp(0.0);
@@ -587,7 +591,7 @@ void MainWindow::passToSetters() {
         ui->groupBoxKwad->setChecked(false);
         ui->groupBoxSin->setChecked(false);
 
-    } else if (ui->groupBoxKwad->isChecked()) {
+    } else if (ui->groupBoxKwad->isChecked() && !m_kontrola_polaczenia.getIsClient()) {
         UAR.setSygnAmp(ui->doubleSpinBoxKwadAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxKwadAkt->value());
         UAR.setSygnWyp(ui->doubleSpinBoxKwadWyp->value());
@@ -597,7 +601,7 @@ void MainWindow::passToSetters() {
         ui->groupBoxSin->setChecked(false);
         ui->groupBoxSkok->setChecked(false);
 
-    } else if (ui->groupBoxSin->isChecked()) {
+    } else if (ui->groupBoxSin->isChecked() && !m_kontrola_polaczenia.getIsClient()) {
         UAR.setSygnAmp(ui->doubleSpinBoxSinAmp->value());
         UAR.setSygnOkrAkt(ui->spinBoxSinOkr->value());
         UAR.setSygnWyp(0.0);
@@ -609,14 +613,15 @@ void MainWindow::passToSetters() {
 
     }
 
-    UAR.setPID_k(ui->doubleSpinBoxP->value());
-    UAR.setPID_tI(ui->doubleSpinBoxI->value());
-    UAR.setPID_tD(ui->doubleSpinBoxD->value());
-
+    if(!m_kontrola_polaczenia.getIsClient()){
+        UAR.setPID_k(ui->doubleSpinBoxP->value());
+        UAR.setPID_tI(ui->doubleSpinBoxI->value());
+        UAR.setPID_tD(ui->doubleSpinBoxD->value());
+    }
     timer->setInterval(ui->spinBoxInterwal->value());
     interwal_wykres_sec = ui->spinBoxInterwal->value() / 1000.0;
 
-    if (krok_czas <= ui->spinBoxWidokKrokow->value() * interwal_wykres_sec) {
+    if (krok_czas <= ui->spinBoxWidokKrokow->value() * interwal_wykres_sec ) {
         ui->graphUAR->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
         ui->graphUchyb->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
         ui->graphPidSum->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
@@ -672,6 +677,8 @@ void MainWindow::on_btnPolacz_clicked()
                 {
                     ui->statusPolaczenia->setText("Włączono server.");
                     ui->bttRozlacz->setDisabled(true);
+
+                    ui->pageARX->setDisabled(true);
                 }
                 else
                 {
@@ -712,6 +719,11 @@ void MainWindow::kontrola_connected()
    ui->statusPolaczenia->setText("Połączenie udane.\nPołączono z\n" + m_kontrola_polaczenia.get_ip());
    ui->bttRozlacz->setDisabled(false);
    m_kontrola_polaczenia.set_client(true);
+
+   ui->pagePID->setEnabled(false);
+   ui->pageSygnaly->setEnabled(false);
+   ui->pageSymulacja->setEnabled(false);
+   ui->pageARX->setDisabled(false);
 }
 
 void MainWindow::kontrola_disconnected()
@@ -719,6 +731,10 @@ void MainWindow::kontrola_disconnected()
     ui->statusPolaczenia->setText("Połączenie\nzakończone.\nRozołączono z\n" + m_kontrola_polaczenia.get_ip());
     ui->bttRozlacz->setDisabled(true);
     m_kontrola_polaczenia.set_client(false);
+
+    ui->pagePID->setEnabled(true);
+    ui->pageSygnaly->setEnabled(true);
+    ui->pageSymulacja->setEnabled(true);
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
@@ -748,26 +764,7 @@ void MainWindow::on_bttRozlacz_clicked()
 }
 
 void MainWindow::on_dataRecived(const QByteArray &dane){
-    qDebug("siema");
-
-    /*
-        QByteArray dane = QByteArray::number(wy);
-        dane +=";";
-        dane += QByteArray::number(UAR.getSygn());
-        dane +=";";
-        dane += QByteArray::number(UAR.getUchyb());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_output());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_P());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_I());
-        dane +=";";
-        dane += QByteArray::number(UAR.getPID_D());
-        //dane +=";";
-
-        m_kontrola_polaczenia.wyslijDoKlientow(dane);
-    */
+    //qDebug("siem
     QList<QByteArray> pola = dane.split(';');
     bufor_sieciowy.push_back(pola);
     advance();
