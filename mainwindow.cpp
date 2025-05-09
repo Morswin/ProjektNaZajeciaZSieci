@@ -53,7 +53,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::advance() {
 
-    if(m_kontrola_polaczenia.getIsClient()){ qDebug() << "Elo"; }
+    if(m_kontrola_polaczenia.getIsClient()){  }
     else{
     if (ui->groupBoxSkok->isChecked()) {
         UAR.liczSygnalSkok();
@@ -86,7 +86,7 @@ void MainWindow::advance() {
         dane += QByteArray::number(UAR.getPID_I());
         dane +=";";
         dane += QByteArray::number(UAR.getPID_D());
-        //dane +="\n";
+        //dane +=";";
 
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
     }
@@ -711,13 +711,13 @@ void MainWindow::on_bttRozlacz_clicked()
 }
 
 void MainWindow::on_dataRecived(const QByteArray &dane){
-    qDebug("siema");
+    //qDebug("siema");
 
     /*
         QByteArray dane = QByteArray::number(wy);
         dane +=";";
         dane += QByteArray::number(UAR.getSygn());
-        dane +=";distinct";
+        dane +=";";
         dane += QByteArray::number(UAR.getUchyb());
         dane +=";";
         dane += QByteArray::number(UAR.getPID_output());
@@ -727,8 +727,9 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
         dane += QByteArray::number(UAR.getPID_I());
         dane +=";";
         dane += QByteArray::number(UAR.getPID_D());
-        //dane +="\n";
+        //dane +=";";
 
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
     */
+    QList<QByteArray> pola = dane.split(';');
 }

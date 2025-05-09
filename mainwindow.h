@@ -77,6 +77,7 @@ private:
     QVector<double> d_y;
     KontrolaPolaczenia m_kontrola_polaczenia;
 
+
     double findMinRange(QVector<double> &y_data);
     double findMaxRange(QVector<double> &y_data);
     void setUpGraphs();
