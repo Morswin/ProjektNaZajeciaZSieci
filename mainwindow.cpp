@@ -95,7 +95,7 @@ void MainWindow::advance() {
         //wy = 0.0;
 
 
-        //graph_x.push_back(krok_czas);
+        graph_x.push_back(krok_czas);
         uar_wy_y.push_back(wy);
         uar_we_y.push_back(siec_getSyg);
         uchyb_y.push_back(siec_uchyb);
