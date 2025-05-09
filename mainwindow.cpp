@@ -744,7 +744,11 @@ void MainWindow::kontrola_connected()
     ui->pagePID->setEnabled(false);
     ui->pageSygnaly->setEnabled(false);
     ui->pageSymulacja->setEnabled(false);
-    ui->pageARX->setDisabled(false);
+    ui->pageARX->setDisabled(true);
+
+    ui->btnStart->setDisabled(true);
+    ui->btnReset->setDisabled(true);
+    ui->btnStop->setDisabled(true);
 }
 
 void MainWindow::kontrola_disconnected()
@@ -756,6 +760,12 @@ void MainWindow::kontrola_disconnected()
     ui->pagePID->setEnabled(true);
     ui->pageSygnaly->setEnabled(true);
     ui->pageSymulacja->setEnabled(true);
+
+    ui->pageARX->setEnabled(true);
+
+    ui->btnStart->setDisabled(false);
+    ui->btnReset->setDisabled(false);
+    ui->btnStop->setDisabled(false);
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
