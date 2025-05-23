@@ -771,6 +771,7 @@ void MainWindow::kontrola_disconnected()
     ui->btnReset->setDisabled(false);
     ui->btnStop->setDisabled(false);
 
+    bufor_sieciowy = std::deque<QList<QByteArray>>();
     on_btnStart_clicked();
 }
 
