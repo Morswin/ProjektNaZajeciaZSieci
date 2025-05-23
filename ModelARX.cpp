@@ -1,4 +1,4 @@
- #include "ModelARX.h"
+#include "ModelARX.h"
 #include <numeric>
 #include <QException>
 #include <random>
