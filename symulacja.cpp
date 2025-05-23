@@ -16,15 +16,29 @@ Symulacja::Symulacja(SygGen& sygn,
     , m_uchyb{}
 {}
 
-double Symulacja::symulujKrok_IConstOut() {
-    double wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstOut(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+double Symulacja::symulujKrok_IConstOut(bool is_klient, double klient_input) {
+    double wynik;
+    if (!is_klient) {
+        wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstOut(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+    }
+    else {
+        wynik = m_arx.symuluj(klient_input);
+    }
+
     m_uchyb.setPoprzY(wynik);
 
     return wynik;
 }
 
-double Symulacja::symulujKrok_IConstIn() {
-    double wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstIn(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+double Symulacja::symulujKrok_IConstIn(bool is_klient, double klient_input) {
+    double wynik;
+    if (!is_klient) {
+        wynik = m_arx.symuluj(m_pid.symulujKrokPID_IConstIn(m_uchyb.liczUchyb(m_sygnal.getSygn())));
+    }
+    else {
+        wynik = m_arx.symuluj(klient_input);
+    }
+
     m_uchyb.setPoprzY(wynik);
 
     return wynik;

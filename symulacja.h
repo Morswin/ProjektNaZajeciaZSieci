@@ -19,8 +19,8 @@ public:
         double pid_k, double pid_ti, double pid_td,
         std::vector<double> arx_a, std::vector<double> arx_b, int arx_k, bool arx_z);
 
-    double symulujKrok_IConstOut();
-    double symulujKrok_IConstIn();
+    double symulujKrok_IConstOut(bool is_klient=false, double klient_input=0.0);
+    double symulujKrok_IConstIn(bool is_klient=false, double klient_input=0.0);
     void setSygnAmp(double amp);
     void setSygnWyp(double wyp);
     void setSygnOkrAkt(double okr_akt);
