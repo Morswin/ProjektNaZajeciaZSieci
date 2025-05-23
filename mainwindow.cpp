@@ -695,7 +695,7 @@ void MainWindow::on_btnPolacz_clicked()
                 if (m_kontrola_polaczenia.get_server_started())
                 {
                     ui->statusPolaczenia->setText("Włączono server.");
-                    ui->bttRozlacz->setDisabled(true);
+                    //ui->bttRozlacz->setDisabled(false);
 
                     ui->pageARX->setDisabled(true);
                 }
@@ -715,6 +715,7 @@ void MainWindow::on_btnPolacz_clicked()
                     ui->statusPolaczenia->setText("Łączę się z\n" + dialog_polaczenie->get_ip());
                     m_kontrola_polaczenia.polacz_z_urzadzeniem(dialog_polaczenie->get_ip(), dialog_polaczenie->get_port());
                     m_kontrola_polaczenia.set_ip(dialog_polaczenie->get_ip());
+                    ui->pageARX->setDisabled(false);
                 }
                 else
                 {
@@ -742,7 +743,7 @@ void MainWindow::kontrola_connected()
     ui->pagePID->setEnabled(false);
     ui->pageSygnaly->setEnabled(false);
     ui->pageSymulacja->setEnabled(false);
-    ui->pageARX->setDisabled(true);
+    ui->pageARX->setDisabled(false);
 
     ui->btnStart->setDisabled(true);
     ui->btnReset->setDisabled(true);
