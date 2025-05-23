@@ -770,6 +770,8 @@ void MainWindow::kontrola_disconnected()
     ui->btnStart->setDisabled(false);
     ui->btnReset->setDisabled(false);
     ui->btnStop->setDisabled(false);
+
+    on_btnStart_clicked();
 }
 
 void MainWindow::kontrola_stateChanged(QAbstractSocket::SocketState state)
