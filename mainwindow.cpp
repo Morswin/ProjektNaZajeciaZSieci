@@ -807,6 +807,7 @@ void MainWindow::on_bttRozlacz_clicked()
             _sokety->at(i)->close();
         }
         m_kontrola_polaczenia.get_serwer()->close();
+        m_kontrola_polaczenia.getSockets()->clear();
         ui->bttRozlacz->setDisabled(true);
     }
 }
