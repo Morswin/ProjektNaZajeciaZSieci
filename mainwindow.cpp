@@ -794,8 +794,17 @@ void MainWindow::on_newClientConnected(QTcpSocket *socket_klienta)
 
 void MainWindow::on_bttRozlacz_clicked()
 {
-    m_kontrola_polaczenia.rozlacz();
-    ui->bttRozlacz->setDisabled(true);
+    if (m_kontrola_polaczenia.getIsClient()) {
+        m_kontrola_polaczenia.rozlacz();
+        ui->bttRozlacz->setDisabled(true);
+    }
+    else {
+        QList<QTcpSocket*>* _sokety = m_kontrola_polaczenia.getSockets();
+        for (int i = m_kontrola_polaczenia.getSockets()->size() - 1; i >= 0; i--) {
+            _sokety->at(i)->close();
+        }
+        ui->bttRozlacz->setDisabled(true);
+    }
 }
 
 void MainWindow::on_dataRecived(const QByteArray &dane){
