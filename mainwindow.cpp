@@ -800,6 +800,7 @@ void MainWindow::on_bttRozlacz_clicked()
     if (m_kontrola_polaczenia.getIsClient()) {
         m_kontrola_polaczenia.rozlacz();
         ui->bttRozlacz->setDisabled(true);
+        on_btnStart_clicked();
     }
     else {
         QList<QTcpSocket*>* _sokety = m_kontrola_polaczenia.getSockets();
@@ -809,6 +810,7 @@ void MainWindow::on_bttRozlacz_clicked()
         m_kontrola_polaczenia.get_serwer()->close();
         m_kontrola_polaczenia.getSockets()->clear();
         ui->bttRozlacz->setDisabled(true);
+        on_btnStart_clicked();
     }
 }
 
