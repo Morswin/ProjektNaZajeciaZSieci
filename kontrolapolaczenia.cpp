@@ -146,3 +146,7 @@ void KontrolaPolaczenia::set_server(bool s) {
         m_server_started = false;
     }
 }
+
+QTcpServer* KontrolaPolaczenia::get_serwer() {
+    return m_server;
+}

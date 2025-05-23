@@ -803,6 +803,7 @@ void MainWindow::on_bttRozlacz_clicked()
         for (int i = m_kontrola_polaczenia.getSockets()->size() - 1; i >= 0; i--) {
             _sokety->at(i)->close();
         }
+        m_kontrola_polaczenia.get_serwer()->close();
         ui->bttRozlacz->setDisabled(true);
     }
 }

@@ -27,6 +27,8 @@ public:
     void set_client(bool);
     void set_server(bool);
 
+    QTcpServer* get_serwer();
+
 signals:
     // Klient
     void connected();
