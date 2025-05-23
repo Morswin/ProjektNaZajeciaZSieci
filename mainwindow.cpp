@@ -700,7 +700,7 @@ void MainWindow::on_btnPolacz_clicked()
                 if (m_kontrola_polaczenia.get_server_started())
                 {
                     ui->statusPolaczenia->setText("Włączono server.");
-                    //ui->bttRozlacz->setDisabled(false);
+                    ui->bttRozlacz->setDisabled(false);
 
                     ui->pageARX->setDisabled(true);
                 }
