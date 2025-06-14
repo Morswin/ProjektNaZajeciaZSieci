@@ -18,7 +18,7 @@ KontrolaPolaczenia::KontrolaPolaczenia(QObject *parent)
 
     connect(&m_socket, &QTcpSocket::readyRead, this, [this]() {
         QByteArray dane = m_socket.readAll();
-        //qDebug() << "Odebrano dane z serwera:" << dane;
+        qDebug() << "Odebrano dane z serwera:" << dane;
         emit dataRecived(dane);
     });
 }
