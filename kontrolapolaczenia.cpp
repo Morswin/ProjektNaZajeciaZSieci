@@ -81,9 +81,6 @@ void KontrolaPolaczenia::on_client_connecting()
     });
 
     emit newClientConnected(socket);
-    //Tomkowe
-    //m_sockets.append(socket);
-    //emit newClientConnected();
 }
 
 void KontrolaPolaczenia::rozlacz()
@@ -91,7 +88,6 @@ void KontrolaPolaczenia::rozlacz()
     m_socket.close();
 
     isClient = false;
-    //m_timer->stop();
 }
 
 void KontrolaPolaczenia::wyslijDoKlientow(const QByteArray &dane) {
@@ -113,15 +109,7 @@ void KontrolaPolaczenia::setTimer(QTimer* t){
     }
 
     m_timer = t;
-
-   // connect(m_timer, &QTimer::timeout, this, &KontrolaPolaczenia::pingingTimer);
 }
-/*void KontrolaPolaczenia::pingingTimer(){
-    if (m_socket.state() == QAbstractSocket::ConnectedState) {
-        m_socket.write("PING\n");
-        m_socket.flush();
-    }
-}*/
 
 QTimer* KontrolaPolaczenia::getTimer(){ return this->m_timer; }
 

@@ -102,6 +102,8 @@ void MainWindow::advance() {
         else
             wy = UAR.symulujKrok_IConstIn(true, siec_pid);
 
+        // Tutaj chcielibyśmy wysłać informacje o ARX do serwera
+
         graph_x.push_back(krok_czas);
         uar_wy_y.push_back(wy);
         uar_we_y.push_back(siec_getSyg);
@@ -110,9 +112,8 @@ void MainWindow::advance() {
         p_y.push_back(siec_p);
         i_y.push_back(siec_i);
         d_y.push_back(siec_d);
-
-
     }
+
     if (!m_kontrola_polaczenia.getIsClient()) {
         if (ui->groupBoxSkok->isChecked()) {
             UAR.liczSygnalSkok();
@@ -815,7 +816,7 @@ void MainWindow::on_bttRozlacz_clicked()
 }
 
 void MainWindow::on_dataRecived(const QByteArray &dane){
-    //qDebug("siem
+    // Tu serwer odbiera dane
     QList<QByteArray> pola = dane.split(';');
     bufor_sieciowy.push_back(pola);
     advance();
