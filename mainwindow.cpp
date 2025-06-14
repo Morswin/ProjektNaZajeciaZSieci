@@ -385,6 +385,10 @@ void MainWindow::on_btnReset_clicked()
 
     setUpGraphs();
 
+    while (bufor_sieciowy.size() > 0) {
+        bufor_sieciowy.pop_front();
+    }
+
     if (m_kontrola_polaczenia.get_server_started() && !m_kontrola_polaczenia.getIsClient()) {
         QByteArray dane = "RESET;wibecheck";
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
