@@ -823,8 +823,7 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
             on_btnReset_clicked();
         }
     }
-
-    if (m_kontrola_polaczenia.getIsClient()) {
+    else if (m_kontrola_polaczenia.getIsClient()) {
         // qDebug() << "Takie coś odebrałem na kliencie:" << pola;
         bufor_sieciowy.push_back(pola);
         advance();
