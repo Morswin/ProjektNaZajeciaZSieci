@@ -140,7 +140,6 @@ QTcpServer* KontrolaPolaczenia::get_serwer() {
 }
 
 void KontrolaPolaczenia::klient_wyslij(QByteArray dane) {
-    qDebug() << "Wysyłam to: " << dane;
     m_socket.write(dane);
     m_socket.flush();
 }
