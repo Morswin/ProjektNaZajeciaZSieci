@@ -386,7 +386,7 @@ void MainWindow::on_btnReset_clicked()
     setUpGraphs();
 
     if (m_kontrola_polaczenia.get_server_started()) {
-        QByteArray dane = "RESET";
+        QByteArray dane = "RESET;wibecheck";
         m_kontrola_polaczenia.wyslijDoKlientow(dane);
         ostatni_zapamietany_arx = 0.0;
     }
