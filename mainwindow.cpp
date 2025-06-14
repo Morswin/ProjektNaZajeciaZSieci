@@ -812,9 +812,12 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
             ostatni_zapamietany_arx = pola[1].toDouble();
         }
     }
+
     // Tutaj dodamy jeszcze kawałek z resetowaniem wykresów
-    else if (pola[0] == "RESET") {
-        on_btnReset_clicked();
+    if (pola[0] == "RESET") {
+        if (m_kontrola_polaczenia.getIsClient()) {
+            on_btnReset_clicked();
+        }
     }
 
     if (m_kontrola_polaczenia.getIsClient()) {
