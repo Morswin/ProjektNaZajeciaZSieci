@@ -797,10 +797,11 @@ void MainWindow::on_bttRozlacz_clicked()
 void MainWindow::on_dataRecived(const QByteArray &dane){
     // Tu serwer odbiera dane
     QList<QByteArray> pola = dane.split(';');
+    qDebug() << pola;
 
     if (pola[0] == "NOWE_ARX") {
         if (m_kontrola_polaczenia.get_server_started()) {
-            qDebug() << "Takie coś dostałem na serwerze: " << pola;
+            // qDebug() << "Takie coś dostałem na serwerze: " << pola;
             // Otrzymano sygnał zwrotny z nowym ARX. Nadpisujemy stare ARX na serwerze.
             ostatni_zapamietany_arx = pola[1].toDouble();
         }
@@ -808,7 +809,7 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
     // Tutaj dodamy jeszcze kawałek z resetowaniem wykresów
 
     if (m_kontrola_polaczenia.getIsClient()) {
-        qDebug() << "Takie coś odebrałem na kliencie:" << pola;
+        // qDebug() << "Takie coś odebrałem na kliencie:" << pola;
         bufor_sieciowy.push_back(pola);
         advance();
     }
