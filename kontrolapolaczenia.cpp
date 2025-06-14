@@ -138,3 +138,8 @@ void KontrolaPolaczenia::set_server(bool s) {
 QTcpServer* KontrolaPolaczenia::get_serwer() {
     return m_server;
 }
+
+void KontrolaPolaczenia::klient_wyslij(QByteArray dane) {
+    m_socket.write(dane);
+    m_socket.flush();
+}
