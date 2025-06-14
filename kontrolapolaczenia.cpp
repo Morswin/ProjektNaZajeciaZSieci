@@ -78,6 +78,7 @@ void KontrolaPolaczenia::on_client_connecting()
 
     connect(socket, &QTcpSocket::readyRead, [this, socket]() {
         QByteArray data = socket->readAll();
+        emit dataRecived(data);
     });
 
     emit newClientConnected(socket);
