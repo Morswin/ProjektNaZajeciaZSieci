@@ -75,6 +75,7 @@ void MainWindow::advance() {
 
         // Tutaj chcielibyśmy wysłać informacje o ARX do serwera
         QByteArray wiadomosc_zwrotna = "NOWE_ARX;" + QByteArray::number(wy);
+        qDebug() << "wysyłam dane: " << wiadomosc_zwrotna;
         m_kontrola_polaczenia.klient_wyslij(wiadomosc_zwrotna);
 
         graph_x.push_back(krok_czas);
@@ -105,9 +106,11 @@ void MainWindow::advance() {
                 wy = UAR.symulujKrok_IConstOut();
             else
                 wy = UAR.symulujKrok_IConstIn();
+            uar_wy_y.push_back(wy);
         }
         else {
             UAR.symulujKrokBypassARX(ostatni_zapamietany_arx, !ui->radioStalaOut->isChecked());
+            uar_wy_y.push_back(ostatni_zapamietany_arx);
         }
 
         if(m_kontrola_polaczenia.get_server_started()){
@@ -135,12 +138,13 @@ void MainWindow::advance() {
     //przypisanie wartości kroku
     if(!m_kontrola_polaczenia.getIsClient()){
         graph_x.push_back(krok_czas);
-        if (m_kontrola_polaczenia.get_server_started()) {
-            uar_wy_y.push_back(ostatni_zapamietany_arx);
-        }
-        else {
-            uar_wy_y.push_back(wy);
-        }
+        // Przeniesione wyżej do miejsca gdzie są wyliczane
+        // if (m_kontrola_polaczenia.get_server_started()) {
+        //     uar_wy_y.push_back(ostatni_zapamietany_arx);
+        // }
+        // else {
+        //     uar_wy_y.push_back(wy);
+        // }
         uar_we_y.push_back(UAR.getSygn());
         uchyb_y.push_back(UAR.getUchyb());
         pid_y.push_back(UAR.getPID_output());
@@ -793,6 +797,7 @@ void MainWindow::on_bttRozlacz_clicked()
 void MainWindow::on_dataRecived(const QByteArray &dane){
     // Tu serwer odbiera dane
     QList<QByteArray> pola = dane.split(';');
+    qDebug() << pola;
 
     if (pola[0] == "NOWE_ARX") {
         if (m_kontrola_polaczenia.get_server_started()) {
