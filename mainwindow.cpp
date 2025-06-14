@@ -384,6 +384,12 @@ void MainWindow::on_btnReset_clicked()
     ui->graphPID->xAxis->setRange(0.0, ui->spinBoxWidokKrokow->value() * interwal_wykres_sec);
 
     setUpGraphs();
+
+    if (m_kontrola_polaczenia.get_server_started()) {
+        QByteArray dane = "RESET";
+        m_kontrola_polaczenia.wyslijDoKlientow(dane);
+        ostatni_zapamietany_arx = 0.0;
+    }
 }
 
 void MainWindow::on_btnResetD_clicked()
@@ -807,6 +813,9 @@ void MainWindow::on_dataRecived(const QByteArray &dane){
         }
     }
     // Tutaj dodamy jeszcze kawałek z resetowaniem wykresów
+    else if (pola[0] == "RESET") {
+        on_btnReset_clicked();
+    }
 
     if (m_kontrola_polaczenia.getIsClient()) {
         // qDebug() << "Takie coś odebrałem na kliencie:" << pola;
