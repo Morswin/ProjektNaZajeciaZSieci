@@ -59,35 +59,6 @@ void MainWindow::advance() {
         QList<QByteArray> wartosc_do_parsowania = bufor_sieciowy.front();
         bufor_sieciowy.pop_front();
 
-        /*UAR.setSygnStala()
-
-        UAR.setPID_k(wartosc_do_parsowania[4].toDouble());
-        UAR.setPID_tD(wartosc_do_parsowania[5].toDouble());
-        UAR.setPID_tI(wartosc_do_parsowania[6].toDouble());
-
-        if (ui->groupBoxSkok->isChecked()) {
-            UAR.liczSygnalSkok();
-
-        } else if (ui->groupBoxKwad->isChecked()) {
-            UAR.liczSygnalKwad();
-
-        } else if (ui->groupBoxSin->isChecked()) {
-            UAR.liczSygnalSin();
-        }
-
-        // double wy; // jest zadeklarowane wyżej
-
-        if (ui->radioStalaOut->isChecked())
-            wy = UAR.symulujKrok_IConstOut();
-        else
-            wy = UAR.symulujKrok_IConstIn();*/
-
-        // wy = 0.0;
-        //if(wartosc_do_parsowania.size() > 0){
-
-        // wy = wartosc_do_parsowania[0].toDouble();
-
-
         //qDebug() <<"wy: "<<wy;
         double siec_getSyg = wartosc_do_parsowania[1].toDouble();
         double siec_uchyb = wartosc_do_parsowania[2].toDouble();
@@ -103,6 +74,8 @@ void MainWindow::advance() {
             wy = UAR.symulujKrok_IConstIn(true, siec_pid);
 
         // Tutaj chcielibyśmy wysłać informacje o ARX do serwera
+        QByteArray wiadomosc_zwrotna = "NOWE_ARX;" + QByteArray::number(wy);
+        m_kontrola_polaczenia.klient_wyslij(wiadomosc_zwrotna);
 
         graph_x.push_back(krok_czas);
         uar_wy_y.push_back(wy);
@@ -125,15 +98,21 @@ void MainWindow::advance() {
             UAR.liczSygnalSin();
         }
 
-        // double wy; // jest zadeklarowane wyżej
+        // double wy; // jest zainicjowane wyżej
 
-        if (ui->radioStalaOut->isChecked())
-            wy = UAR.symulujKrok_IConstOut();
-        else
-            wy = UAR.symulujKrok_IConstIn();
+        if (!m_kontrola_polaczenia.get_server_started()) {
+            if (ui->radioStalaOut->isChecked())
+                wy = UAR.symulujKrok_IConstOut();
+            else
+                wy = UAR.symulujKrok_IConstIn();
+        }
+        else {
+            UAR.symulujKrokBypassARX(ostatni_zapamietany_arx, !ui->radioStalaOut->isChecked());
+        }
 
         if(m_kontrola_polaczenia.get_server_started()){
-            QByteArray dane = QByteArray::number(wy);
+            // QByteArray dane = QByteArray::number(wy);
+            QByteArray dane = "SERWER_OUTPUT";
             dane +=";";
             dane += QByteArray::number(UAR.getSygn());
             dane +=";";
@@ -152,12 +131,16 @@ void MainWindow::advance() {
             m_kontrola_polaczenia.wyslijDoKlientow(dane);
         }
     }
-    // std::cerr << wy << '\n';
 
     //przypisanie wartości kroku
     if(!m_kontrola_polaczenia.getIsClient()){
         graph_x.push_back(krok_czas);
-        uar_wy_y.push_back(wy);
+        if (m_kontrola_polaczenia.get_server_started()) {
+            uar_wy_y.push_back(ostatni_zapamietany_arx);
+        }
+        else {
+            uar_wy_y.push_back(wy);
+        }
         uar_we_y.push_back(UAR.getSygn());
         uchyb_y.push_back(UAR.getUchyb());
         pid_y.push_back(UAR.getPID_output());
@@ -165,14 +148,6 @@ void MainWindow::advance() {
         i_y.push_back(UAR.getPID_I());
         d_y.push_back(UAR.getPID_D());
     }
-    // qDebug() << "START\n" << graph_x.size();
-    // qDebug() << uar_wy_y.size();
-    // qDebug() << uar_we_y.size();
-    // qDebug() << uchyb_y.size();
-    // qDebug() << pid_y.size();
-    // qDebug() << p_y.size();
-    // qDebug() << i_y.size();
-    // qDebug() << d_y.size() << "\nEND\n";
 
     if (graph_x.size() > 100000) {
         graph_x.pop_front();
@@ -818,6 +793,18 @@ void MainWindow::on_bttRozlacz_clicked()
 void MainWindow::on_dataRecived(const QByteArray &dane){
     // Tu serwer odbiera dane
     QList<QByteArray> pola = dane.split(';');
-    bufor_sieciowy.push_back(pola);
-    advance();
+
+    if (pola[0] == "NOWE_ARX") {
+        if (m_kontrola_polaczenia.get_server_started()) {
+            // Otrzymano sygnał zwrotny z nowym ARX. Nadpisujemy stare ARX na serwerze.
+            ostatni_zapamietany_arx = pola[1].toDouble();
+            qDebug() << ostatni_zapamietany_arx;
+        }
+    }
+    // Tutaj dodamy jeszcze kawałek z resetowaniem wykresów
+
+    if (m_kontrola_polaczenia.getIsClient()) {
+        bufor_sieciowy.push_back(pola);
+        advance();
+    }
 }

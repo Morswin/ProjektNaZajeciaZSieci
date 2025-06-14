@@ -21,6 +21,7 @@ public:
 
     double symulujKrok_IConstOut(bool is_klient=false, double klient_input=0.0);
     double symulujKrok_IConstIn(bool is_klient=false, double klient_input=0.0);
+    void symulujKrokBypassARX(double arx, bool pid_in);
     void setSygnAmp(double amp);
     void setSygnWyp(double wyp);
     void setSygnOkrAkt(double okr_akt);

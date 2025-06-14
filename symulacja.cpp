@@ -44,6 +44,16 @@ double Symulacja::symulujKrok_IConstIn(bool is_klient, double klient_input) {
     return wynik;
 }
 
+void Symulacja::symulujKrokBypassARX(double arx, bool pid_in) {
+    m_uchyb.setPoprzY(arx);
+    if (pid_in) {
+        m_pid.symulujKrokPID_IConstIn(m_uchyb.liczUchyb(m_sygnal.getSygn()));
+    }
+    else {
+        m_pid.symulujKrokPID_IConstOut(m_uchyb.liczUchyb(m_sygnal.getSygn()));
+    }
+}
+
 void Symulacja::setSygnAmp(double amp) {
     m_sygnal.setAmp(amp);
 }

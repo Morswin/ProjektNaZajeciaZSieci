@@ -80,6 +80,8 @@ private:
 
     std::deque<QList<QByteArray>> bufor_sieciowy;
 
+    double ostatni_zapamietany_arx = 0.0;
+
 
     double findMinRange(QVector<double> &y_data);
     double findMaxRange(QVector<double> &y_data);

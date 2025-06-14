@@ -28,6 +28,7 @@ public:
     void set_server(bool);
 
     QTcpServer* get_serwer();
+    void klient_wyslij(QByteArray);
 
 signals:
     // Klient
